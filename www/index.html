@@ -1,0 +1,383 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="js/index.js"></script>
+  <script src="components/loader.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <link type="text/css" rel="stylesheet"
+        href="./dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?random=20051112"
+        media="screen">
+  <script src="./dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js?random=20060118"
+        type="text/javascript">
+  </script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script>
+    if (ons.platform.isIPhoneX()) {
+      document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
+      document.documentElement.setAttribute('onsflag-iphonex-landscape', '');
+    }
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+  <script>
+    let firebaseConfig = {
+      apiKey: "AIzaSyDA-BnH5OMGpRKZsg1CNku_7KKTWrqek70",
+      authDomain: "dietas-1c17a.firebaseapp.com",
+      databaseURL: "https://dietas-1c17a.firebaseio.com",
+      projectId: "dietas-1c17a",
+      storageBucket: "dietas-1c17a.appspot.com",
+      messagingSenderId: "31659761101",
+      appId: "1:31659761101:web:f13077706f2f56241bb884",
+      measurementId: "G-EVLFGFSGE2"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+<body>
+  <ons-splitter>
+    <ons-splitter-side id="menu" side="left" width="220px" collapse>
+      <ons-page>
+        <ons-list>
+          <ons-list-item onclick="calendar()" tappable>
+            Calendário
+          </ons-list-item>
+          <ons-list-item onclick="exercicios()" tappable>
+            Exercícios
+          </ons-list-item>
+          <ons-list-item onclick="signOut()" tappable>
+            Sair
+          </ons-list-item>
+        </ons-list>
+      </ons-page>
+    </ons-splitter-side>
+    <ons-splitter-content id="content" page="page1.html"></ons-splitter-content>
+  </ons-splitter>
+
+  <ons-modal direction="up">
+    <div style="text-align: center">
+      <p>
+        <ons-icon icon="md-spinner" size="28px" spin></ons-icon> Carregando...
+      </p>
+    </div>
+  </ons-modal>
+
+  <ons-popover direction="up" cancelable id="popover">
+    <div style="text-align: center; padding: 20px;">
+      <p id="popoverMessage" style="margin-bottom: 26px;"></p>
+      <button onclick="hidePopover()" btnPopover>Fechar</button>
+    </div>
+  </ons-popover>
+
+  <template id="page1.html">
+    <ons-page id="page1">
+      <ons-toolbar>
+        <div class="center">WW Dietas</div>
+      </ons-toolbar>
+      <div style="text-align: center; margin-top: 30px;">
+        <h2>Bem vindo(a) ao WW Dietas.</h2>
+        <h3 style="padding-top: 30vw; font-weight:400">Informe os seus dados</h3> 
+        <p>
+          <ons-input style="padding-bottom:15px;" id="email-login" size="40" placeholder="E-mail" float></ons-input><br>
+          <ons-input id="senha-login" SIZE="40" placeholder="Senha" type="password" float></ons-input> 
+        </p>
+        Novo no WW Dietas?
+        <a style="color: blue; text-decoration: underline" onclick="fn.load('cadastro.html')">Cadastre-se</a><br>
+        Esqueceu a sua senha?
+        <a style="color: blue; text-decoration: underline" onclick="promptPasswdReset('Digite o email')">Recupere</a><br>
+        <p style="text-align: center; padding-top: 30vw">
+        <ons-button style="font-weight: 700;"onclick="entrar()">ENTRAR</ons-button>
+        </p>
+      </div>
+    </ons-page>
+  </template>
+
+  <!-- pag de registro -->
+
+  <template id="cadastro.html">
+    <ons-page id="cadastro">
+      <ons-toolbar>
+        <div class="left"><ons-back-button onclick="fn.load('page1.html')"></ons-back-button></div>
+        <div class="center">WW Dietas</div>
+      </ons-toolbar>
+      <div style="text-align: center; margin-bottom: 35%">
+        <h3 style="padding-top: 30vw; font-weight:400">Preencha suas informações</h3>
+        <img src=dhtmlgoodies_calendar/images/emoji.png> 
+        <p>
+          <ons-input style="padding-bottom:15px;" id="nome-cadastro" placeholder="Seu nome" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" id="email-cadastro" placeholder="E-mail" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" id="senha-cadastro" type="password" placeholder="Senha" float></ons-input>
+        </p>
+        <p style="text-align: center; padding-top: 30vw">
+          <ons-button style="font-weight: 700" onclick="cadastrar()">CADASTRAR</ons-button>
+        </p>
+      <div>
+    </ons-page>
+  </template>
+
+  <!-- page 2 -->
+  <template id="page2.html">
+    <ons-page id="page2">
+      <ons-toolbar>
+        <div class="center">
+          Minha Dieta
+        </div>
+        <div class="left">
+          <ons-toolbar-button onclick="fn.open()">
+            <ons-icon icon="md-menu"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+
+      <ons-list>
+        <ons-list-header class="centered">Diário</ons-list-header>
+        <ons-list-item expandable>
+          SEGUNDA-FEIRA
+          <div class="expandable-content" id="lista">
+            <p id="segunda-1"></p>
+            <p id="segunda-2"></p>
+            <p id="segunda-3"></p>
+            <p id="segunda-4"></p>
+            <p id="segunda-5"></p>
+            <p id="segunda-6"></p>
+            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
+          </div>
+        </ons-list-item>
+        <ons-list-item expandable>
+          TERÇA-FEIRA
+          <div class="expandable-content">
+            <p id="terca-1"></p>
+            <p id="terca-2"></p>
+            <p id="terca-3"></p>
+            <p id="terca-4"></p>
+            <p id="terca-5"></p>
+            <p id="terca-6"></p>
+            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
+          </div>
+        </ons-list-item>
+        <ons-list-item expandable>
+          QUARTA-FEIRA
+          <div class="expandable-content">
+            <p id="quarta-1"></p>
+            <p id="quarta-2"></p>
+            <p id="quarta-3"></p>
+            <p id="quarta-4"></p>
+            <p id="quarta-5"></p>
+            <p id="quarta-6"></p>
+            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
+          </div>
+        </ons-list-item>
+        <ons-list-item expandable>
+          QUINTA-FEIRA
+          <div class="expandable-content">
+            <p id="quinta-1"></p>
+            <p id="quinta-2"></p>
+            <p id="quinta-3"></p>
+            <p id="quinta-4"></p>
+            <p id="quinta-5"></p>
+            <p id="quinta-6"></p>
+            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
+          </div>
+        </ons-list-item>
+        <ons-list-item expandable>
+          SEXTA-FEIRA
+          <div class="expandable-content">
+            <p id="sexta-1"></p>
+            <p id="sexta-2"></p>
+            <p id="sexta-3"></p>
+            <p id="sexta-4"></p>
+            <p id="sexta-5"></p>
+            <p id="sexta-6"></p>
+            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
+          </div>
+        </ons-list-item>
+        <ons-list-item expandable>
+          SÁBADO
+          <div class="expandable-content">
+            <p id="sab-1"></p>
+            <p id="sab-2"></p>
+            <p id="sab-3"></p>
+            <p id="sab-4"></p>
+            <p id="sab-5"></p>
+            <p id="sab-6"></p>
+            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
+          </div>
+        </ons-list-item>
+        <ons-list-item expandable>
+          DOMINGO
+          <div class="expandable-content">
+            <p id="dom-1"></p>
+            <p id="dom-2"></p>
+            <p id="dom-3"></p>
+            <p id="dom-4"></p>
+            <p id="dom-5"></p>
+            <p id="dom-6"></p>
+            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
+          </div>
+        </ons-list-item>
+      </ons-list>
+  </ons-page>
+  </template>
+
+  <!-- diario -->
+  <template id="calendar.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left"><ons-back-button onclick="fn.load('page2.html'); closeCalendar()"></ons-back-button></div>
+        <div class="center">
+          Calendário
+        </div>
+      </ons-toolbar>
+      <section class="justify width-decreased">
+        <h1>Selecione uma data para consultar</h1>
+        <form style="text-align:center">
+          <input onclick="displayCalendar(document.getElementById('data1'),'dd/mm/yyyy',this)"
+          id="data1" type="text" placeholder="Data"/>
+        </form>
+      </section>
+      <section class="indent justify width-decreased" id="dietaDoDia"></section>
+    </ons-page>
+  </template>
+
+  <!-- exercicios page -->
+  <template id="exercicios.html">
+    <ons-page>
+      <ons-toolbar>
+        <div class="left"><ons-back-button onclick="fn.load('page2.html')"></ons-back-button></div>
+          <div class="center">
+            Exercícios
+          </div>
+        </div>
+      </ons-toolbar>
+      <section style="text-align: center; background-color: #ffffff">
+        <h2 id="header2-exerc1">Escolha seu treino!</h2>
+
+        <ons-list-item tappable>
+          <label class="left">
+            <ons-radio name="group" value="b" input-id="radio-basic"></ons-radio>
+          </label>
+          <label for="radio-basic" class="center">
+            Básico
+          </label>
+        </ons-list-item>
+        <ons-list-item tappable>
+          <label class="left">
+            <ons-radio name="group" value="m" input-id="radio-medio"></ons-radio>
+          </label>
+          <label for="radio-medio" class="center">
+            Médio
+          </label>
+        </ons-list-item>
+        <ons-list-item tappable>
+          <label class="left">
+            <ons-radio name="group" value="a" input-id="radio-avanc"></ons-radio>
+          </label>
+          <label for="radio-avanc" class="center">
+            Avançado
+          </label>
+        </ons-list-item>
+
+        <h2 id="header2-exerc1">Músculos superiores</h2>
+        <form>
+          <input type="image" src=dhtmlgoodies_calendar/images/costas.jpg class="imagens_de_exercicios"><br>
+        </form>
+        <form>
+          <input type="image" src=dhtmlgoodies_calendar/images/peito.jpg class="imagens_de_exercicios"><br>
+        </form>
+        <!--
+        <form> OMBRO
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        <form> TRÍCEPS
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        <form> BÍCEPS
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        <form> TRAPÉZIO
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        <form> ANTEBRAÇO
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        <form> ABDOMINAL
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        -->
+        <h2 id="header2-exerc2">Músculos inferiores</h2>
+        <form>
+          <input type="image" src=dhtmlgoodies_calendar/images/perna.jpg class="imagens_de_exercicios"><br>
+        </form>
+        <!--
+        <form> COXA
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        <form> GLÚTEO
+          <input type="image" src= class="imagens_de_exercicios"><br>
+        </form>
+        -->
+      </section>
+    </ons-page>
+  </template>
+  <!-- page de edicao -->
+
+  <template id="edit.html">
+    <ons-page id="edit">
+      <ons-toolbar>
+        <ons-back-button onclick="fn.load('page1.html')">Voltar</ons-back-button>
+        <div class="center">Hic sunt dracones</div>
+      </ons-toolbar>
+    <div style="text-align: center; margin-top: 5%;">
+      <h3 style="margin-top: 8%; font-weight:250px">Informe o email do cliente</h3> 
+      <p>
+        <ons-input id="email" placeholder="E-mail" float></ons-input>
+      </p>
+      <!-- Dias da semana -->
+      <ons-select id="choose-sel" onchange="editSelects(event)">
+        <option value="segunda">Segunda-feira</option>
+        <option value="terca">Terça-feira</option>
+        <option value="quarta">Quarta-feira</option>
+        <option value="quinta">Quinta-feira</option>
+        <option value="sexta">Sexta-feira</option>
+        <option value="sabado">Sábado</option>
+        <option value="domingo">Domingo</option>
+      </ons-select>
+      <!-- Horarios -->
+      <h3>Horários<h3>
+      <div style="text-align: center">
+        <p>
+          <ons-input placeholder="'12:00 - Almoço' etc" float></ons-input>
+        </p>
+        <p>
+          <ons-input float></ons-input>
+        </p>
+        <p>
+          <ons-input float></ons-input>
+        </p>
+        <p>
+          <ons-input float></ons-input>
+        </p>
+        <p>
+          <ons-input float></ons-input>
+        </p>
+        <p>
+          <ons-input float></ons-input>
+        </p>
+      </div>
+
+        <p style="width: 100%; position: fixed; bottom: 0%">
+          <ons-button modifier="large" onclick="login()">OK</ons-button>
+        </p>
+      </div>
+    </ons-page>
+  </template>
+</body>
+</html>
