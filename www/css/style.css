@@ -1,11 +1,239 @@
-body {
-  ground-attachment:fixed;
-  height:100%;
-  width:100%;
+.toolbar-div {
+  height: 16vh;
+  width: 100vw;
+}
+
+.btn-premium {
+  margin: 4px 4px 4px 5vw; width: 20vw; height: 3vh
+}
+
+@media (max-width: 654px) {
+  body { font-size: 12px !important; }
+  .announcement-height {
+    height: 25px; 
+  }
+
+  [header] {
+    text-align: center;
+    font-size: 1.80em !important;
+    font-weight: 400;
+  }
+  .login{
+    margin: 5vh;
+  }
+  .adjust-login {
+    margin: 2vh 5vh 5vh 5vh;
+  }
+  [btnSplitter] {margin-right :10px !important} /* HEADER HOME PAGE */
+}
+
+@media (width: 375px) and (height: 812px) { /*iPhone X*/
+  .bannerSpan{top: calc(10vh + 33vw) !important}
+  [btnSplitter] {margin-right :10px !important} /* HEADER HOME PAGE */
+}
+
+@media all and (max-width: 749px) and (min-width: 410px) {
+  body { font-size: 14px !important; }
+  .announcement-height {
+    height: 30px; 
+  }
+
+  [header] {
+    text-align: center;
+    font-size: 1.80em !important;
+    font-weight: 400;
+  }
+}
+
+@media all and (max-width: 750px) and (min-width: 654px) {
+  body { font-size: 16px !important; }
+  .announcement-height {
+    height: 30px;
+    padding: 5px;   
+  }
+
+  [header] {
+    text-align: center;
+    font-size: 2.5em !important;
+    font-weight: 400;
+  }
+
+  .btn-premium {
+    margin: 6px; width: 25vw; height: 3vh
+  }
+}
+
+@media all and (max-width: 850px) and (min-width: 751px) {
+  body { 
+    font-size: 22px !important; 
+  }
+  .toolbarHigh {height: 90px !important;}
+  .announcement-height {
+    height: 35px; 
+    padding: 5px;   
+  }
+  .toolbar-div {
+    padding-top: 0 !important;
+  }
+  .header {
+    height: 60px;
+    margin-top: 5px;
+  }
+
+  [header] {
+    text-align: center;
+    font-size: 2em !important;
+    font-weight: 400;
+  }
+  .btn-premium {
+    margin: 6px; width: 25vw; height: 3vh
+  }
+
+  .login {
+    padding: 0 !important;
+    margin: 0vw 15vw;
+  }
+  .adjust-login{
+    margin: 2vh 0px 2vh 0px !important;
+  }
+  .page1 {
+    padding: 30vh 0px 0px 0px;
+  }
+
+  ons-button, ons-input {
+    font-size: 0.8em !important;
+  }
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: 1.3em;
+  }
+  .header-iconbtn {font-size: 32px !important; padding-top: 12px !important; padding-left: 12px !important;}
+  /*/////////////////////// BANNERS  PAGE 2 ////////////////////////////*/
+  .bannerSpan{top: calc(10vh + 37vw) !important}
+  .banners {width: 80vw !important; height: 42vw !important}
+  .bannerBtn {position: absolute; top: calc(10vh + 18vw) !important}
+  .banners-position {margin: 10vh 10vw 5vw 10vw !important}
+  /*/////////////////////// BANNERS PAGE 2 ////////////////////////////*/
+  .margin-adjusted {margin: 10px !important;}
+
+ /*PAGE 01*/
+  [logoPage1] {
+   background:url(C:/Users/wesll/Documents/dietasV2/www/images/logo12.png) no-repeat;
+   min-height: 40vw;
+  }
+  .adjust-login{
+    margin: 4vh 0px !important;
+  }
+  .page1 {
+    padding: 30vh 0px 0px 0px;
+  }
+  
+  [ons-btn] {
+   padding: 3vw 16vw !important;
+   font-size: 1.3em !important;
+  }
+}
+
+@media all and (min-width: 851px) {
+  body { 
+    font-size: 25px;
+  }
+  .text-input /*ONSEN, estou mudando o tamanho do formulario email e senha*/{
+    font-size: 20px !important;
+  }
+  .announcement-height {
+    height: 70px;
+    padding: 3px; 
+  }
+  .toolbar-div {
+    height: 20vh;
+  }
+   .header {
+    font-size: 40px
+  }
+
+  .carousel {
+    margin: 8vw 6vw 5vw 6vw !important;
+  }
+
+  [header] {
+    text-align: center;
+    font-size: 2em !important;
+    font-weight: 400;
+    margin: 0;
+  }
+  .toolbar-gradiente {
+    height: 20vh !important;
+  }
+  .btn-premium {
+    margin: 8px; width: 25vw; height: 4vh;
+  }
+  .login {
+    padding: 0 !important;
+    margin: 0vw 15vw;
+    height: 70vh;
+  }
+
+  ons-button, ons-input {
+    font-size: 0.8em !important;
+  }
+
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: 1.5em;
+  }
+  /*/////////////////////// BANNERS  PAGE 2 ////////////////////////////*/
+  .bannerSpan{top: calc(10vh + 36vw) !important}
+  .banners {width: 80vw !important; height: 42vw !important}
+  .bannerBtn {position: absolute; top: calc(10vh + 18vw) !important}
+  .banners-position {margin: 10vh 10vw 5vw 10vw !important}
+  /*/////////////////////// BANNERS PAGE 2 ////////////////////////////*/
+  .margin-adjusted {margin: 0px 10px !important;}
+  [btnSplitter] {margin:10px !important} /* HEADER HOME PAGE */
+  .header-iconbtn {font-size: 35px !important; padding-top: 12px !important; padding-left: 12px !important;}
+  .toolbarHigh {height: 90px !important;}
+  .info-position {height: 5vw; margin: 45px 3px 3px 50vw}
+  /*PAGE 01*/
+  [logoPage1] {
+   background:url(C:/Users/wesll/Documents/dietasV2/www/images/logo12.png) no-repeat;
+   min-height: 40vw;
+  }
+  .adjust-login{
+    margin: 6vh 0px !important;
+  }
+  .page1 {
+    padding: 30vh 0px 0px 0px;
+  }
+  
+  [ons-btn] {
+   padding: 3vw 16vw !important;
+   font-size: 1.3em !important;
+  }
+}
+
+
+h1 {font-size: 2.6em !important;} h2{font-size: 2.3em !important;} h3{font-size: 1.6em !important;} h4{font-size: 1.4em !important;} h5{font-size: 1.3em !important;} h6{font-size: 1.2em !important;}
+
+
+[title] {
+  font-family: 'Patrick Hand', cursive !important;
+}
+
+[announcement] {
+  font-family: 'Crimson Text', serif !important;
+  font-weight: 900 !important;
+}
+
+h1 {
+  /*font-family: 'Fjalla One', sans-serif !important;*/
+  /*font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important; */
+  font-family: Brush Script MT,cursive !important;
 }
 
 .centered {
   text-align: center
+}
+
+.leftered {
+  text-align: left;
 }
 
 .indent {
@@ -26,6 +254,12 @@ body {
   border-radius: 8px;
 }
 
+.imgBtn {
+  width: 42.5vw;
+  height: 22vw;
+  border-radius: 8px;
+}
+
 .header-exercicios {
   padding-top: 40px;
   padding-bottom: 10px;
@@ -34,12 +268,34 @@ body {
   background: linear-gradient(to bottom, #007fff, #228df8, #ffffff 140px);
 }
 
-h2#header2-exerc1, #header2-exerc2, #header2-exerc3 {
-  color: rgba(0, 0, 0, 0.5);
-  text-transform: uppercase;
-  right: 75px;
-  position: relative;
-  font-size: 13.5px;
+.gradiente {
+  background-image: linear-gradient(to bottom, #32cd32 0%, #008000 80%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
+  background-blend-mode: normal, lighten, soft-light;
+}
+
+.page1-background {
+  background: linear-gradient(135deg, #088A68 0%, #57ca85 100%);
+  opacity: 0.45;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  filter:blur(2px);
+}
+
+.login {
+  text-align: center;
+  background:linear-gradient(135deg, #088A68 0%, #57ca85 100%);
+  border: 2px solid #4b3621cf;
+  border-radius: 20px;
+}
+
+.dropShadow {
+  filter:drop-shadow(8px 8px 10px gray);
+}
+
+.text-input--material__label { /* PLACEHOLDER LOGIN */
+  font-weight: 500;
+  color: #c5c5c5;
 }
 
 .title-header {
@@ -60,8 +316,139 @@ h2#header2-exerc1, #header2-exerc2, #header2-exerc3 {
   padding: 15px;
   width: 100%;
   height: 100%;
-  background-color: white;
-  font-size: 14px;
+  background-color: #0076ff;
+  color: white;
+  border-radius: 5px;
+  font-size: 0.8rem !important;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 900;
+}
+
+[ons-btn] {
+  border-radius: 6px; font-weight: 700; padding: 1vw 10vw 1vw 10vw; letter-spacing: 3px;
+}
+
+.flex{
+  display: flex;
+  flex-flow: column;
+}
+
+.container {
+  display: flex;
+  border-radius: 6px;
+  flex-wrap: nowrap;
+  margin: 5px;
+}
+
+.item {
+  margin: 0.6vw 1.2vw;
+  flex: 1;
+}
+
+input > .item {
+  margin: 0px 5px;
+  font-size: 1.5rem !important;
+  flex: 1;
+}
+
+.nopadding {
+  padding: 0;
+}
+
+.nomargin {
+  margin: 0;
+}
+
+.noliststyle {
+  list-style-type: none;
+}
+
+.bold{
+  font-weight: 600;
+}
+
+.row-wrap {
+  flex-flow: row wrap;
+}
+
+.row-nowrap {
+  flex-flow: row nowrap;
+}
+
+.exerc {
+  margin: 0vh 8vw 1vh 8vw; min-height: 50vh; border-radius: 8px;
+}
+/* /////////////// BANNERS PAGE 2 ////////////////// */
+.banners {
+  width: 88vw; height: 50vw; border-radius: 5px; margin: 0; padding: 0;
+}
+
+.banners-position {margin:5vh 6vw 5vw 6vw}
+.mySlides {display:none}
+.bannerBtn {position: absolute; top: calc(5vh + 23vw)}
+.bannerSpan{position: absolute; top: calc(5vh + 44vw); width: 2.7vw !important; height: 2.7vw !important}
+/* /////////////// BANNERS PAGE 2 ////////////////// */
+.left {right: 85vw;}
+.right {left: 85vw;}
+.badge {border-radius: 50%;}
+.w3-border{border:1px solid #ccc}
+.w3-transparent {background-color:transparent}
+.w3-text-white{color:#fff}
+.large{
+  width: 15px;
+  height: 15px;
+}
+.margin-adjusted {margin: 10px 0 0 0}
+.btnTip {position: absolute;margin-top: calc(20vw + 5px);}
+.btnPersonalizado { border-radius: 10px; background: #008000; padding: 10px; font-size: 1.2em !important; font-weight: 800; color: #fff; left: 50%}
+.centralizacaoHorizontal {-webkit-transform: translateX(-50%); transform: translateX(-50%)}
+.w3-white{color:#000;background-color:#fff}
+.thirdSpan{right: 60%;}
+.secndSpan{right: 50%;}
+.firstSpan{right: 40%;}
+.insideShadow {
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #ccc;
+}
+.softShadow {
+  -moz-box-shadow:    1.5px 1.5px 2.5px 3px #77dd77;
+  -webkit-box-shadow: 1.5px 1.5px 2.5px 3px #77dd77;
+  box-shadow:         1.5px 1.5px 2.5px 3px #77dd77;
+}
+
+.shadow {
+   -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+}
+span {margin: 0 5px;}
+
+.obsborder{
+  border-radius: 6px;
+  padding: 3px;
+}
+
+.backgroundGreen {
+  background-color: #04B45F;
+}
+
+.bottomBorder {
+  border-bottom: 2px solid black; border-radius: 4px;
+}
+
+.header-iconbtn {
+  background: none !important; box-shadow: none !important; color: #0076ff !important
+}
+
+.bold {
+  font-weight: bolder;
+}
+
+[overlay] {
+  z-index: 2;
+}
+
+.hidden {
+  display: none;
 }
