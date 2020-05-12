@@ -197,13 +197,13 @@
 
   <template id="page2.html">
   	<ons-page id="page2">
-      <ons-toolbar class="toolbarHigh" style="background: linear-gradient(to left, #008000 0%, #32cd32 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
-        <ons-button btnSplitter class="margin-adjusted header header-iconbtn" onclick="fn.open()">
+      <ul headerHomePage class="toolbarHeight flex row-nowrap" style="margin: 0; background: linear-gradient(to left, #008000 0%, #32cd32 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
+        <ons-button btnSplitter homePageHeader class="item noBackground" style="position: absolute; left: 2vw; width: 5vw" onclick="fn.open()">
           <ons-icon icon="md-menu"></ons-icon>
         </ons-button>
-        <h1 header style="letter-spacing: 3px" class="margin-adjusted">Fit Optimus</h1>
-        <input class="right header btn-premium margin-adjusted" type="image" src=images/btn-premium.png></input>
-      </ons-toolbar>
+        <h1 homePageHeader header style="letter-spacing: 3px; position: absolute; left: 25vw">Fit Optimus</h1>
+        <input homePageHeader style="letter-spacing: 3px; position: absolute; right: 3vw" class="item btn-premium" type="image" src=images/btn-premium.png></input>
+      </ul>
       <!--<div class="toolbar-div gradiente flex row-nowrap" style="position: absolute !important;">
 	      <ons-button class="header header-iconbtn" onclick="fn.open()">
 	        <ons-icon icon="md-menu"></ons-icon>
@@ -226,12 +226,12 @@
   	  	</ons-carousel>
   	    <div class="w3-text-white large left bannerBtn" onclick="prev()">&#10094;</div>
   	    <div class="w3-text-white large right bannerBtn" onclick="next()">&#10095;</div>
-	  </div>
-	  <div>
-	   	<span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo firstSpan" onclick="last()"></span>
-	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo secndSpan" onclick="getByIndex(1)"></span>
-	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo thirdSpan w3-white" onclick="first()"></span>
-	  </div>
+  	  </div>
+  	  <div>
+  	   	<span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo firstSpan" onclick="last()"></span>
+  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo secndSpan" onclick="getByIndex(1)"></span>
+  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo thirdSpan w3-white" onclick="first()"></span>
+  	  </div>
 
       <section class="flex backgroundGreen dropShadow" style="margin: 20px 2vw 5px 2vw; border-radius: 6px;">
       	<!--<div class="announcement-height"> 

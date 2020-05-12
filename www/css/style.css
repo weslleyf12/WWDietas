@@ -3,12 +3,9 @@
   width: 100vw;
 }
 
-.btn-premium {
-  margin: 4px 4px 4px 5vw; width: 20vw; height: 3vh
-}
-
 @media (max-width: 654px) {
   body { font-size: 12px !important; }
+  .toolbarHeight {height: 56px !important;}
   .announcement-height {
     height: 25px; 
   }
@@ -24,15 +21,33 @@
   .adjust-login {
     margin: 2vh 5vh 5vh 5vh;
   }
-  [btnSplitter] {margin-right :10px !important} /* HEADER HOME PAGE */
+  .btn-premium {
+    height: 3vh
+  }
+  [btnSplitter] {
+    font-size: 16px !important;
+  }
 }
 
 @media (width: 375px) and (height: 812px) { /*iPhone X*/
-  .bannerSpan{top: calc(10vh + 33vw) !important}
-  [btnSplitter] {margin-right :10px !important} /* HEADER HOME PAGE */
+  .toolbarHeight {height: 56px !important;}
+  .bannerSpan{top: calc(10vh + 33vw + 56px) !important}
+  .btn-premium {
+    height: 3vh
+  }
+  [btnSplitter] {
+    font-size: 19px !important;
+  }
+}
+
+@media (width: 411px) and (height: 823px) { /*Pixel 2 XL*/
+  [btnSplitter] {
+    font-size: 20px !important;
+  }
 }
 
 @media all and (max-width: 749px) and (min-width: 410px) {
+  .toolbarHeight {height: 56px !important;}
   body { font-size: 14px !important; }
   .announcement-height {
     height: 30px; 
@@ -43,9 +58,13 @@
     font-size: 1.80em !important;
     font-weight: 400;
   }
+  [btnSplitter] {
+    font-size: 18px !important;
+  }
 }
 
 @media all and (max-width: 750px) and (min-width: 654px) {
+  .toolbarHeight {height: 56px !important;}
   body { font-size: 16px !important; }
   .announcement-height {
     height: 30px;
@@ -59,7 +78,10 @@
   }
 
   .btn-premium {
-    margin: 6px; width: 25vw; height: 3vh
+    height: 5vh
+  }
+  [btnSplitter] {
+    font-size: 20px !important;
   }
 }
 
@@ -67,17 +89,13 @@
   body { 
     font-size: 22px !important; 
   }
-  .toolbarHigh {height: 90px !important;}
+  .toolbarHeight {height: 90px !important;}
   .announcement-height {
     height: 35px; 
     padding: 5px;   
   }
   .toolbar-div {
     padding-top: 0 !important;
-  }
-  .header {
-    height: 60px;
-    margin-top: 5px;
   }
 
   [header] {
@@ -86,7 +104,7 @@
     font-weight: 400;
   }
   .btn-premium {
-    margin: 6px; width: 25vw; height: 3vh
+    height: 4vh
   }
 
   .login {
@@ -101,16 +119,16 @@
   }
 
   ons-button, ons-input {
-    font-size: 0.8em !important;
+    font-size: 0.8em;
   }
   ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     font-size: 1.3em;
   }
-  .header-iconbtn {font-size: 32px !important; padding-top: 12px !important; padding-left: 12px !important;}
+  .header-iconbtn {font-size: 32px !important}
   /*/////////////////////// BANNERS  PAGE 2 ////////////////////////////*/
-  .bannerSpan{top: calc(10vh + 37vw) !important}
+  .bannerSpan{top: calc(10vh + 37vw + 90px) !important}
   .banners {width: 80vw !important; height: 42vw !important}
-  .bannerBtn {position: absolute; top: calc(10vh + 18vw) !important}
+  .bannerBtn {position: absolute; top: calc(10vh + 18vw + 90px) !important} /*90px altura do cabecalho*/
   .banners-position {margin: 10vh 10vw 5vw 10vw !important}
   /*/////////////////////// BANNERS PAGE 2 ////////////////////////////*/
   .margin-adjusted {margin: 10px !important;}
@@ -131,6 +149,9 @@
    padding: 3vw 16vw !important;
    font-size: 1.3em !important;
   }
+  [btnSplitter] {
+    font-size: 24px !important;
+  }
 }
 
 @media all and (min-width: 851px) {
@@ -147,9 +168,6 @@
   .toolbar-div {
     height: 20vh;
   }
-   .header {
-    font-size: 40px
-  }
 
   .carousel {
     margin: 8vw 6vw 5vw 6vw !important;
@@ -159,13 +177,13 @@
     text-align: center;
     font-size: 2em !important;
     font-weight: 400;
-    margin: 0;
+    margin: 15px;
   }
   .toolbar-gradiente {
     height: 20vh !important;
   }
   .btn-premium {
-    margin: 8px; width: 25vw; height: 4vh;
+    height: 4vh;
   }
   .login {
     padding: 0 !important;
@@ -174,22 +192,21 @@
   }
 
   ons-button, ons-input {
-    font-size: 0.8em !important;
+    font-size: 0.8em;
   }
 
   ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     font-size: 1.5em;
   }
   /*/////////////////////// BANNERS  PAGE 2 ////////////////////////////*/
-  .bannerSpan{top: calc(10vh + 36vw) !important}
+  .bannerSpan{top: calc(10vh + 36vw + 90px) !important}
   .banners {width: 80vw !important; height: 42vw !important}
-  .bannerBtn {position: absolute; top: calc(10vh + 18vw) !important}
+  .bannerBtn {position: absolute; top: calc(10vh + 18vw + 90px) !important} /*90px é a altura do cabecalho*/
   .banners-position {margin: 10vh 10vw 5vw 10vw !important}
   /*/////////////////////// BANNERS PAGE 2 ////////////////////////////*/
   .margin-adjusted {margin: 0px 10px !important;}
-  [btnSplitter] {margin:10px !important} /* HEADER HOME PAGE */
-  .header-iconbtn {font-size: 35px !important; padding-top: 12px !important; padding-left: 12px !important;}
-  .toolbarHigh {height: 90px !important;}
+  .header-iconbtn {font-size: 35px !important}
+  .toolbarHeight {height: 90px !important;}
   .info-position {height: 5vw; margin: 45px 3px 3px 50vw}
   /*PAGE 01*/
   [logoPage1] {
@@ -207,6 +224,9 @@
    padding: 3vw 16vw !important;
    font-size: 1.3em !important;
   }
+  [btnSplitter] {
+    font-size: 25px !important;
+  }
 }
 
 
@@ -222,10 +242,17 @@ h1 {font-size: 2.6em !important;} h2{font-size: 2.3em !important;} h3{font-size:
   font-weight: 900 !important;
 }
 
+[homePageHeader] {
+  align-self: center;
+  margin: 0 !important; padding: 0;
+}
+
 h1 {
   /*font-family: 'Fjalla One', sans-serif !important;*/
   /*font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important; */
-  font-family: Brush Script MT,cursive !important;
+  /*font-family: Brush Script MT,cursive !important;*/
+  letter-spacing: 3px;
+  font-family: Impact,Haettenschweiler,Franklin Gothic Bold,Charcoal,Helvetica Inserat,Bitstream Vera Sans Bold,Arial Black,sans serif !important;
 }
 
 .centered {
@@ -385,8 +412,8 @@ input > .item {
 
 .banners-position {margin:5vh 6vw 5vw 6vw}
 .mySlides {display:none}
-.bannerBtn {position: absolute; top: calc(5vh + 23vw)}
-.bannerSpan{position: absolute; top: calc(5vh + 44vw); width: 2.7vw !important; height: 2.7vw !important}
+.bannerBtn {position: absolute; top: calc(5vh + 23vw + 56px)} /*56px é a altura do cabecalho em quase todos os dispositivos (sendo 90px em dois outros). Ver media query iPad*/
+.bannerSpan{position: absolute; top: calc(5vh + 44vw + 56px); width: 2.7vw !important; height: 2.7vw !important}
 /* /////////////// BANNERS PAGE 2 ////////////////// */
 .left {right: 85vw;}
 .right {left: 85vw;}
@@ -398,7 +425,6 @@ input > .item {
   width: 15px;
   height: 15px;
 }
-.margin-adjusted {margin: 10px 0 0 0}
 .btnTip {position: absolute;margin-top: calc(20vw + 5px);}
 .btnPersonalizado { border-radius: 10px; background: #008000; padding: 10px; font-size: 1.2em !important; font-weight: 800; color: #fff; left: 50%}
 .centralizacaoHorizontal {-webkit-transform: translateX(-50%); transform: translateX(-50%)}
@@ -437,7 +463,7 @@ span {margin: 0 5px;}
   border-bottom: 2px solid black; border-radius: 4px;
 }
 
-.header-iconbtn {
+.noBackground {
   background: none !important; box-shadow: none !important; color: #0076ff !important
 }
 

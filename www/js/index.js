@@ -2,11 +2,9 @@ window.fn = {};
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page1')) {
-      const height = document.body.clientHeight
-      const loginHeight = document.querySelector('[login]').clientHeight
-      const topMargin =  (height-loginHeight)/2
-      const percentageOfTopMargin = topMargin * (95/100)
-      document.querySelector('[login]').setAttribute('style', 'margin-top:'+percentageOfTopMargin+'px')
+    const filho = '[login]'
+    const pai = 'body'
+    verticalAlignMiddle(filho, pai)
       firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         fn.load('page2.html')
@@ -16,8 +14,33 @@ document.addEventListener('init', function(event) {
   }
 }, false);
 
+function verticalAlignMiddle(divFilho, divPai) {
+  const alturaDoPai = document.querySelector(divPai).clientHeight
+  const alturaDoFilho = document.querySelector(divFilho).clientHeight
+  console.log(alturaDoPai, alturaDoFilho)
+  const topMargin =  (alturaDoPai-alturaDoFilho)/2
+  const percentageOfTopMargin = topMargin * (96/100)
+  document.querySelector(divFilho).setAttribute('style', 'margin-top:'+percentageOfTopMargin+'px !important')
+}
+
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page2')) {
+    /*const filho = '[btnSplitter]'
+    const pai = '[headerHomePage]'
+    const alturaDoPai = document.querySelector(pai).clientHeight/2
+    const alturaDoFilho = document.querySelector(filho).setAttribute('style', 'height:'+alturaDoPai+'px')
+    const uagent = navigator.userAgent.toLowerCase();
+    const filho2 = '[btnPremium]'
+
+    if (ons.platform.isIPhoneX()) {
+      verticalAlignMiddleIphone(filho, pai)
+      verticalAlignMiddleIphone(filho2, pai)
+    } else if (navigator.userAgent.match(/iPad/i)){
+      verticalAlignMiddle(filho2, pai)
+    } else {
+      verticalAlignMiddle(filho2, pai)
+    }*/
+
     document.querySelector('ons-carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent()}
   )}
 }, false);
