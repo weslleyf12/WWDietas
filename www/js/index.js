@@ -1,4 +1,6 @@
 window.fn = {};
+let bannersIntervalo
+let bannersTimeout  
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page1')) {
@@ -25,28 +27,14 @@ function verticalAlignMiddle(divFilho, divPai) {
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page2')) {
-    /*const filho = '[btnSplitter]'
-    const pai = '[headerHomePage]'
-    const alturaDoPai = document.querySelector(pai).clientHeight/2
-    const alturaDoFilho = document.querySelector(filho).setAttribute('style', 'height:'+alturaDoPai+'px')
-    const uagent = navigator.userAgent.toLowerCase();
-    const filho2 = '[btnPremium]'
-
-    if (ons.platform.isIPhoneX()) {
-      verticalAlignMiddleIphone(filho, pai)
-      verticalAlignMiddleIphone(filho2, pai)
-    } else if (navigator.userAgent.match(/iPad/i)){
-      verticalAlignMiddle(filho2, pai)
-    } else {
-      verticalAlignMiddle(filho2, pai)
-    }*/
-
+    bannersIntervalo = window.setInterval(changeBanner, 6000)
     document.querySelector('ons-carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent()}
   )}
 }, false);
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#edit')) {
+    showEditExerc(1) //Para iniciar com a página de editar exercicios. Se retirar essa linha, é preciso antes clicar em Exerc. para funcionar o botão 'Ok'
     let altura = getHighOf('backBtnEdit')
     document.getElementById('backBtnEdit').setAttribute('style', `color: blue; left: 98%; margin: ${((altura*35.7)/100)}px 2vw !important`)
     document.getElementById('headerEdit').setAttribute('style', `margin: ${((altura*26)/100)}px 2vw !important`)
@@ -100,7 +88,6 @@ document.addEventListener('init', function(event) {
     let altura = getHighOf('backBtnExerc')
     document.getElementById('backBtnExerc').setAttribute('style', `color: blue; left: 98%; margin: ${((altura*35.7)/100)}px 2vw !important`)
     document.getElementById('headerExerc').setAttribute('style', `margin: ${((altura*26)/100)}px 2vw !important`)
-    exercList("listaExercicios", "listaSxr")
     let userEmail = firebase.auth().currentUser.email;
     db.collection("user-emails").where("userEmail", "==", userEmail).where("observacoes", "==", "nao").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -115,15 +102,19 @@ const addThings = (email, i, boolean) => {
   zerar()
   firstTimer()
   let newArray = arrumaArray()
+  let exercicio1 = new Array()
+  let exercicio2 = new Array()
+  let exercicio3 = new Array()
   db.collection("user-emails").where("userEmail", "==", email).where("name", "==", newArray[i]).where("observacoes", "==", "nao").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       document.getElementById('nomeDoTreino').textContent = 'Treino ' +newArray[i]
-      if (boolean) {
-        addExercicio(doc.data().newExerc1, doc.data().newExerc2, doc.data().newExerc3, true)
-      } else {
-        addExercicio(doc.data().newExerc1, doc.data().newExerc2, doc.data().newExerc3)
-      }
+      exercicio1.push(doc.data().newExerc1)
+      exercicio2.push(doc.data().newExerc2)
+      exercicio3.push(doc.data().newExerc3)
     })
+   if (boolean) {
+      addExercicio(exercicio1, exercicio2, exercicio3, true)
+    } else {addExercicio(exercicio1, exercicio2, exercicio3)}
   });
   db.collection("user-emails").where("userEmail", "==", email).where("name", "==", newArray[i]).where("observacoes", "==", "sim").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
@@ -225,6 +216,11 @@ function addHr() {
   document.getElementById("segunda-2").textContent = "aloha"
 }
 //fim dietas
+function stopBannerTransition() {
+  window.clearTimeout(bannersTimeout)
+  window.clearInterval(bannersIntervalo)
+  bannersTimeout = window.setTimeout(changeBanner, 6000)
+}
 
 function editSelects(event) {
   document.getElementById('choose-sel').removeAttribute('modifier');
@@ -280,7 +276,7 @@ const entrar = () => {
     return;
   }
   if (senhaLogin.length < 4) {
-    alert('Por favor, insira uma senha.');
+    showToast('Por favor, insira uma senha.');
     return;
   }
 
@@ -393,6 +389,14 @@ let first = function() {
   addWhiteCurrent()
 };
 
+let changeBanner = function() {
+  clearSpan()
+  let carousel = document.getElementById('carousel');
+  const atual = carousel.getActiveIndex()
+  const quantidade = document.querySelector('ons-carousel').itemCount
+  atual == quantidade-1 ? carousel.setActiveIndex(0) : carousel.next()
+}
+
 let clearSpan = function() {
   let atual = carousel.getActiveIndex()
   document.querySelector('.firstSpan').classList.remove('w3-white')
@@ -433,82 +437,40 @@ function firstTimer() {
 
 function addExercicio(exercicio, Sxr, tecAvan, boolean) {
 
-  let ulExerc = document.getElementById('listaExercicios')
-  let ulTecAvan = document.getElementById('listaTecAvan')
-  let ulSxr = document.getElementById('listaSxr')
+  let tableData = document.getElementById("tabelaExercicios"); 
 
-  if (boolean) {
-   if (firstTime) {
-      secondTime()
-      for (let i = 0; i <= 20; i++) {
-        if ((document.getElementById('liExerc'+i))) {
-          ulExerc.removeChild(document.getElementById('liExerc'+i))
-          ulTecAvan.removeChild(document.getElementById('liTecAvan'+i))
-          ulSxr.removeChild(document.getElementById('liSxr'+i))
-        }
-      }
-    }
+  let table = `
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Exercícios</th>
+        <th scope="col">SxR</th>
+        <th scope="col">Técnicas Avançadas</th>
+      </tr>
+    </thead>
+  <tbody class="centered">
+  `;
+
+  for (let i = 0; i <= exercicio.length-1; i++) {
+    table = table +
+    `<tr>
+      <th scope="row">${i}</th>
+      <td>${exercicio[i]}</td>
+      <td>${Sxr[i]}</td>
+      <td>${tecAvan[i]}</td>
+    </tr>`
   }
 
-  let liExerc = document.createElement('INPUT')
-  let liTecAvan = document.createElement('INPUT')
-  let liSxr = document.createElement('INPUT')
+  table = table +
+  `</tbody>
+    </table>`
+  ;
 
-  liExerc.setAttribute("readonly", "readonly");
-  liTecAvan.setAttribute("readonly", "readonly");
-  liSxr.setAttribute("readonly", "readonly");
-
-  liExerc.value = exercicio
-  ulExerc.appendChild(liExerc)
-
-  liTecAvan.value = tecAvan
-  ulTecAvan.appendChild(liTecAvan)
-
-  liSxr.value = Sxr
-  ulSxr.appendChild(liSxr)
-
-  liExerc.setAttribute("type", "text");
-  liTecAvan.setAttribute("type", "text");
-  liSxr.setAttribute("type", "text");
-
-  liExerc.setAttribute("id", 'liExerc'+id);
-  liTecAvan.setAttribute("id", 'liTecAvan'+id);
-  liSxr.setAttribute("id", 'liSxr'+id);
-
-  if (document.body.clientWidth <= 354) {
-      liExerc.setAttribute("size", "8");
-      liTecAvan.setAttribute("size", "8");
-      liSxr.setAttribute("size", "3");
-      liExerc.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder");
-      liTecAvan.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder");
-      liSxr.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder");
-    } else if (document.body.clientWidth >= 355 && document.body.clientWidth <= 600) {
-      liExerc.setAttribute("size", "12");
-      liTecAvan.setAttribute("size", "12");
-      liSxr.setAttribute("size", "3");
-      liExerc.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder");
-      liTecAvan.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder");
-      liSxr.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder");
-    } else if (document.body.clientWidth >= 601 && document.body.clientWidth <= 1023) {
-      liExerc.setAttribute("size", "18");
-      liTecAvan.setAttribute("size", "18");
-      liSxr.setAttribute("size", "3");
-      liExerc.setAttribute("style", "background: transparent;border: none;  border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder; height: 25px; font-size: 20px");
-      liTecAvan.setAttribute("style", "background: transparent;border: none;  border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder; height: 25px; font-size: 20px");
-      liSxr.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder; height: 25px; font-size: 20px");
-    } else if (document.body.clientWidth >= 1024) {
-      liExerc.setAttribute("size", "20");
-      liTecAvan.setAttribute("size", "20");
-      liSxr.setAttribute("size", "3");
-      liExerc.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder; height: 32px; font-size: 25px");
-      liTecAvan.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder; height: 32px; font-size: 25px");
-      liSxr.setAttribute("style", "background: transparent; border: none; border-bottom: 2px solid black; border-radius: 4px; text-align: center; font-weight: bolder; height: 32px; font-size: 25px");
-    }
-    return id = id+1
+  tableData.innerHTML = table;
 }
 
 function addObs2(observ1, observ2, observ3, observ4, boolean) {
-
   let ulObs1 = document.getElementById('obs-pre')
   let ulObs2 = document.getElementById('obs-aero')
   let ulObs3 = document.getElementById('obs-treino')
@@ -549,6 +511,8 @@ function addObs2(observ1, observ2, observ3, observ4, boolean) {
 }
 
 function addExerc() {
+  showToast('Alterações encaminhadas')
+
   let emailInputed = document.getElementById('emailInput').value
   let treinoInputed = document.getElementById('treinoInput').value
 
@@ -559,6 +523,8 @@ function addExerc() {
 }
 
 function addObs() {
+  showToast('Alterações encaminhadas')
+
   let intervaloInputed = document.getElementById('interExerc').value
   let obsExercicio = document.getElementById('observacoes').value
   let emailInputed = document.getElementById('emailInput2').value
@@ -600,7 +566,7 @@ function attDados(newExerc, email, instancia, treinoInpt) {
   })
 }
 
-const getFontSize = (elementId) => {
+const getFontSize = (elementId) => { //nao usado
   let element = document.getElementById(elementId)
   let fontSize = window.getComputedStyle(element).fontSize
   return parseFloat(fontSize)
@@ -610,14 +576,6 @@ const getHighOf = (elementId) => {
   let element = document.getElementById(elementId)
   let hight = window.getComputedStyle(element).height
   return parseFloat(hight)
-}
-
-const exercList = (elementId, proxElement) => {
-  let fontSize = getFontSize(elementId)
-  primeiroEl = document.getElementById(elementId)
-  segundoEl = document.getElementById(proxElement)
-  primeiroEl.setAttribute('style', `margin-top: ${(fontSize*2)+(fontSize/2)}px`)
-  segundoEl.setAttribute('style', `margin-top: ${(fontSize*2)+(fontSize/2)}px`)
 }
 
 const showEditExerc = (value) => {

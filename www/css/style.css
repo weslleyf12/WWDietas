@@ -1,15 +1,6 @@
-.toolbar-div {
-  height: 16vh;
-  width: 100vw;
-}
-
 @media (max-width: 654px) {
   body { font-size: 12px !important; }
   .toolbarHeight {height: 56px !important;}
-  .announcement-height {
-    height: 25px; 
-  }
-
   [header] {
     text-align: center;
     font-size: 1.80em !important;
@@ -49,9 +40,6 @@
 @media all and (max-width: 749px) and (min-width: 410px) {
   .toolbarHeight {height: 56px !important;}
   body { font-size: 14px !important; }
-  .announcement-height {
-    height: 30px; 
-  }
 
   [header] {
     text-align: center;
@@ -66,10 +54,6 @@
 @media all and (max-width: 750px) and (min-width: 654px) {
   .toolbarHeight {height: 56px !important;}
   body { font-size: 16px !important; }
-  .announcement-height {
-    height: 30px;
-    padding: 5px;   
-  }
 
   [header] {
     text-align: center;
@@ -90,13 +74,6 @@
     font-size: 22px !important; 
   }
   .toolbarHeight {height: 90px !important;}
-  .announcement-height {
-    height: 35px; 
-    padding: 5px;   
-  }
-  .toolbar-div {
-    padding-top: 0 !important;
-  }
 
   [header] {
     text-align: center;
@@ -160,13 +137,6 @@
   }
   .text-input /*ONSEN, estou mudando o tamanho do formulario email e senha*/{
     font-size: 20px !important;
-  }
-  .announcement-height {
-    height: 70px;
-    padding: 3px; 
-  }
-  .toolbar-div {
-    height: 20vh;
   }
 
   .carousel {

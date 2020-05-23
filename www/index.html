@@ -7,11 +7,14 @@
   <script src="js/index.js"></script>
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <link rel="stylesheet" href="bootstrap-4.1.3/bootstrap-table-only.css">
   <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Fjalla+One|Patrick+Hand&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="components/loader.css">
-  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+
+  <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="css/style.css">
+  
 
   <script>
     if (ons.platform.isIPhoneX()) {
@@ -40,7 +43,7 @@
 </head>
 <body>
   <ons-splitter>
-    <ons-splitter-side id="menu" side="left" width="220px" collapse>
+    <ons-splitter-side id="menu" side="left" width="40%" collapse>
       <ons-page>
         <ons-list>
     	  <ons-list-item onclick="dietas()" tappable>
@@ -94,107 +97,6 @@
     </ons-page>
   </template>
 
-  <!-- pag de registro -->
-
-  <template id="dietas.html">
-    <ons-page id="dietas">
-      <ons-toolbar class="toolbarHigh" style="background: linear-gradient(to left, #BDBBBE 0%, #9D9EA3 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
-        <div id="backBtnDieta" style="color: blue; left: 98%; margin: 1vh" onclick="fn.load('page2.html')">&#10094;</div>
-        <h1 id="headerDieta" header>Minha Dieta</h1>
-      </ons-toolbar>
-
-      <ons-list style="margin-top: 3vh;">
-      	<div class="centered">
-        	<h2 title>DIETAS DA SEMANA</h2>
-    	</div>
-        <ons-list-item expandable>
-          SEGUNDA-FEIRA
-          <div class="expandable-content" id="lista">
-            <p id="segunda-1"></p>
-            <p id="segunda-2"></p>
-            <p id="segunda-3"></p>
-            <p id="segunda-4"></p>
-            <p id="segunda-5"></p>
-            <p id="segunda-6"></p>
-            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
-          </div>
-        </ons-list-item>
-        <ons-list-item expandable>
-          TERÇA-FEIRA
-          <div class="expandable-content">
-            <p id="terca-1"></p>
-            <p id="terca-2"></p>
-            <p id="terca-3"></p>
-            <p id="terca-4"></p>
-            <p id="terca-5"></p>
-            <p id="terca-6"></p>
-            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
-          </div>
-        </ons-list-item>
-        <ons-list-item expandable>
-          QUARTA-FEIRA
-          <div class="expandable-content">
-            <p id="quarta-1"></p>
-            <p id="quarta-2"></p>
-            <p id="quarta-3"></p>
-            <p id="quarta-4"></p>
-            <p id="quarta-5"></p>
-            <p id="quarta-6"></p>
-            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
-          </div>
-        </ons-list-item>
-        <ons-list-item expandable>
-          QUINTA-FEIRA
-          <div class="expandable-content">
-            <p id="quinta-1"></p>
-            <p id="quinta-2"></p>
-            <p id="quinta-3"></p>
-            <p id="quinta-4"></p>
-            <p id="quinta-5"></p>
-            <p id="quinta-6"></p>
-            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
-          </div>
-        </ons-list-item>
-        <ons-list-item expandable>
-          SEXTA-FEIRA
-          <div class="expandable-content">
-            <p id="sexta-1"></p>
-            <p id="sexta-2"></p>
-            <p id="sexta-3"></p>
-            <p id="sexta-4"></p>
-            <p id="sexta-5"></p>
-            <p id="sexta-6"></p>
-            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
-          </div>
-        </ons-list-item>
-        <ons-list-item expandable>
-          SÁBADO
-          <div class="expandable-content">
-            <p id="sab-1"></p>
-            <p id="sab-2"></p>
-            <p id="sab-3"></p>
-            <p id="sab-4"></p>
-            <p id="sab-5"></p>
-            <p id="sab-6"></p>
-            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
-          </div>
-        </ons-list-item>
-        <ons-list-item expandable>
-          DOMINGO
-          <div class="expandable-content">
-            <p id="dom-1"></p>
-            <p id="dom-2"></p>
-            <p id="dom-3"></p>
-            <p id="dom-4"></p>
-            <p id="dom-5"></p>
-            <p id="dom-6"></p>
-            <ons-button modifier="large" onclick="showPopover(this)">Ver</ons-button>
-          </div>
-        </ons-list-item>
-      </ons-list>
-  </ons-page>
-  </template>
-
   <template id="page2.html">
   	<ons-page id="page2">
       <ul headerHomePage class="toolbarHeight flex row-nowrap" style="margin: 0; background: linear-gradient(to left, #008000 0%, #32cd32 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
@@ -204,39 +106,29 @@
         <h1 homePageHeader header style="letter-spacing: 3px; position: absolute; left: 25vw">Fit Optimus</h1>
         <input homePageHeader style="letter-spacing: 3px; position: absolute; right: 3vw" class="item btn-premium" type="image" src=images/btn-premium.png></input>
       </ul>
-      <!--<div class="toolbar-div gradiente flex row-nowrap" style="position: absolute !important;">
-	      <ons-button class="header header-iconbtn" onclick="fn.open()">
-	        <ons-icon icon="md-menu"></ons-icon>
-	      </ons-button>
-	      <h1 class="header" style="margin: 30px 5px 5px 5px; letter-spacing:2px" header>FIT OPTIMUS</h1>
-	      <input class="right header btn-premium" type="image" src=images/btn-premium.png></input>
-      </div>-->
 
       <div class="banners-position carousel">
   	    <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel">
   	   		<ons-carousel-item>
-  	      		<input class="banners mySlides" type="image" style="display: block" src=images/idoso-malhando.jpg></input>
+  	      		<input class="banners mySlides" type="image" style="display: block" src=images/banner1.jpeg></input>
   	    	</ons-carousel-item>
   	    	<ons-carousel-item>
-  	      		<input class="banners mySlides" type="image" style="display:block" src=images/banner-premium.png></input>
+  	      		<input class="banners mySlides" type="image" style="display:block" src=images/banner2.jpeg></input>
   	    	</ons-carousel-item>
   	    	<ons-carousel-item>
-  	      		<input class="banners mySlides" type="image" style="display:block" src=images/welcome.png></input>
+  	      		<input class="banners mySlides" type="image" style="display:block" src=images/banner3.jpg></input>
   	    	</ons-carousel-item>
   	  	</ons-carousel>
-  	    <div class="w3-text-white large left bannerBtn" onclick="prev()">&#10094;</div>
-  	    <div class="w3-text-white large right bannerBtn" onclick="next()">&#10095;</div>
+  	    <div class="w3-text-white large left bannerBtn" onclick="stopBannerTransition(); prev()">&#10094;</div>
+  	    <div class="w3-text-white large right bannerBtn" onclick="stopBannerTransition(); next()">&#10095;</div>
   	  </div>
   	  <div>
-  	   	<span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo firstSpan" onclick="last()"></span>
-  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo secndSpan" onclick="getByIndex(1)"></span>
-  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo thirdSpan w3-white" onclick="first()"></span>
+  	   	<span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo firstSpan" onclick="stopBannerTransition(); last()"></span>
+  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo secndSpan" onclick="stopBannerTransition(); getByIndex(1)"></span>
+  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo thirdSpan w3-white" onclick="stopBannerTransition(); first()"></span>
   	  </div>
 
       <section class="flex backgroundGreen dropShadow" style="margin: 20px 2vw 5px 2vw; border-radius: 6px;">
-      	<!--<div class="announcement-height"> 
-      		<h3 style="margin:0px 0px 0px 10px" announcement>Há diversas opções para você!</h3>
-      	</div>-->
       	<div class="container item">
 	      	<div class="item">
 	      	   <input type="image" onclick="fn.load()" src=images/dietas.png class="item imgBtn"></input>
@@ -260,43 +152,28 @@
   <!-- exercicios page -->
   <template id="exercicios.html">
     <ons-page id="exercicios">
-      <ons-toolbar class="toolbarHigh" style="background: linear-gradient(to left, #008000 0%, #32cd32 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
+      <ons-toolbar class="toolbarHeight" style="background: linear-gradient(to left, #008000 0%, #32cd32 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
         <div id="backBtnExerc" onclick="fn.load('page2.html')">&#10094;</div>
         <h1 id="headerExerc" header>Exercícios</h1>
       </ons-toolbar>
-      <input type="image" style="height: 4vh; float: right; margin: 5vw 3vw; z-index: 2" onclick="showTip()" src="C:\Users\wesll\Documents\dietasV2\www\images\info.png"></input>
-      <div overlay class="insideShadow hidden" style="position: absolute; top: 40%; background: #fff; border: 2px solid #001; text-align: center">
+      <input type="image" style="height: 4vh; float: right; margin: 10vw 3vw; z-index: 2" onclick="showTip()" src="images\info.png"></input>
+      <div overlay class="insideShadow hidden" style="position: absolute; top: 30%; background: #fff; border: 2px solid #001; text-align: center">
         <h6 style="text-align: center; margin: 0 12vw 0 12vw"> Você pode arrastar para a esquerda ou para a direita para trocar de treino!</h6>
-        <input type="image" style="position: absolute; left: 65%; margin-top: 5px; width: 20vw; height: 20vw" src="C:\Users\wesll\Documents\dietasV2\www\images\swipe-left.png"></input>
-        <input type="image" style="position: absolute; right: 65%; margin-top: 5px; width: 20vw; height: 20vw" src="C:\Users\wesll\Documents\dietasV2\www\images\swipe-right.png"></input>
+        <input type="image" style="position: absolute; left: 65%; margin-top: 5px; width: 20vw; height: 20vw" src="images\swipe-left.png"></input>
+        <input type="image" style="position: absolute; right: 65%; margin-top: 5px; width: 20vw; height: 20vw" src="images\swipe-right.png"></input>
         <ons-buttons class="btnTip shadow btnPersonalizado centralizacaoHorizontal" onclick="closeTip()">Ok. Entendi!</ons-buttons>
       </div>
       <div overlayBackground>
         <header>
-          <h1 id="nomeDoTreino" class="centered" title> Treino X </h1>
+          <h1 id="nomeDoTreino" style="padding: 3vw" class="centered" title> Treino X </h1>
         </header>
         <ons-gesture-detector>
           <div id="tabela" style="width: 100%; height: 100%; position: absolute; opacity: 0">
             Arraste aqui
           </div>
         </ons-gesture-detector>
-        <section class="centered row-nowrap exerc backgroundGreen flex">
-  	      <div id="exerc" class="item nopadding shortWidth">
-  	      	<h4 style="font-weight: bolder">Exercícios</h4>
-  	      	<ul id="listaExercicios" class="nopadding nomargin noliststyle">
-  	      	</ul>
-  	      </div>
-  	      <div id="SxR" class="item nopadding">
-  	      	<h4 style="font-weight: bolder">SxR</h4>
-  	      	<ul id="listaSxr" class="nopadding nomargin noliststyle">
-  	      	</ul>
-  	      </div>
-  	      <div id="tecAvan"class="item nopadding">
-  	      	<h4 style="font-weight: bolder">Técnicas Avançadas</h4>
-  	      	<ul id="listaTecAvan" class="nopadding nomargin noliststyle">
-  	      	</ul>
-  	      </div>
-        </section>
+        <div id="tabelaExercicios">
+        </div>
         <footer><h4 id="intervaloExerc" class="nomargin bold" style="margin: 0vh 8vw 0vh 8vw" announcement>Intervalo entre treino e exercícios:</h4></footer>
 
         <section id="obsExercicios" class="centered">
