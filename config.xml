@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" id="com.fit.optimus" version="1.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:android="schemas.android.com/apk/res/android" id="com.fit.optimus" version="1.0.0">
   <name>FitOptimus</name>
   <description/>
   <author/>
@@ -18,7 +18,7 @@
   <preference name="Fullscreen" value="false"/>
   <preference name="KeepRunning" value="true"/>
   <preference name="SplashScreen" value="screen"/>
-  <preference name="SplashScreenDelay" value="1000"/>
+  <preference name="SplashScreenDelay" value="2500"/>
 
   <preference name="AllowInlineMediaPlayback" value="false"/>
   <preference name="AutoHideSplashScreen" value="true"/>
@@ -43,7 +43,7 @@
   <preference name="monaca:AndroidIsPackageNameSeparate" value="false"/>
   <preference name="ios-XCBuildConfiguration-TARGETED_DEVICE_FAMILY" value="1,2"/>
   <platform name="ios">
-    <preference name="orientation" value="all"/>
+    <preference name="orientation" value="vertical"/>
     <splash src="/res/ios/screen/Default@2x~universal~anyany.png"/>
     <icon src="/res/ios/icon/icon.png" width="57" height="57"/>
     <icon src="/res/ios/icon/icon@2x.png" width="114" height="114"/>
@@ -71,25 +71,22 @@
     </config-file>
   </platform>
   <platform name="android">
-    <icon src="/res/android/icon/ldpi.png" density="ldpi"/>
-    <icon src="/res/android/icon/mdpi.png" density="mdpi"/>
-    <icon src="/res/android/icon/hdpi.png" density="hdpi"/>
-    <icon src="/res/android/icon/xhdpi.png" density="xhdpi"/>
-    <icon src="/res/android/icon/xxhdpi.png" density="xxhdpi"/>
-    <icon src="/res/android/icon/xxxhdpi.png" density="xxxhdpi"/>
-    <splash src="/res/android/screen/splash-port-ldpi.9.png" density="port-ldpi"/>
-    <splash src="/res/android/screen/splash-port-mdpi.9.png" density="port-mdpi"/>
-    <splash src="/res/android/screen/splash-port-hdpi.9.png" density="port-hdpi"/>
-    <splash src="/res/android/screen/splash-port-xhdpi.9.png" density="port-xhdpi"/>
-    <splash src="/res/android/screen/splash-port-xxhdpi.9.png" density="port-xxhdpi"/>
-    <splash src="/res/android/screen/splash-port-xxxhdpi.9.png" density="port-xxxhdpi"/>
-    <splash src="/res/android/screen/splash-mdpi.png" density="mdpi"/>
-  </platform>
-  <platform name="electron">
-    <icon src="/res/electron/icon/icon_electron_512.png" width="512" height="512"/>
-    <splash src="/res/electron/screen/electron_splash_image.png" width="620" height="300"/>
-    <preference name="SplashScreenWidth" value="620"/>
-    <preference name="SplashScreenHeight" value="300"/>
-    <preference name="ShowSplashScreen" value="false"/>
+    <icon src="/res/android/icon/mipmap-ldpi/icon.png" density="ldpi"/>
+    <icon src="/res/android/icon/mipmap-mdpi/icon.png" density="mdpi"/>
+    <icon src="/res/android/icon/mipmap-hdpi/icon.png" density="hdpi"/>
+    <icon src="/res/android/icon/mipmap-xhdpi/icon.png" density="xhdpi"/>
+    <icon src="/res/android/icon/mipmap-xxhdpi/icon.png" density="xxhdpi"/>
+    <icon src="/res/android/icon/mipmap-xxxhdpi/icon.png" density="xxxhdpi"/>
+
+    <splash src="/res/android/screen/res-mipmap/mipmap-ldpi/splash.png" density="port-ldpi"/>
+    <splash src="/res/android/screen/res-mipmap/mipmap-mdpi/splash.png" density="port-mdpi"/>
+    <splash src="/res/android/screen/res-mipmap/mipmap-hdpi/splash.png" density="port-hdpi"/>
+    <splash src="/res/android/screen/res-mipmap/mipmap-xhdpi/splash.png" density="port-xhdpi"/>
+    <splash src="/res/android/screen/res-mipmap/mipmap-xxhdpi/splash.png" density="port-xxhdpi"/>
+    <splash src="/res/android/screen/res-mipmap/mipmap-xxxhdpi/splash.png" density="port-xxxhdpi"/>
+
+    <edit-config file="AndroidManifest.xml" target="/manifest/application/activity[@android:name='MainActivity']" mode="merge">
+      <activity android:name="MainActivity" android:screenOrientation="userPortrait" />
+    </edit-config>
   </platform>
 </widget>

@@ -18,10 +18,7 @@
       "android"
     ]
   },
-  "scripts": {
-    "monaca:preview": "npm run dev",
-    "dev": "browser-sync start -s www/ --watch --port 8080 --ui-port 8081"
-  },
+  "scripts": {},
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "cordova": "^9.0.0"

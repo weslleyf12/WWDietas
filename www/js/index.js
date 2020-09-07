@@ -1,59 +1,42 @@
 window.fn = {};
 let bannersIntervalo
-let bannersTimeout  
+let bannersTimeout 
+let carousel
 
-document.addEventListener('init', function(event) {
-  if (event.target.matches('#page1')) {
-    const filho = '[login]'
-    const pai = 'body'
-    verticalAlignMiddle(filho, pai)
+document.addEventListener('init', function(event) { //SET REMEMBER-ME *************************************************************************************
+  if (event.target.matches('#login')) {
       firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         fn.load('page2.html')
       }
-
     })
   }
 }, false);
 
-function verticalAlignMiddle(divFilho, divPai) {
-  const alturaDoPai = document.querySelector(divPai).clientHeight
-  const alturaDoFilho = document.querySelector(divFilho).clientHeight
-  console.log(alturaDoPai, alturaDoFilho)
-  const topMargin =  (alturaDoPai-alturaDoFilho)/2
-  const percentageOfTopMargin = topMargin * (96/100)
-  document.querySelector(divFilho).setAttribute('style', 'margin-top:'+percentageOfTopMargin+'px !important')
-}
-
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page2')) {
+    carousel = document.getElementById('carousel');
     bannersIntervalo = window.setInterval(changeBanner, 6000)
-    document.querySelector('ons-carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent()}
+    document.querySelector('ons-carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()}
   )}
 }, false);
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#edit')) {
     showEditExerc(1) //Para iniciar com a página de editar exercicios. Se retirar essa linha, é preciso antes clicar em Exerc. para funcionar o botão 'Ok'
-    let altura = getHighOf('backBtnEdit')
-    document.getElementById('backBtnEdit').setAttribute('style', `color: blue; left: 98%; margin: ${((altura*35.7)/100)}px 2vw !important`)
-    document.getElementById('headerEdit').setAttribute('style', `margin: ${((altura*26)/100)}px 2vw !important`)
   }
 }, false);
-
-document.addEventListener('init', function(event) {
-  if (event.target.matches('#dietas')) {
-    let altura = getHighOf('backBtnDieta')
-    document.getElementById('backBtnDieta').setAttribute('style', `color: blue; left: 98%; margin: ${((altura*35.7)/100)}px 2vw !important`)
-    document.getElementById('headerDieta').setAttribute('style', `margin: ${((altura*26)/100)}px 2vw !important`)
-  }
-}, false);
-//bloco de código que adiciona as variáveis à tela de exercícios
 
 document.addEventListener('swipeleft', function(event) {
   increaseIndice()
   if (event.target.matches('#tabela')) {
     let userEmail = firebase.auth().currentUser.email;
+    const newArray = arrumaArray()
+    indice = indice++
+    if (indice >= newArray.length) {
+      indice--
+    }
+    document.getElementById('choose-sel-treinos').selectedIndex = indice
     addThings(userEmail, indice, true)
   } 
 });
@@ -68,11 +51,17 @@ document.addEventListener('swiperight', function(event) {
   decreaseIndice()
   if (event.target.matches('#tabela')) {
     let userEmail = firebase.auth().currentUser.email;
+    const newArray = arrumaArray()
+    indice = indice--
+    if (indice <= newArray.length) {
+      indice++
+    }
+    document.getElementById('choose-sel-treinos').selectedIndex = indice
     addThings(userEmail, indice, true)
   }
 });
 
-function decreaseIndice() {
+function decreaseIndice() { //diz respeito ao valor atual do treino, ex: A,B,C
   return indice = indice - 1
 }
 
@@ -85,18 +74,46 @@ let indice = 0;
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#exercicios')) {
-    let altura = getHighOf('backBtnExerc')
-    document.getElementById('backBtnExerc').setAttribute('style', `color: blue; left: 98%; margin: ${((altura*35.7)/100)}px 2vw !important`)
-    document.getElementById('headerExerc').setAttribute('style', `margin: ${((altura*26)/100)}px 2vw !important`)
     let userEmail = firebase.auth().currentUser.email;
     db.collection("user-emails").where("userEmail", "==", userEmail).where("observacoes", "==", "nao").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         return array.push(doc.data().name)
       })
       addThings(userEmail, 0, false)
+      addChooseSel(userEmail)
     });
   }
 }, false);
+
+function editSelects(event) {
+  let newArray = arrumaArray()
+  const treino = event.target.value // array treinos -> A,B,C
+  let indiceDoTreino
+  for (let i = 0; i <= newArray.length; i++) {
+    if (newArray[i] == treino) {
+      indiceDoTreino = i //indice é o número correspondente à posição da letra no array de treinos
+      indice = i // indice com valor global para o drag right e left
+    }
+  }
+  let userEmail = firebase.auth().currentUser.email;
+  
+  addThings(userEmail, indiceDoTreino, true)
+}
+
+const addChooseSel = (email) => {
+  const inicioTag = `<ons-select id='choose-sel-treinos' onchange='editSelects(event)'>`
+  let valores = ``
+  const fimTag = `</ons-select>`
+
+  let newArray = arrumaArray()
+  for (let i = 0; i < newArray.length; i++) {
+    valores += `<option select-id='${i}' value='${newArray[i]}'>Treino ${newArray[i]}</option>`
+  }
+
+  const html = inicioTag+valores+fimTag
+  const chooseTreinos = document.getElementById('choose-sel-treinos')
+  chooseTreinos.innerHTML = html
+}
 
 const addThings = (email, i, boolean) => {
   zerar()
@@ -155,9 +172,7 @@ function promptPasswdReset(mensagem) {
 
 window.fn.load = function(page) {
   let content = document.getElementById('content');
-  let menu = document.getElementById('menu');
   content.load(page)
-    .then(menu.close.bind(menu));
 };
 
 let showToast = function(message) {
@@ -216,136 +231,6 @@ function addHr() {
   document.getElementById("segunda-2").textContent = "aloha"
 }
 //fim dietas
-function stopBannerTransition() {
-  window.clearTimeout(bannersTimeout)
-  window.clearInterval(bannersIntervalo)
-  bannersTimeout = window.setTimeout(changeBanner, 6000)
-}
-
-function editSelects(event) {
-  document.getElementById('choose-sel').removeAttribute('modifier');
-}
-
-function cadastrar() {
-  let nomeCadastro = document.getElementById('nome-cadastro').value;
-  let senhaCadastro = document.getElementById('senha-cadastro').value;
-  let emailCadastro = document.getElementById('email-cadastro').value;
-
-  if (emailCadastro.length < 4) {
-    showToast('Por favor, insira um email.');
-    return;
-  }
-  if (senhaCadastro.length < 4) {
-    showToast('Por favor, insira uma senha.');
-    return;
-  }
-  showModal()
-  firebase.auth().createUserWithEmailAndPassword(emailCadastro, senhaCadastro)
-  .then(function(){
-    escreverMensagem('Olá, '+nomeCadastro+'! Estamos felizes em te ver por aqui!')
-    showPopover(document.getElementById('email-cadastro'))
-    hideModal()
-    fn.load('page2.html')
-    })
-  .catch(function(error) {
-    let errorCode = error.code;
-    let errorMessage = error.message;
-
-    if (errorCode === 'auth/weak-password') {
-      hideModal()
-      showToast('Senha muito fraca');
-    } else if (errorCode === 'auth/invalid-email') {
-      hideModal()
-      showToast('Insira um email válido.')
-    } else if (errorCode === 'auth/email-already-in-use') {
-      hideModal()
-      showToast('Esse email já está em uso.')
-    } else {
-      hideModal()
-      showToast(errorMessage);
-    }
-  });
-}
-
-const entrar = () => {
-  let emailLogin = document.getElementById('email-login').value
-  let senhaLogin = document.getElementById('senha-login').value
-
-  if (emailLogin.length < 4) {
-    showToast('Por favor, insira um email.');
-    return;
-  }
-  if (senhaLogin.length < 4) {
-    showToast('Por favor, insira uma senha.');
-    return;
-  }
-
-  if (emailLogin === 'admin' && senhaLogin === 'h2md2515') {
-    fn.load('edit.html');
-    return
-  }
-
-  showModal()
-  firebase.auth().signInWithEmailAndPassword(emailLogin, senhaLogin).catch(function(error) {
-    let errorCode = error.code;
-    let errorMessage = error.message;
-    
-    if (errorCode === 'auth/wrong-password') {
-      hideModal()
-      showToast('E-mail ou senha inválidos.');
-    } else if (errorCode === 'auth/invalid-email') {
-      hideModal()
-      showToast('Insira um email válido.')
-    } else if (errorCode === 'auth/too-many-requests') {
-      hideModal()
-      showToast('Aguarde um momento para tentar novamente!')
-    } else if(errorCode === 'auth/user-not-found') {
-      hideModal()
-      showToast('Usuário inexistente.')
-    } else {
-      hideModal()
-      showToast(errorMessage);
-    }
-  });
-
-  firebase.auth().onAuthStateChanged(function(user) {
-    //ao fazer login, o modal é fechado e o usuário é encaminhado à segunda página.
-    if (user) {
-      hideModal()
-      fn.load('page2.html')
-      setInterval(changeBanner, 11000)
-    }
-  });
-}
-
-const signOut = () => {
-  firebase.auth().signOut().then(function() {
-    fn.load('page1.html')
-      // Sign-out successful.
-  }).catch(function(error) {
-      showToast(error.code + error.message)
-  })
-}
-
-function sendPasswordReset(emailPasswdReset) {
-  firebase.auth().sendPasswordResetEmail(emailPasswdReset).then(function() {
-    escreverMensagem('Email de recuperação enviado com sucesso!')
-    showPopover(document.getElementById('email-login'))
-  }).catch(function(error) {
-    let errorCode = error.code;
-    let errorMessage = error.message;
-    
-    if (errorCode == 'auth/invalid-email') {
-      showToast('Email inválido.');
-    } else if (errorCode == 'auth/user-not-found') {
-      showToast('Usuário não encontrado.')
-    } else {
-      showToast(errorMessage)
-    }
-  });
-}
-
-//edit.page ons-radio checked
 
 function showEdit() {
   document.querySelector('ons-radio[input-id="radio-2"]').checked = false;
@@ -359,54 +244,46 @@ function showRegister() {
   document.getElementById('editPage').style.display = "none";
 }
 
-let prev = function() {
-  clearSpan()
-  let carousel = document.getElementById('carousel');
-  carousel.prev();
+//banner
 
-  addWhiteCurrent()
-};
-
-let next = function() {
-  clearSpan()
-  let carousel = document.getElementById('carousel');
-  carousel.next();
-
-  addWhiteCurrent()
-};
+function stopBannerTransition() {
+  window.clearTimeout(bannersTimeout)
+  window.clearInterval(bannersIntervalo)
+  bannersTimeout = window.setTimeout(changeBanner, 6000)
+}
 
 let last = function() {
   clearSpan()
-  let carousel = document.getElementById('carousel');
   carousel.last();
   addWhiteCurrent()
 };
 
 let first = function() {
   clearSpan()
-  let carousel = document.getElementById('carousel');
   carousel.first();
   addWhiteCurrent()
 };
 
 let changeBanner = function() {
   clearSpan()
-  let carousel = document.getElementById('carousel');
-  const atual = carousel.getActiveIndex()
-  const quantidade = document.querySelector('ons-carousel').itemCount
-  atual == quantidade-1 ? carousel.setActiveIndex(0) : carousel.next()
+  if (carousel) {
+    let atual = carousel.getActiveIndex()
+    const total = document.querySelector('ons-carousel').itemCount
+    atual == total-1 ? carousel.setActiveIndex(0) : carousel.next()
+  }
 }
 
 let clearSpan = function() {
-  let atual = carousel.getActiveIndex()
-  document.querySelector('.firstSpan').classList.remove('w3-white')
-  document.querySelector('.secndSpan').classList.remove('w3-white')
-  document.querySelector('.thirdSpan').classList.remove('w3-white')
+  if (carousel) {
+    atual = carousel.getActiveIndex()
+    document.querySelector('[firstSpan]').classList.remove('green')
+    document.querySelector('[secndSpan]').classList.remove('green')
+    document.querySelector('[thirdSpan]').classList.remove('green')
+  }
 }
 
 let getByIndex = function(index) {
   clearSpan()
-  let carousel = document.getElementById('carousel');
   carousel.setActiveIndex(index);
 
   addWhiteCurrent()
@@ -415,13 +292,15 @@ let getByIndex = function(index) {
 let addWhiteCurrent = function() {
   let atual = carousel.getActiveIndex()
   if (atual == 2) {
-    document.querySelector('.firstSpan').classList.add('w3-white')
+    document.querySelector('[thirdSpan]').classList.add('green')
   } else if (atual == 1) {
-    document.querySelector('.secndSpan').classList.add('w3-white')
+    document.querySelector('[secndSpan').classList.add('green')
   } else if (atual == 0) {
-    document.querySelector('.thirdSpan').classList.add('w3-white')
+    document.querySelector('[firstSpan]').classList.add('green')
   }
 }
+
+//fim banner
 
 let id = 0;
 let firstTime = true
@@ -443,10 +322,10 @@ function addExercicio(exercicio, Sxr, tecAvan, boolean) {
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Exercícios</th>
-        <th scope="col">SxR</th>
-        <th scope="col">Técnicas Avançadas</th>
+        <th scope="col" style="vertical-align: middle; text-align: center">#</th>
+        <th scope="col" style="vertical-align: middle; text-align: center">Exercícios</th>
+        <th scope="col" style="vertical-align: middle; text-align: center">SxR</th>
+        <th scope="col" style="vertical-align: middle; text-align: center">Técnicas Avançadas</th>
       </tr>
     </thead>
   <tbody class="centered">
@@ -471,6 +350,7 @@ function addExercicio(exercicio, Sxr, tecAvan, boolean) {
 }
 
 function addObs2(observ1, observ2, observ3, observ4, boolean) {
+
   let ulObs1 = document.getElementById('obs-pre')
   let ulObs2 = document.getElementById('obs-aero')
   let ulObs3 = document.getElementById('obs-treino')
@@ -572,10 +452,10 @@ const getFontSize = (elementId) => { //nao usado
   return parseFloat(fontSize)
 }
 
-const getHighOf = (elementId) => {
+const getHeightOf = (elementId) => {
   let element = document.getElementById(elementId)
-  let hight = window.getComputedStyle(element).height
-  return parseFloat(hight)
+  let Heightt = window.getComputedStyle(element).height
+  return parseFloat(heightt)
 }
 
 const showEditExerc = (value) => {
@@ -594,4 +474,68 @@ const showEditExerc = (value) => {
     document.getElementById('obsExerc').style.display = 'none'
      document.getElementById('editDietas').style.display = 'block'
   }
+}
+
+let method
+
+const entrar = () => {
+  let emailLogin = document.getElementById('email-login').value
+  let senhaLogin = document.getElementById('senha-login').value
+
+  if (emailLogin.length < 4) {
+    showToast('Por favor, insira um email.');
+    return;
+  }
+  if (senhaLogin.length < 4) {
+    showToast('Por favor, insira uma senha.');
+    return;
+  }
+
+  if (emailLogin === 'admin' && senhaLogin === 'h2md2515') {
+    fn.load('edit.html');
+    return
+  }
+
+  showModal()
+  firebase.auth().setPersistence(document.getElementById('ckb1').checked ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION)
+  .then(function() {
+    firebase.auth().signInWithEmailAndPassword(emailLogin, senhaLogin).catch(function(error) {
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      
+      if (errorCode === 'auth/wrong-password') {
+        hideModal()
+        showToast('E-mail ou senha inválidos.');
+      } else if (errorCode === 'auth/invalid-email') {
+        hideModal()
+        showToast('Insira um email válido.')
+      } else if (errorCode === 'auth/too-many-requests') {
+        hideModal()
+        showToast('Aguarde um momento para tentar novamente!')
+      } else if(errorCode === 'auth/user-not-found') {
+        hideModal()
+        showToast('Usuário inexistente.')
+      } else {
+        hideModal()
+        showToast(errorMessage);
+      }
+    });
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      //ao fazer login, o modal é fechado e o usuário é encaminhado à segunda página.
+      if (user) {
+        hideModal()
+        fn.load('page2.html')
+        setInterval(changeBanner, 11000)
+      }
+    });
+  })
+}
+
+const signOut = () => {
+  firebase.auth().signOut().then(function() {
+    fn.load('login.html')
+  }).catch(function(error) {
+    showToast(error.code + error.message)
+  })
 }

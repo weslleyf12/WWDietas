@@ -1,407 +1,15 @@
-@media (max-width: 654px) {
-  body { font-size: 12px !important; }
-  .toolbarHeight {height: 56px !important;}
-  [header] {
-    text-align: center;
-    font-size: 1.80em !important;
-    font-weight: 400;
-  }
-  .login{
-    margin: 5vh;
-  }
-  .adjust-login {
-    margin: 2vh 5vh 5vh 5vh;
-  }
-  .btn-premium {
-    height: 3vh
-  }
-  [btnSplitter] {
-    font-size: 16px !important;
-  }
-}
+@import url('https://fonts.googleapis.com/css?family=Numans');
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text|Fjalla+One|Patrick+Hand&display=swap')
 
-@media (width: 375px) and (height: 812px) { /*iPhone X*/
-  .toolbarHeight {height: 56px !important;}
-  .bannerSpan{top: calc(10vh + 33vw + 56px) !important}
-  .btn-premium {
-    height: 3vh
-  }
-  [btnSplitter] {
-    font-size: 19px !important;
-  }
-}
-
-@media (width: 411px) and (height: 823px) { /*Pixel 2 XL*/
-  [btnSplitter] {
-    font-size: 20px !important;
-  }
-}
-
-@media all and (max-width: 749px) and (min-width: 410px) {
-  .toolbarHeight {height: 56px !important;}
-  body { font-size: 14px !important; }
-
-  [header] {
-    text-align: center;
-    font-size: 1.80em !important;
-    font-weight: 400;
-  }
-  [btnSplitter] {
-    font-size: 18px !important;
-  }
-}
-
-@media all and (max-width: 750px) and (min-width: 654px) {
-  .toolbarHeight {height: 56px !important;}
-  body { font-size: 16px !important; }
-
-  [header] {
-    text-align: center;
-    font-size: 2.5em !important;
-    font-weight: 400;
-  }
-
-  .btn-premium {
-    height: 5vh
-  }
-  [btnSplitter] {
-    font-size: 20px !important;
-  }
-}
-
-@media all and (max-width: 850px) and (min-width: 751px) {
-  body { 
-    font-size: 22px !important; 
-  }
-  .toolbarHeight {height: 90px !important;}
-
-  [header] {
-    text-align: center;
-    font-size: 2em !important;
-    font-weight: 400;
-  }
-  .btn-premium {
-    height: 4vh
-  }
-
-  .login {
-    padding: 0 !important;
-    margin: 0vw 15vw;
-  }
-  .adjust-login{
-    margin: 2vh 0px 2vh 0px !important;
-  }
-  .page1 {
-    padding: 30vh 0px 0px 0px;
-  }
-
-  ons-button, ons-input {
-    font-size: 0.8em;
-  }
-  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    font-size: 1.3em;
-  }
-  .header-iconbtn {font-size: 32px !important}
-  /*/////////////////////// BANNERS  PAGE 2 ////////////////////////////*/
-  .bannerSpan{top: calc(10vh + 37vw + 90px) !important}
-  .banners {width: 80vw !important; height: 42vw !important}
-  .bannerBtn {position: absolute; top: calc(10vh + 18vw + 90px) !important} /*90px altura do cabecalho*/
-  .banners-position {margin: 10vh 10vw 5vw 10vw !important}
-  /*/////////////////////// BANNERS PAGE 2 ////////////////////////////*/
-  .margin-adjusted {margin: 10px !important;}
-
- /*PAGE 01*/
-  [logoPage1] {
-   background:url(C:/Users/wesll/Documents/dietasV2/www/images/logo12.png) no-repeat;
-   min-height: 40vw;
-  }
-  .adjust-login{
-    margin: 4vh 0px !important;
-  }
-  .page1 {
-    padding: 30vh 0px 0px 0px;
-  }
-  
-  [ons-btn] {
-   padding: 3vw 16vw !important;
-   font-size: 1.3em !important;
-  }
-  [btnSplitter] {
-    font-size: 24px !important;
-  }
-}
-
-@media all and (min-width: 851px) {
-  body { 
-    font-size: 25px;
-  }
-  .text-input /*ONSEN, estou mudando o tamanho do formulario email e senha*/{
-    font-size: 20px !important;
-  }
-
-  .carousel {
-    margin: 8vw 6vw 5vw 6vw !important;
-  }
-
-  [header] {
-    text-align: center;
-    font-size: 2em !important;
-    font-weight: 400;
-    margin: 15px;
-  }
-  .toolbar-gradiente {
-    height: 20vh !important;
-  }
-  .btn-premium {
-    height: 4vh;
-  }
-  .login {
-    padding: 0 !important;
-    margin: 0vw 15vw;
-    height: 70vh;
-  }
-
-  ons-button, ons-input {
-    font-size: 0.8em;
-  }
-
-  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-    font-size: 1.5em;
-  }
-  /*/////////////////////// BANNERS  PAGE 2 ////////////////////////////*/
-  .bannerSpan{top: calc(10vh + 36vw + 90px) !important}
-  .banners {width: 80vw !important; height: 42vw !important}
-  .bannerBtn {position: absolute; top: calc(10vh + 18vw + 90px) !important} /*90px é a altura do cabecalho*/
-  .banners-position {margin: 10vh 10vw 5vw 10vw !important}
-  /*/////////////////////// BANNERS PAGE 2 ////////////////////////////*/
-  .margin-adjusted {margin: 0px 10px !important;}
-  .header-iconbtn {font-size: 35px !important}
-  .toolbarHeight {height: 90px !important;}
-  .info-position {height: 5vw; margin: 45px 3px 3px 50vw}
-  /*PAGE 01*/
-  [logoPage1] {
-   background:url(C:/Users/wesll/Documents/dietasV2/www/images/logo12.png) no-repeat;
-   min-height: 40vw;
-  }
-  .adjust-login{
-    margin: 6vh 0px !important;
-  }
-  .page1 {
-    padding: 30vh 0px 0px 0px;
-  }
-  
-  [ons-btn] {
-   padding: 3vw 16vw !important;
-   font-size: 1.3em !important;
-  }
-  [btnSplitter] {
-    font-size: 25px !important;
-  }
-}
-
-
-h1 {font-size: 2.6em !important;} h2{font-size: 2.3em !important;} h3{font-size: 1.6em !important;} h4{font-size: 1.4em !important;} h5{font-size: 1.3em !important;} h6{font-size: 1.2em !important;}
-
-
-[title] {
-  font-family: 'Patrick Hand', cursive !important;
-}
-
-[announcement] {
-  font-family: 'Crimson Text', serif !important;
-  font-weight: 900 !important;
-}
-
-[homePageHeader] {
-  align-self: center;
-  margin: 0 !important; padding: 0;
-}
-
-h1 {
-  /*font-family: 'Fjalla One', sans-serif !important;*/
-  /*font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important; */
-  /*font-family: Brush Script MT,cursive !important;*/
-  letter-spacing: 3px;
-  font-family: Impact,Haettenschweiler,Franklin Gothic Bold,Charcoal,Helvetica Inserat,Bitstream Vera Sans Bold,Arial Black,sans serif !important;
-}
-
-.centered {
-  text-align: center
-}
-
-.leftered {
-  text-align: left;
-}
-
-.indent {
-  text-indent: 35px;
-}
-
-.justify {
-  text-align: justify;
-  text-justify: inter-word;
-}
-
-.width-decreased {
-  padding: 0px 12px 0px 12px;
-}
-
-.imagens_de_exercicios {
-  width: 85%;
-  border-radius: 8px;
-}
-
-.imgBtn {
-  width: 42.5vw;
-  height: 22vw;
-  border-radius: 8px;
-}
-
-.header-exercicios {
-  padding-top: 40px;
-  padding-bottom: 10px;
-}
-.header-gradient {
-  background: linear-gradient(to bottom, #007fff, #228df8, #ffffff 140px);
-}
-
-.gradiente {
-  background-image: linear-gradient(to bottom, #32cd32 0%, #008000 80%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%);
-  background-blend-mode: normal, lighten, soft-light;
-}
-
-.page1-background {
-  background: linear-gradient(135deg, #088A68 0%, #57ca85 100%);
-  opacity: 0.45;
-  height: 100vh;
-  width: 100vw;
-  position: absolute;
-  filter:blur(2px);
-}
-
-.login {
-  text-align: center;
-  background:linear-gradient(135deg, #088A68 0%, #57ca85 100%);
-  border: 2px solid #4b3621cf;
-  border-radius: 20px;
-}
-
-.dropShadow {
-  filter:drop-shadow(8px 8px 10px gray);
-}
-
-.text-input--material__label { /* PLACEHOLDER LOGIN */
-  font-weight: 500;
-  color: #c5c5c5;
-}
-
-.title-header {
-  border: 2px solid #ffffff;
-  border-radius: 5px;
-  width: 60%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-  background-color: #ffffff;
-}
-
-[btnPopover] {
-  border-top: 1px solid #afafaa;
-  border-bottom: none;
-  border-right: none;
-  border-left: none;
-  padding: 15px;
-  width: 100%;
-  height: 100%;
-  background-color: #0076ff;
-  color: white;
-  border-radius: 5px;
-  font-size: 0.8rem !important;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 900;
-}
-
-[ons-btn] {
-  border-radius: 6px; font-weight: 700; padding: 1vw 10vw 1vw 10vw; letter-spacing: 3px;
-}
-
-.flex{
-  display: flex;
-  flex-flow: column;
-}
-
-.container {
-  display: flex;
-  border-radius: 6px;
-  flex-wrap: nowrap;
-  margin: 5px;
-}
-
+.large{width: 15px;height: 15px;}.centered {text-align: center}.hidden {display: none;}.nopadding {padding: 0;}.nomargin {margin: 0;}.bold{font-weight: 600;}
 .item {
   margin: 0.6vw 1.2vw;
   flex: 1;
 }
-
-input > .item {
-  margin: 0px 5px;
-  font-size: 1.5rem !important;
-  flex: 1;
+.leftered {
+  text-align: left;
 }
 
-.nopadding {
-  padding: 0;
-}
-
-.nomargin {
-  margin: 0;
-}
-
-.noliststyle {
-  list-style-type: none;
-}
-
-.bold{
-  font-weight: 600;
-}
-
-.row-wrap {
-  flex-flow: row wrap;
-}
-
-.row-nowrap {
-  flex-flow: row nowrap;
-}
-
-.exerc {
-  margin: 0vh 8vw 1vh 8vw; min-height: 50vh; border-radius: 8px;
-}
-/* /////////////// BANNERS PAGE 2 ////////////////// */
-.banners {
-  width: 88vw; height: 50vw; border-radius: 5px; margin: 0; padding: 0;
-}
-
-.banners-position {margin:5vh 6vw 5vw 6vw}
-.mySlides {display:none}
-.bannerBtn {position: absolute; top: calc(5vh + 23vw + 56px)} /*56px é a altura do cabecalho em quase todos os dispositivos (sendo 90px em dois outros). Ver media query iPad*/
-.bannerSpan{position: absolute; top: calc(5vh + 44vw + 56px); width: 2.7vw !important; height: 2.7vw !important}
-/* /////////////// BANNERS PAGE 2 ////////////////// */
-.left {right: 85vw;}
-.right {left: 85vw;}
-.badge {border-radius: 50%;}
-.w3-border{border:1px solid #ccc}
-.w3-transparent {background-color:transparent}
-.w3-text-white{color:#fff}
-.large{
-  width: 15px;
-  height: 15px;
-}
-.btnTip {position: absolute;margin-top: calc(20vw + 5px);}
-.btnPersonalizado { border-radius: 10px; background: #008000; padding: 10px; font-size: 1.2em !important; font-weight: 800; color: #fff; left: 50%}
-.centralizacaoHorizontal {-webkit-transform: translateX(-50%); transform: translateX(-50%)}
-.w3-white{color:#000;background-color:#fff}
-.thirdSpan{right: 60%;}
-.secndSpan{right: 50%;}
-.firstSpan{right: 40%;}
 .insideShadow {
   -moz-box-shadow:    3px 3px 5px 6px #ccc;
   -webkit-box-shadow: 3px 3px 5px 6px #ccc;
@@ -418,33 +26,90 @@ input > .item {
    -webkit-box-shadow: inset 0 0 10px #000000;
    box-shadow:         inset 0 0 10px #000000;
 }
-span {margin: 0 5px;}
 
-.obsborder{
-  border-radius: 6px;
-  padding: 3px;
+[title] {
+  font-family: 'Patrick Hand', cursive !important;
 }
 
-.backgroundGreen {
-  background-color: #04B45F;
+[announcement] {
+  font-family: 'Crimson Text', serif !important;
+  font-weight: 900 !important;
 }
 
-.bottomBorder {
-  border-bottom: 2px solid black; border-radius: 4px;
+[homePageHeader] {
+  align-self: center;
+  padding: 0;
 }
 
-.noBackground {
-  background: none !important; box-shadow: none !important; color: #0076ff !important
+/*font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important; */
+ /*font-family: Impact,Haettenschweiler,Franklin Gothic Bold,Charcoal,Helvetica Inserat,Bitstream Vera Sans Bold,Arial Black,sans serif !important;*/
+h1 {font-family: Brush Script MT,cursive !important;letter-spacing: 3px;}
+h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important;}
+
+.softShadow {
+  -moz-box-shadow:    1.5px 1.5px 2.5px 3px #77dd77;
+  -webkit-box-shadow: 1.5px 1.5px 2.5px 3px #77dd77;
+  box-shadow:         1.5px 1.5px 2.5px 3px #77dd77;
 }
 
-.bold {
-  font-weight: bolder;
+.shadow {
+   -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
 }
 
-[overlay] {
-  z-index: 2;
+.dropShadow {
+  filter:drop-shadow(8px 8px 10px gray);
 }
 
-.hidden {
-  display: none;
+.grid {display: grid;} .templateHeaderPage2 {grid-template-columns: 0.25fr 1.5fr 0.25fr; justify-content: center}
+.flex {display: flex;} .rowrap {flex-flow: row wrap;} .row-nowrap {flex-flow: row nowrap;} .spacebetween {justify-content: space-between;}
+.noBackground {background: none; box-shadow: none}
+.headerBackground {background: #32cd32} .headerSemiOvalBackground {border-radius: 0px 0px 50% 50%;}
+
+/* page 2 */
+
+.banners {width: 80vw; border-radius: 5px; margin: 0 10vw 20px 10vw; padding: 0;}
+.tabbarPage2 {position: absolute; bottom: 0%; width: 100vw}
+
+/* botoes span page 2 */
+
+.w3-text-white{color:white;}
+.backgroundTransp {background-color:white}
+.green{color:#32cd32;background-color:#32cd32}
+.bannerSpans{height: 22px;}
+.badge {border-radius: 50%;}
+.bannerSpan{display: grid; justify-content: center; grid-template-columns: 22px 22px 22px; grid-column-gap: 6px}
+.w3-border{border:1px solid #ccc}
+
+/*exercicios */
+
+[overlay] {z-index: 2;}
+.headerExerc {grid-template-columns: 32px 1fr 32px; grid-template-rows: 1fr 0px 0px 0px}
+.xyCentered {justify-self: center; align-self: center}
+.xStartyCenter {justify-self: start; align-self: center}
+.infoExerc {height: 4vh; float: right; margin: 10vw 3vw; z-index: 2}
+.tutorialExerc {position: absolute; top: 30%; background: #fff; border: 2px solid #001; text-align: center}
+.btnTip {position: absolute;margin-top: calc(20vw + 5px);}
+.btnPersonalizado { border-radius: 10px; background: #008000; padding: 10px; font-size: 1.2em !important; font-weight: 800; color: #fff; left: 50%}
+.centralizacaoHorizontal {-webkit-transform: translateX(-50%); transform: translateX(-50%)}
+.obsborder{border-radius: 6px;padding: 3px;}
+.backgroundGreen {background-color: #04B45F;}
+/* placeholder */
+
+::-webkit-input-placeholder {
+   color: #fff;
 }
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #fff;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #fff;  
+}
+
+:-ms-input-placeholder {  
+   color: #fff;  
+}
+

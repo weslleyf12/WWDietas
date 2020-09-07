@@ -5,15 +5,17 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="js/index.js"></script>
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
-  <link rel="stylesheet" href="bootstrap-4.1.3/bootstrap-table-only.css">
-  <link href="https://fonts.googleapis.com/css?family=Crimson+Text|Fjalla+One|Patrick+Hand&display=swap" rel="stylesheet">
+  <!--<link rel="stylesheet" href="bootstrap-4.1.3/bootstrap-table-only.css">-->
+  <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+  <script src="js/bootstrap/bootstrap.min.js"></script>
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
-
-  <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="stylesheet" href="components/loader.css">
   
 
   <script>
@@ -43,25 +45,7 @@
 </head>
 <body>
   <ons-splitter>
-    <ons-splitter-side id="menu" side="left" width="40%" collapse>
-      <ons-page>
-        <ons-list>
-    	  <ons-list-item onclick="dietas()" tappable>
-            Dietas
-          </ons-list-item>
-          <ons-list-item onclick="calendar()" tappable>
-            Calendário
-          </ons-list-item>
-          <ons-list-item onclick="exercicios()" tappable>
-            Exercícios
-          </ons-list-item>
-          <ons-list-item onclick="signOut()" tappable>
-            Sair
-          </ons-list-item>
-        </ons-list>
-      </ons-page>
-    </ons-splitter-side>
-    <ons-splitter-content id="content" page="page1.html"></ons-splitter-content>
+    <ons-splitter-content id="content" page="login.html"></ons-splitter-content>
   </ons-splitter>
 
   <ons-modal direction="up">
@@ -79,85 +63,89 @@
     </div>
   </ons-popover>
 
-  <template id="page1.html">
-    <ons-page id="page1">
-  		<div class="page1-background">
+  <template id="login.html">
+    <ons-page id="login">
+      <div class="loginBackground"></div> <!-- DIV SEPARADA PARA NÃO LEVAR A OPACIDADE A TODA A PÁGINA -->
+      <div class="containerLogin dropShadow">
+        <div class="dropShadow loginForm">
+          <input class="login-img" type="image" src=images/logo1.png></input><br>
+          <span class="login-form-title">LOGIN</span>
+          <div class="input-text" style="margin-bottom: 10px">
+            <input class="input" id="email-login" type="text" name="username" placeholder="Usuário">
+            <span class="focus-input" data-placeholder="&#xf207;"></span>
+          </div>  
+          <div class="input-text">
+            <input class="input" id="senha-login" name="password" placeholder="Senha" type="password">
+            <span class="focus-input" data-placeholder="&#xf191;"></span>
+          </div>
+          <div class="remember-checkbox">
+            <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+            <label class="label-checkbox100" for="ckb1">
+              Lembre-se de mim
+            </label>
+          </div>
+          <p >
+            <ons-button style="background-color: #fff; color: #000; border-radius: 60px; font-weight: bolder" ons-btn onclick="entrar()">Entrar</ons-button>
+          </p>
+          <a style="color: #fff" onclick="promptPasswdReset('Informe o email')">Esqueceu a senha?</a><br>
+        </div>
       </div>
-      <div overlay login class="login dropShadow">
-        <input logoPage1 style="height: 180px; border-radius: 3px; border-top: none; margin-bottom: 30px" type="image" src=images/logo1.png></input>
-        <p class="adjust-login" style="margin-bottom: 30px">
-          <ons-input style="margin-bottom: 15px;" id="email-login" size="40" placeholder="E-mail" float></ons-input><br>
-          <ons-input id="senha-login" SIZE="40" placeholder="Senha" type="password" float></ons-input> 
-        </p>
-        <a style="color: #FFEFC9" onclick="promptPasswdReset('Digite o email')">Esqueceu a senha?</a><br>
-        <p >
-          <ons-button ons-btn onclick="entrar()">Entrar</ons-button>
-        </p>
-       </div>
     </ons-page>
   </template>
 
   <template id="page2.html">
-  	<ons-page id="page2">
-      <ul headerHomePage class="toolbarHeight flex row-nowrap" style="margin: 0; background: linear-gradient(to left, #008000 0%, #32cd32 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
-        <ons-button btnSplitter homePageHeader class="item noBackground" style="position: absolute; left: 2vw; width: 5vw" onclick="fn.open()">
-          <ons-icon icon="md-menu"></ons-icon>
-        </ons-button>
-        <h1 homePageHeader header style="letter-spacing: 3px; position: absolute; left: 25vw">Fit Optimus</h1>
-        <input homePageHeader style="letter-spacing: 3px; position: absolute; right: 3vw" class="item btn-premium" type="image" src=images/btn-premium.png></input>
+    <ons-page id="page2">
+      <ul homePageHeader class="grid templateHeaderPage2 headerBackground headerSemiOvalBackground">
+        <div style="color: transparent;">AA</div>
+        <input type="image" style="width: 100vw" src=images\FIThaltere.png></input>
+        <div style="color: transparent;">AA</div>
       </ul>
 
-      <div class="banners-position carousel">
-  	    <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel">
-  	   		<ons-carousel-item>
-  	      		<input class="banners mySlides" type="image" style="display: block" src=images/banner1.jpeg></input>
-  	    	</ons-carousel-item>
-  	    	<ons-carousel-item>
-  	      		<input class="banners mySlides" type="image" style="display:block" src=images/banner2.jpeg></input>
-  	    	</ons-carousel-item>
-  	    	<ons-carousel-item>
-  	      		<input class="banners mySlides" type="image" style="display:block" src=images/banner3.jpg></input>
-  	    	</ons-carousel-item>
-  	  	</ons-carousel>
-  	    <div class="w3-text-white large left bannerBtn" onclick="stopBannerTransition(); prev()">&#10094;</div>
-  	    <div class="w3-text-white large right bannerBtn" onclick="stopBannerTransition(); next()">&#10095;</div>
-  	  </div>
-  	  <div>
-  	   	<span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo firstSpan" onclick="stopBannerTransition(); last()"></span>
-  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo secndSpan" onclick="stopBannerTransition(); getByIndex(1)"></span>
-  	    <span class="w3-text-white large bannerSpan w3-border w3-transparent badge demo thirdSpan w3-white" onclick="stopBannerTransition(); first()"></span>
-  	  </div>
+      <div class="carousel">
+        <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel">
+          <ons-carousel-item>
+              <input class="banners" type="image" style="display: block" src=images/banner1.jpeg></input>
+          </ons-carousel-item>
+          <ons-carousel-item>
+              <input class="banners" type="image" style="display:block" src=images/banner2.jpeg></input>
+          </ons-carousel-item>
+          <ons-carousel-item>
+              <input class="banners" type="image" style="display:block" src=images/banner3.1.jpg></input>
+          </ons-carousel-item>
+        </ons-carousel>
+      </div>
 
-      <section class="flex backgroundGreen dropShadow" style="margin: 20px 2vw 5px 2vw; border-radius: 6px;">
-      	<div class="container item">
-	      	<div class="item">
-	      	   <input type="image" onclick="fn.load()" src=images/dietas.png class="item imgBtn"></input>
-	      	</div>
-	      	<div class="item">
-	      	   <input type="image" onclick="fn.load('exercicios.html')" src=images/treinos.png class="item imgBtn"></input>
-	      	</div>
-        </div>
-        <!--<div class="container item">
-          	<div class="item">
-          	   <input type="image" onclick="fn.load('')" src=images/contactUs.png class="item imgBtn"></input>
-          	</div>
-          	<div class="item">
-          	   <input type="image" onclick="fn.load('calendar.html')" src=images/consult.png class="item imgBtn"></input>
-          	</div>
-        </div>-->
-      </section>
+      <div class="bannerSpan">
+        <span firstSpan class="w3-text-white backgroundTransp large w3-border badge bannerSpans green" onclick="stopBannerTransition(); first()">a</span>
+        <span secndSpan class="w3-text-white backgroundTransp large w3-border badge bannerSpans" onclick="stopBannerTransition(); getByIndex(1)">a</span>
+        <span thirdSpan class="w3-text-white backgroundTransp large w3-border badge bannerSpans" onclick="stopBannerTransition(); last()">a</span>
+      </div>
+      <br>
+      <p>
+        <h2 class="centered">Artigos</h2>
+        <h4>Hábitos saudáveis</h4>____
+        <h4>O porque de...</h4>
+      </p>
+
+      <div>
+        <ons-segment id="segment" active-index="2" class="tabbarPage2">
+          <button onclick="fn.load('exercicios.html')">Exercícios</button>
+          <button>Dietas</button>
+          <button onclick="signOut()">Sair</button>
+        </ons-segment>
+      </div>
     </ons-page>
   </template>
 
-  <!-- exercicios page -->
   <template id="exercicios.html">
     <ons-page id="exercicios">
-      <ons-toolbar class="toolbarHeight" style="background: linear-gradient(to left, #008000 0%, #32cd32 100%), radial-gradient(88% 271%, rgba(255, 255, 255, 0.25) 0%, rgba(254, 254, 254, 0.25) 1%, rgba(0, 0, 0, 0.25) 100%), radial-gradient(50% 100%, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%); background-blend-mode: normal, lighten, soft-light">
-        <div id="backBtnExerc" onclick="fn.load('page2.html')">&#10094;</div>
-        <h1 id="headerExerc" header>Exercícios</h1>
+      <ons-toolbar class="headerBackground grid headerExerc">
+        <div class="xStartyCenter"><ons-back-button  onclick="fn.load('page2.html')">Page 2</ons-back-button></div>
+        <h1 class="xyCentered">Exercícios</h1>
+        <div style="color: transparent;">aa</div>
       </ons-toolbar>
-      <input type="image" style="height: 4vh; float: right; margin: 10vw 3vw; z-index: 2" onclick="showTip()" src="images\info.png"></input>
-      <div overlay class="insideShadow hidden" style="position: absolute; top: 30%; background: #fff; border: 2px solid #001; text-align: center">
+      <input type="image" class="infoExerc" onclick="showTip()" src="images\info.png"></input>
+      <div overlay class="insideShadow hidden tutorialExerc">
         <h6 style="text-align: center; margin: 0 12vw 0 12vw"> Você pode arrastar para a esquerda ou para a direita para trocar de treino!</h6>
         <input type="image" style="position: absolute; left: 65%; margin-top: 5px; width: 20vw; height: 20vw" src="images\swipe-left.png"></input>
         <input type="image" style="position: absolute; right: 65%; margin-top: 5px; width: 20vw; height: 20vw" src="images\swipe-right.png"></input>
@@ -166,6 +154,8 @@
       <div overlayBackground>
         <header>
           <h1 id="nomeDoTreino" style="padding: 3vw" class="centered" title> Treino X </h1>
+          <ons-select id="choose-sel-treinos" onchange="editSelects(event)">
+          </ons-select>
         </header>
         <ons-gesture-detector>
           <div id="tabela" style="width: 100%; height: 100%; position: absolute; opacity: 0">
@@ -178,110 +168,110 @@
 
         <section id="obsExercicios" class="centered">
         <div class="flex row-nowrap" style="margin: 5px"> 
-    			<ul id="obs-pre" class="item nopadding leftered obsborder backgroundGreen">
-    				<h5 style="font-weight: bolder">Obs. pré-treino:</h5>
-    			</ul> 
-    			<ul id="obs-aero" class="item nopadding leftered obsborder backgroundGreen">
-    				<h5 style="font-weight: bolder">Obs. aeróbico:</h5>
-    			</ul>
-  		  </div>
-  		  <div class="flex row-nowrap" style="margin: 5px"> 
-    			<ul id="obs-treino" class="item nopadding leftered obsborder backgroundGreen">
-    				<h5 style="font-weight: bolder">Obs. pós-treino:</h5>
-    			</ul>
-    			<ul id="obs-geral" class="item nopadding leftered obsborder backgroundGreen">
-    				<h5 style="font-weight: bolder">Obs. geral:</h5>
-    			</ul>
-  		  </div>
+          <ul id="obs-pre" class="item nopadding leftered obsborder backgroundGreen">
+            <h5 style="font-weight: bolder">Obs. pré-treino:</h5>
+          </ul> 
+          <ul id="obs-aero" class="item nopadding leftered obsborder backgroundGreen">
+            <h5 style="font-weight: bolder">Obs. aeróbico:</h5>
+          </ul>
+        </div>
+        <div class="flex row-nowrap" style="margin: 5px"> 
+          <ul id="obs-treino" class="item nopadding leftered obsborder backgroundGreen">
+            <h5 style="font-weight: bolder">Obs. pós-treino:</h5>
+          </ul>
+          <ul id="obs-geral" class="item nopadding leftered obsborder backgroundGreen">
+            <h5 style="font-weight: bolder">Obs. geral:</h5>
+          </ul>
+        </div>
         </section>
       </div>
     </ons-page>
   </template>
 
- <!-- page de edicao -->
   <template id="edit.html">
     <ons-page id="edit">
-    	<ons-toolbar>
-        	<div id="backBtnEdit" style="color: blue; left: 98%; margin: 1vh" onclick="signOut()">&#10094;</div>
-       		<h1 id="headerEdit" header>Hic sunt dracones</h1>
-    	</ons-toolbar>
-	    <ons-list-item tappable>
-	      <label class="left">
-	        <ons-radio onclick="showEdit()" name="edit" checked="true" input-id="radio-1"></ons-radio>
-	      </label>
-	      <label for="radio-1" class="center">
-	        Editar
-	      </label>
-	    </ons-list-item>
-	    <ons-list-item tappable>
-	      <label class="left">
-	        <ons-radio onclick="showRegister()" name="reg" input-id="radio-2"></ons-radio>
-	      </label>
-	      <label for="radio-2" class="center">
-	        Cadastrar
-	      </label>
-	    </ons-list-item>
+      <ons-toolbar class="headerBackground grid headerExerc">
+        <div class="xStartyCenter"><ons-back-button  onclick="fn.load('login.html')">Home</ons-back-button></div>
+        <h2 class="xyCentered">Hic sunt dracones</h2>
+        <div style="color: transparent;">aa</div>
+      </ons-toolbar>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-radio onclick="showEdit()" name="edit" checked="true" input-id="radio-1"></ons-radio>
+        </label>
+        <label for="radio-1" class="center">
+          Editar
+        </label>
+      </ons-list-item>
+      <ons-list-item tappable>
+        <label class="left">
+          <ons-radio onclick="showRegister()" name="reg" input-id="radio-2"></ons-radio>
+        </label>
+        <label for="radio-2" class="center">
+          Cadastrar
+        </label>
+      </ons-list-item>
 
-    <div id="editPage" style="text-align: center; margin-top: 5%;">
-      <div class="centered">
-        <ons-segment id="exercSegment" style="width: 180px">
-          <button onclick="showEditExerc(1)">Exerc.</button>
-          <button onclick="showEditExerc(2)">Obs.</button>
-          <button onclick="showEditExerc(3)">Dietas</button>
-        </ons-segment>
+      <div id="editPage" style="text-align: center; margin-top: 5%;">
+        <div class="centered">
+          <ons-segment id="exercSegment" style="width: 180px">
+            <button onclick="showEditExerc(1)">Exerc.</button>
+            <button onclick="showEditExerc(2)">Obs.</button>
+            <button onclick="showEditExerc(3)">Dietas</button>
+          </ons-segment>
+        </div>
+        <div id="editExerc">
+          <h3 style="font-weight:250px">Informe os dados</h3> 
+          <p>
+            <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
+          </p>
+            <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
+          </p>
+            <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
+          </p>
+          <p style="width: 100%; position: absolute; bottom: 0%">
+            <ons-button modifier="large" onclick="addExerc()">OK</ons-button>
+          </p>
+        </div>
+        <div id="obsExerc" style="display:none">
+          <h3 style="font-weight:250px">Informe os dados</h3>
+          <p>
+            <ons-input id="emailInput2" placeholder="E-mail" float></ons-input>
+          </p>
+          </p>
+            <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
+          </p>
+          </p>
+            <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
+          </p>
+          <p>
+            <ons-input id="observacoes" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
+          </p>
+          <p style="width: 100%; position: absolute; bottom: 0%">
+            <ons-button modifier="large" onclick="addObs()">OK</ons-button>
+          </p>
+        </div>
+        <div id="editDietas">
+          <p style="width: 100%; position: absolute; bottom: 0%">
+            <ons-button modifier="large" onclick="">OK</ons-button>
+          </p>
+        </div>
       </div>
-      <div id="editExerc">
-        <h3 style="font-weight:250px">Informe os dados</h3> 
-        <p>
-          <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
-        </p>
-          <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
-        </p>
-        <p>
-          <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
-        </p>
-          <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
-        </p>
-        <p style="width: 100%; position: absolute; bottom: 0%">
-          <ons-button modifier="large" onclick="addExerc()">OK</ons-button>
-        </p>
-      </div>
-      <div id="obsExerc" style="display:none">
-        <h3 style="font-weight:250px">Informe os dados</h3>
-        <p>
-          <ons-input id="emailInput2" placeholder="E-mail" float></ons-input>
-        </p>
-        </p>
-          <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
-        </p>
-        </p>
-          <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
-        </p>
-        <p>
-          <ons-input id="observacoes" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
-        </p>
-        <p style="width: 100%; position: absolute; bottom: 0%">
-          <ons-button modifier="large" onclick="addObs()">OK</ons-button>
-        </p>
-      </div>
-      <div id="editDietas">
-        <p style="width: 100%; position: absolute; bottom: 0%">
-          <ons-button modifier="large" onclick="">OK</ons-button>
-        </p>
-      </div>
-	</div>
 
-	<div id="regPage" style="text-align: center; margin-bottom: 35%; display: none">
-		<h3 style="margin-top: 8vh; font-weight:250px">Preencha as informações do cliente</h3> 
-		<p>
-		  <ons-input style="padding-bottom:15px;" id="nome-cadastro" placeholder="Nome" float></ons-input><br>
-		  <ons-input style="padding-bottom:15px;" id="email-cadastro" placeholder="E-mail" float></ons-input><br>
-		  <ons-input style="padding-bottom:15px;" id="senha-cadastro" type="password" placeholder="Senha" float></ons-input>
-		</p>
-		<p style="width: 100%; position: absolute; bottom: 0%">
-	    	<ons-button modifier="large" onclick="cadastrar()">OK</ons-button>
-	    </p>
-	</div>
+      <div id="regPage" style="text-align: center; margin-bottom: 35%; display: none">
+        <h3 style="margin-top: 8vh; font-weight:250px">Preencha as informações do cliente</h3> 
+        <p>
+          <ons-input style="padding-bottom:15px;" id="nome-cadastro" placeholder="Nome" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" id="email-cadastro" placeholder="E-mail" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" id="senha-cadastro" type="password" placeholder="Senha" float></ons-input>
+        </p>
+        <p style="width: 100%; position: fixed; bottom: 0%">
+            <ons-button modifier="large" onclick="cadastrar()">OK</ons-button>
+          </p>
+      </div>
     </ons-page>
   </template>
 </body>
