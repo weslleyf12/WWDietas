@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
   <script src="js/index.js"></script>
+  <script src="js/cardapios.js"></script>
   <script src="../node_modules/jquery/dist/jquery.min.js"></script>
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
@@ -43,10 +44,8 @@
     let db = firebase.firestore()
 </script>
 </head>
-<body>
-  <ons-splitter>
-    <ons-splitter-content id="content" page="login.html"></ons-splitter-content>
-  </ons-splitter>
+<body id="body">
+  <ons-navigator swipeable id="navigator" page="login.html"></ons-navigator>
 
   <ons-modal direction="up">
     <div style="text-align: center">
@@ -62,6 +61,17 @@
       <button onclick="hidePopover()" btnPopover>Fechar</button>
     </div>
   </ons-popover>
+
+   <template id="page1.html">
+    <ons-page id="page1">
+      <div pg1 class="displayNone backgroundPage1">
+      <p style="padding-top: 75vh; display: grid; justify-content: center">
+        <ons-button btnPage1 style="background-color: #ff8c00; color: #fff; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #ff8c00; letter-spacing: 2px; margin-bottom: 10px;" ons-btn onclick="">Cadastro</ons-button>
+       <ons-button btnPage1 class="shadow softShadow" style="background-color: #f6f6f6; color: #000; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #636363; letter-spacing: 2px;" ons-btn onclick="page1ToLogin()">Entrar</ons-button>
+      </p>
+      </div>
+    </ons-page>
+  </template>
 
   <template id="login.html">
     <ons-page id="login">
@@ -95,10 +105,14 @@
 
   <template id="page2.html">
     <ons-page id="page2">
-      <ul homePageHeader class="grid templateHeaderPage2 headerBackground headerSemiOvalBackground">
+      <ul homePageHeader class="grid headerBackground templateHeaderPage2 headerSemiOvalBackground">
         <div style="color: transparent;">AA</div>
-        <input type="image" style="width: 100vw" src=images\FIThaltere.png></input>
+        <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
         <div style="color: transparent;">AA</div>
+      </ul>
+      <ul homePageHeader style="position: fixed; top: 0" class="headerPage2Fixed headerBackground displayNone headerSemiOvalBackground">
+        <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
+        <ons-icon icon="fa-times-circle" size="40px" class="posicaoIcon" onclick="hideHeaderPage2('y')"></ons-icon>
       </ul>
 
       <div class="carousel">
@@ -123,24 +137,105 @@
       <br>
       <p>
         <h2 class="centered">Artigos</h2>
-        <h4>Hábitos saudáveis</h4>____
-        <h4>O porque de...</h4>
+        <ons-select id="choose-sel-artigos" onchange="editSelectsArtigos(event)">
+          <option value="treinos">Treinos</option>
+          <option value="artigos">Dietas</option>
+        </ons-select>
+        <div id="artigos-treinos">
+          <h4 indent>Hábitos saudáveis</h4>____
+          <h4 indent>O porque de...<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a</h4>
+        </div>
+        <div id="artigos-dietas">
+          <h4 indent> Ups... Não há! </h4>
+        </div>
       </p>
 
-      <div>
-        <ons-segment id="segment" active-index="2" class="tabbarPage2">
-          <button onclick="fn.load('exercicios.html')">Exercícios</button>
-          <button>Dietas</button>
-          <button onclick="signOut()">Sair</button>
-        </ons-segment>
+      <div class="toolbar toolbar--material toolbarPage2">
+        <div class="divToolbarPage2">      
+          <span onclick="document.getElementById('navigator').pushPage('exercicios.html')" class="toolbar-button toolbar-button--material subDivToolbarPage2">
+            <ons-icon icon="fa-dumbbell"></ons-icon>
+            <h3 style="margin: 0 4px">Exercícios</h3>
+          </span>
+        </div>
+        <div class="divToolbarPage2">
+          <span class="toolbar-button toolbar-button--material subDivToolbarPage2">
+            <ons-icon onclick=" document.getElementById('navigator').pushPage('cardapios.html')" icon="fa-apple-alt"></ons-icon>
+            <h3 style="margin: 0 4px">Cardápios</h3>
+          </span>
+        </div>
+        <div class="divToolbarPage2">
+          <span onclick="signOut()" class="toolbar-button toolbar-button--material subDivToolbarPage2">
+            <ons-icon icon="fa-sign-out-alt"></ons-icon>
+            <h3 style="margin: 0 4px">Sair</h3>
+          </span>
+        </div>
       </div>
+    </ons-page>
+  </template>
+
+   <template id="cardapios.html">
+    <ons-page id="cardapios">
+      <ons-toolbar class="headerBackground grid headerExerc">
+        <div class="xStartyCenter"><ons-back-button  onclick=" document.getElementById('navigator').popPage()">Principal</ons-back-button></div>
+        <h1 class="xyCentered">Cardápios</h1>
+        <div style="color: transparent;">aa</div>
+      </ons-toolbar>
+      <header>
+          <h1></h1>
+      </header>
+      <ons-list>
+        <ons-list-item onclick="addDietasToPage('desjejum', desjejum)" expandable>
+          <div class="left">
+            <img class="list-item__thumbnail" src=images\desjejum.jpg>
+          </div>
+          Desjejum
+          <div id="desjejum" class="expandable-content">
+          </div>
+        </ons-list-item>
+        <ons-list-item onclick="addDietasToPage('lanche1', lanche1)"  expandable>
+          <div class="left">
+            <img class="list-item__thumbnail" src=images\lanche.jpg>
+          </div>
+          Lanche
+          <div id="lanche1" class="expandable-content"></div>
+        </ons-list-item>
+        <ons-list-item onclick="addDietasToPage('almoco', almoco)" expandable>
+          <div class="left">
+            <img class="list-item__thumbnail" src=images\almoco.jpg>
+          </div>
+          Almoço
+          <div id="almoco" class="expandable-content"></div>
+        </ons-list-item>
+        <ons-list-item onclick="addDietasToPage('lanche2', lanche2)" expandable>
+          <div class="left">
+            <img class="list-item__thumbnail" src=images\lanche.jpg>
+          </div>
+          Lanche
+          <div id="lanche2" class="expandable-content"></div>
+        </ons-list-item>
+        <ons-list-item onclick="addDietasToPage('jantar', jantar)" expandable>
+          <div class="left">
+            <img class="list-item__thumbnail" src=images\jantar.jpg>
+          </div>
+          Jantar
+          <div id="jantar" class="expandable-content"></div>
+        </ons-list-item>
+        <ons-list-item onclick="addDietasToPage('ceia', ceia)" expandable>
+          <div class="left">
+            <img class="list-item__thumbnail" src=images\ceia.jpg>
+          </div>
+          Ceia
+          <div id="ceia" class="expandable-content"></div>
+        </ons-list-item>
+      </ons-list>
+    </ons-list-item>
     </ons-page>
   </template>
 
   <template id="exercicios.html">
     <ons-page id="exercicios">
       <ons-toolbar class="headerBackground grid headerExerc">
-        <div class="xStartyCenter"><ons-back-button  onclick="fn.load('page2.html')">Page 2</ons-back-button></div>
+        <div class="xStartyCenter"><ons-back-button  onclick=" document.getElementById('navigator').popPage()">Principal</ons-back-button></div>
         <h1 class="xyCentered">Exercícios</h1>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
@@ -153,7 +248,7 @@
       </div>
       <div overlayBackground>
         <header>
-          <h1 id="nomeDoTreino" style="padding: 3vw" class="centered" title> Treino X </h1>
+          <h1 id="nomeDoTreino" style="padding: 3vw" class="centered font-impact" title> Treino X </h1>
           <ons-select id="choose-sel-treinos" onchange="editSelects(event)">
           </ons-select>
         </header>
@@ -191,7 +286,7 @@
   <template id="edit.html">
     <ons-page id="edit">
       <ons-toolbar class="headerBackground grid headerExerc">
-        <div class="xStartyCenter"><ons-back-button  onclick="fn.load('login.html')">Home</ons-back-button></div>
+        <div class="xStartyCenter"><ons-back-button  onclick=" document.getElementById('navigator').popPage( {animation: 'fade'} )">Login</ons-back-button></div>
         <h2 class="xyCentered">Hic sunt dracones</h2>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
@@ -225,11 +320,13 @@
           <p>
             <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
           </p>
+          <p>
             <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
           </p>
           <p>
             <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
           </p>
+          <p>
             <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
           </p>
           <p style="width: 100%; position: absolute; bottom: 0%">
@@ -241,10 +338,10 @@
           <p>
             <ons-input id="emailInput2" placeholder="E-mail" float></ons-input>
           </p>
-          </p>
+          <p>
             <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
           </p>
-          </p>
+          <p>
             <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
           </p>
           <p>
@@ -254,9 +351,30 @@
             <ons-button modifier="large" onclick="addObs()">OK</ons-button>
           </p>
         </div>
-        <div id="editDietas">
+        <div id="editCardapios" style="display:none">
+          <h3 style="font-weight:250px">Informe os dados</h3>
+          <p>
+            <ons-input id="emailInput3" placeholder="E-mail" float></ons-input>
+          </p>
+          <ons-select id="choose-sel-cardapios">
+            <option value="desjejum">Desjejum</option>
+            <option value="lanche1">Lanche</option>
+            <option value="almoco">Almoço</option>
+            <option value="lanche2">Lanche</option>
+            <option value="jantar">Jantar</option>
+            <option value="ceia">Ceia</option>
+          </ons-select>
+          <p>
+            <ons-input id="nome-do-alimento" placeholder="Nome do alimento" float></ons-input>
+          </p>       
+          <p>
+            <ons-input id="medidas-e-qtndds" placeholder="Medidas e quantidade" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="idTabelaDietas" placeholder="Linha da tabela" float></ons-input>
+          </p>
           <p style="width: 100%; position: absolute; bottom: 0%">
-            <ons-button modifier="large" onclick="">OK</ons-button>
+            <ons-button modifier="large" onclick="addDietas()">OK</ons-button>
           </p>
         </div>
       </div>

@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Numans');
-@import url('https://fonts.googleapis.com/css?family=Crimson+Text|Fjalla+One|Patrick+Hand&display=swap')
-
-.large{width: 15px;height: 15px;}.centered {text-align: center}.hidden {display: none;}.nopadding {padding: 0;}.nomargin {margin: 0;}.bold{font-weight: 600;}
+.large{width: 15px;height: 15px;}.centered {text-align: center}.hidden {display: none;}.nopadding {padding: 0;}.nomargin {margin: 0;}.bold{font-weight: 600;}.displayNone{display: none;}.displayBlock{display:block;}
 .item {
   margin: 0.6vw 1.2vw;
   flex: 1;
@@ -41,10 +38,10 @@
   padding: 0;
 }
 
-/*font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important; */
- /*font-family: Impact,Haettenschweiler,Franklin Gothic Bold,Charcoal,Helvetica Inserat,Bitstream Vera Sans Bold,Arial Black,sans serif !important;*/
+.font-impact {font-family: Impact,Haettenschweiler,Franklin Gothic Bold,Charcoal,Helvetica Inserat,Bitstream Vera Sans Bold,Arial Black,sans serif !important;}
 h1 {font-family: Brush Script MT,cursive !important;letter-spacing: 3px;}
 h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important;}
+
 
 .softShadow {
   -moz-box-shadow:    1.5px 1.5px 2.5px 3px #77dd77;
@@ -62,22 +59,61 @@ h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roma
   filter:drop-shadow(8px 8px 10px gray);
 }
 
-.grid {display: grid;} .templateHeaderPage2 {grid-template-columns: 0.25fr 1.5fr 0.25fr; justify-content: center}
+.grid {display: grid;}
 .flex {display: flex;} .rowrap {flex-flow: row wrap;} .row-nowrap {flex-flow: row nowrap;} .spacebetween {justify-content: space-between;}
 .noBackground {background: none; box-shadow: none}
 .headerBackground {background: #32cd32} .headerSemiOvalBackground {border-radius: 0px 0px 50% 50%;}
 
+/*page1*/
+.backgroundPage1 {
+  background-image: url('../images/half-fatGreen.jpg') !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size:contain;
+  height: 100vh;
+  z-index: 6
+}
+
 /* page 2 */
 
-.banners {width: 80vw; border-radius: 5px; margin: 0 10vw 20px 10vw; padding: 0;}
-.tabbarPage2 {position: absolute; bottom: 0%; width: 100vw}
+.templateHeaderPage2 {justify-items: center;}
+.headerPage2Fixed {position: fixed; z-index: 1;}
+.tamanhoFitOpt {height: 12vh; justify-content: center;}
+.posicaoIcon {justify-self: end}
+.toolbarPage2 {position: fixed !important; top: calc(100% - 56px);}
+.divToolbarPage2{display: grid; grid-template-rows: 1fr 1fr; text-align: center; width: 33.3vw}
+.subDivToolbarPage2{line-height: normal; margin-right: 0; padding-right: 0; padding-top: 2px; text-align: center; margin-left: 0; padding-left: 0}
+@media (min-width: 1025px) /*maior do que o Ipad Pro */ {
+  /*page2*/
+  .banners {width: 40vw; border-radius: 5px; margin: 0 30vw 20px 30vw; padding: 0; z-index:0;}
+}
+@media (max-width: 767px) /*smarthphone/tablet*/ {
+  /*page2*/
+  .banners {width: 80vw; border-radius: 5px; margin: 0 10vw 20px 10vw; padding: 0; z-index:0;}
+  /*page1*/
+  [btnPage1] {
+    width: 60vw
+  }
+}
+@media (min-width: 768px) /*iPad e iPad Pro*/{
+  /*page2*/
+  .banners {width: 60vw; border-radius: 5px; margin: 0 20vw 20px 20vw; padding: 0; z-index:0;}
+  /*page1*/
+  [btnPage1] {
+    margin-top: 5px; /*só se aplica ao botão de baixo*/
+    width: 35vw;
+    padding: 5px;
+    font-size: 1.4em;
+  }
+}
+[indent] {text-indent: 5px}
 
 /* botoes span page 2 */
 
 .w3-text-white{color:white;}
 .backgroundTransp {background-color:white}
 .green{color:#32cd32;background-color:#32cd32}
-.bannerSpans{height: 22px;}
+.bannerSpans{height: 22px; width: 22px;}
 .badge {border-radius: 50%;}
 .bannerSpan{display: grid; justify-content: center; grid-template-columns: 22px 22px 22px; grid-column-gap: 6px}
 .w3-border{border:1px solid #ccc}
@@ -112,4 +148,3 @@ h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roma
 :-ms-input-placeholder {  
    color: #fff;  
 }
-

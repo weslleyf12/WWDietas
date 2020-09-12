@@ -78,12 +78,12 @@
     <icon src="/res/android/icon/mipmap-xxhdpi/icon.png" density="xxhdpi"/>
     <icon src="/res/android/icon/mipmap-xxxhdpi/icon.png" density="xxxhdpi"/>
 
-    <splash src="/res/android/screen/res-mipmap/mipmap-ldpi/splash.png" density="port-ldpi"/>
-    <splash src="/res/android/screen/res-mipmap/mipmap-mdpi/splash.png" density="port-mdpi"/>
-    <splash src="/res/android/screen/res-mipmap/mipmap-hdpi/splash.png" density="port-hdpi"/>
-    <splash src="/res/android/screen/res-mipmap/mipmap-xhdpi/splash.png" density="port-xhdpi"/>
-    <splash src="/res/android/screen/res-mipmap/mipmap-xxhdpi/splash.png" density="port-xxhdpi"/>
-    <splash src="/res/android/screen/res-mipmap/mipmap-xxxhdpi/splash.png" density="port-xxxhdpi"/>
+    <splash src="/res/android/screen/mipmap-ldpi/splash.jpg" density="port-ldpi"/>
+    <splash src="/res/android/screen/mipmap-mdpi/splash.jpg" density="port-mdpi"/>
+    <splash src="/res/android/screen/mipmap-hdpi/splash.jpg" density="port-hdpi"/>
+    <splash src="/res/android/screen/mipmap-xhdpi/splash.jpg" density="port-xhdpi"/>
+    <splash src="/res/android/screen/mipmap-xxhdpi/splash.jpg" density="port-xxhdpi"/>
+    <splash src="/res/android/screen/mipmap-xxxhdpi/splash.jpg" density="port-xxxhdpi"/>
 
     <edit-config file="AndroidManifest.xml" target="/manifest/application/activity[@android:name='MainActivity']" mode="merge">
       <activity android:name="MainActivity" android:screenOrientation="userPortrait" />

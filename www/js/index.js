@@ -1,13 +1,24 @@
-window.fn = {};
+window.fn = {}
 let bannersIntervalo
 let bannersTimeout 
 let carousel
 
-document.addEventListener('init', function(event) { //SET REMEMBER-ME *************************************************************************************
+document.addEventListener("backbutton", function() {e.preventDefault(); document.getElementById('navigator').popPage()}, false);
+
+document.addEventListener('init', function(event) {
+  if (event.target.matches('#page1')) {
+    const bodyWidth = getSizeOf('body', 'width')
+    if ( bodyWidth > 1024 ) {
+      document.getElementById('navigator').pushPage('login.html')
+    } else {document.querySelector('[pg1]').classList.remove('displayNone');document.querySelector('[pg1]').classList.add('displayBlock')}
+  }
+}, false);
+
+document.addEventListener('init', function(event) {
   if (event.target.matches('#login')) {
       firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        fn.load('page2.html')
+        document.getElementById('navigator').pushPage('page2.html')
       }
     })
   }
@@ -15,6 +26,7 @@ document.addEventListener('init', function(event) { //SET REMEMBER-ME **********
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page2')) {
+    document.querySelectorAll('.page__content')[1].addEventListener('scroll', changesPages2)
     carousel = document.getElementById('carousel');
     bannersIntervalo = window.setInterval(changeBanner, 6000)
     document.querySelector('ons-carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()}
@@ -170,11 +182,6 @@ function promptPasswdReset(mensagem) {
     });
 }
 
-window.fn.load = function(page) {
-  let content = document.getElementById('content');
-  content.load(page)
-};
-
 let showToast = function(message) {
   ons.notification.toast(message, {
     timeout: 2000
@@ -193,16 +200,12 @@ function closeTip() {
 
 let back = 0;
 
-const calendar = () => {
-  fn.load('calendar.html')
-}
-
 const exercicios = () => {
-  fn.load('exercicios.html')
+  document.getElementById('navigator').pushPage('exercicios.html')
 }
 
-const dietas = () => {
-  fn.load('dietas.html')
+const cardapios = () => {
+  document.getElementById('navigator').pushPage('cardapios.html')
 }
 
 const showPopover = function(target) {
@@ -217,7 +220,7 @@ const hidePopover = function() {
     .hide();
 };
 
-//dietas
+//cardapios
 
 function escreverMensagem(mensagem) {
   document.getElementById('popoverMessage').innerHTML = mensagem
@@ -230,7 +233,7 @@ function rmHr() {
 function addHr() {
   document.getElementById("segunda-2").textContent = "aloha"
 }
-//fim dietas
+//fim cardapios
 
 function showEdit() {
   document.querySelector('ons-radio[input-id="radio-2"]').checked = false;
@@ -322,7 +325,7 @@ function addExercicio(exercicio, Sxr, tecAvan, boolean) {
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col" style="vertical-align: middle; text-align: center">#</th>
+        <th scope="col" style="vertical-align: middle; text-align: center">ID</th>
         <th scope="col" style="vertical-align: middle; text-align: center">Exercícios</th>
         <th scope="col" style="vertical-align: middle; text-align: center">SxR</th>
         <th scope="col" style="vertical-align: middle; text-align: center">Técnicas Avançadas</th>
@@ -418,10 +421,10 @@ function addObs() {
 
    db.collection('user-emails').doc(emailInputed+"["+treinoInputed+"]").set ({ // cria uma colecao com o email do usuario, ou altera essa colecao
       userEmail: emailInputed,
-      obs1: obs1,
-      obs2: obs2,
-      obs3: obs3,
-      obs4: obs4,
+      obs1,
+      obs2,
+      obs3,
+      obs4,
       intervalo: intervaloInputed,
       name: treinoInputed,
       observacoes: 'sim'
@@ -452,30 +455,37 @@ const getFontSize = (elementId) => { //nao usado
   return parseFloat(fontSize)
 }
 
-const getHeightOf = (elementId) => {
-  let element = document.getElementById(elementId)
-  let Heightt = window.getComputedStyle(element).height
-  return parseFloat(heightt)
+const getSizeOf = (elementId, method) => {
+  let element = document.getElementById(elementId);if (method == 'height') {let height = window.getComputedStyle(element).height; return parseFloat(height) } else { let width = window.getComputedStyle(element).width; return parseFloat(width)} 
 }
 
 const showEditExerc = (value) => {
   if (value == 1) {
     document.getElementById('editExerc').style.display = 'block'
     document.getElementById('obsExerc').style.display = 'none'
-     document.getElementById('editDietas').style.display = 'none'
+    document.getElementById('editCardapios').style.display = 'none'
   }
   if (value == 2) {
     document.getElementById('editExerc').style.display = 'none'
     document.getElementById('obsExerc').style.display = 'block'
-     document.getElementById('editDietas').style.display = 'none'
+    document.getElementById('editCardapios').style.display = 'none'
   }
   if (value == 3) {
     document.getElementById('editExerc').style.display = 'none'
     document.getElementById('obsExerc').style.display = 'none'
-     document.getElementById('editDietas').style.display = 'block'
+    document.getElementById('editCardapios').style.display = 'block'
   }
 }
 
+function editSelectsArtigos(event) {
+  if (event.target.value == 'treinos') {
+    document.getElementById('artigos-treinos').style.display = 'block'
+    document.getElementById('artigos-dietas').style.display = 'none'
+  } else {
+    document.getElementById('artigos-treinos').style.display = 'none'
+    document.getElementById('artigos-dietas').style.display = 'block'
+  }
+}
 let method
 
 const entrar = () => {
@@ -492,7 +502,7 @@ const entrar = () => {
   }
 
   if (emailLogin === 'admin' && senhaLogin === 'h2md2515') {
-    fn.load('edit.html');
+    document.getElementById('navigator').pushPage('edit.html');
     return
   }
 
@@ -525,7 +535,6 @@ const entrar = () => {
       //ao fazer login, o modal é fechado e o usuário é encaminhado à segunda página.
       if (user) {
         hideModal()
-        fn.load('page2.html')
         setInterval(changeBanner, 11000)
       }
     });
@@ -534,8 +543,40 @@ const entrar = () => {
 
 const signOut = () => {
   firebase.auth().signOut().then(function() {
-    fn.load('login.html')
+    document.getElementById('navigator').resetToPage('login.html')
   }).catch(function(error) {
     showToast(error.code + error.message)
+  })
+}
+
+let hide = 'no' //esconder header para que nao apareca sempre que andar a barra
+
+function changesPages2() {
+  const page2 = document.getElementById('page2')
+  let bodyWidth = getSizeOf('body', 'width')
+  let bodyHeight = getSizeOf('body', 'height')
+  const tamanhoHeader = bodyHeight*12
+  if (bodyWidth > 767 && hide == 'no' && page2.scrollTop > tamanhoHeader/100) {
+    document.querySelectorAll("[homePageHeader]")[1].classList.remove("displayNone")
+    document.querySelectorAll("[homePageHeader]")[1].classList.add("grid")
+  }
+  if (bodyWidth > 767 && page2.scrollTop < tamanhoHeader/100){
+    hideHeaderPage2()
+  }
+}
+
+const hideHeaderPage2 = (bt = 'no') => {
+  document.querySelectorAll("[homePageHeader]")[1].classList.add("displayNone")
+  document.querySelectorAll("[homePageHeader]")[1].classList.remove("grid")
+  if (bt == 'no') {} else {hide = 'y'}
+}
+
+const page1ToLogin = () => {
+  firebase.auth().onAuthStateChanged(function(user) {
+    if(user) {
+      document.getElementById('navigator').pushPage('page2.html')  
+    } else {
+      document.getElementById('navigator').pushPage('login.html');
+    }
   })
 }
