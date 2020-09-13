@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/bootstrap/bootstrap.min.js"></script>
   <script src="js/index.js"></script>
   <script src="js/cardapios.js"></script>
-  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
   <!--<link rel="stylesheet" href="bootstrap-4.1.3/bootstrap-table-only.css">-->
   <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
-  <script src="js/bootstrap/bootstrap.min.js"></script>
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="css/style.css">
@@ -80,16 +81,21 @@
         <div class="dropShadow loginForm">
           <input class="login-img" type="image" src=images/logo1.png></input><br>
           <span class="login-form-title">LOGIN</span>
-          <div class="input-text" style="margin-bottom: 10px">
-            <input class="input" id="email-login" type="text" name="username" placeholder="Usuário">
-            <span class="focus-input" data-placeholder="&#xf207;"></span>
-          </div>  
-          <div class="input-text">
-            <input class="input" id="senha-login" name="password" placeholder="Senha" type="password">
-            <span class="focus-input" data-placeholder="&#xf191;"></span>
+          <div>
+            <div class="input-text">
+              <input class="input" id="email-login" type="text" name="username" placeholder="Usuário">
+              <span class="focus-input" data-placeholder="&#xf207;"></span>
+            </div>  
+            <div class="input-text">
+              <input class="input" id="senha-login" name="password" placeholder="Senha" type="password">
+              <span class="focus-input" data-placeholder="&#xf191;"></span>
+              <ons-icon icon="fa-eye" id="show-hide-pass0" onclick="showHidePass(0)"></ons-icon>
+              <ons-icon icon="fa-eye-slash" id="show-hide-pass1" onclick="showHidePass(1)"></ons-icon>
+            </div>
           </div>
           <div class="remember-checkbox">
             <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+
             <label class="label-checkbox100" for="ckb1">
               Lembre-se de mim
             </label>
@@ -111,8 +117,10 @@
         <div style="color: transparent;">AA</div>
       </ul>
       <ul homePageHeader style="position: fixed; top: 0" class="headerPage2Fixed headerBackground displayNone headerSemiOvalBackground">
-        <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
-        <ons-icon icon="fa-times-circle" size="40px" class="posicaoIcon" onclick="hideHeaderPage2('y')"></ons-icon>
+        <div>
+          <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
+          <ons-icon icon="fa-times-circle" size="40px" class="posicaoIcon" onclick="hideHeaderPage2('y')"></ons-icon>
+        </div>
       </ul>
 
       <div class="carousel">
@@ -136,14 +144,32 @@
       </div>
       <br>
       <p>
-        <h2 class="centered">Artigos</h2>
+        <div class="bordaArtigos artigosBackground" style="text-align: center">
+          <h1 class="centered">Artigos</h1>
+
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Escolha
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button class="dropdown-item" type="button" onclick="editSelectsArtigos(0)">Treinos</button>
+                <button class="dropdown-item" type="button" onclick="editSelectsArtigos(1)">Dietas</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--
         <ons-select id="choose-sel-artigos" onchange="editSelectsArtigos(event)">
           <option value="treinos">Treinos</option>
           <option value="artigos">Dietas</option>
-        </ons-select>
+        </ons-select>-->
         <div id="artigos-treinos">
-          <h4 indent>Hábitos saudáveis</h4>____
-          <h4 indent>O porque de...<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a</h4>
+          <div indent>
+            <h2 class='font-brush centered' indent>Hábitos saudáveis</h2>
+              <br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br><br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
+            <h2 class='font-brush centered'>O porque de...</h2>
+            a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
+          </div>
         </div>
         <div id="artigos-dietas">
           <h4 indent> Ups... Não há! </h4>
@@ -181,7 +207,7 @@
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
       <header>
-          <h1></h1>
+          <h2 class='font-brush centered' indent> Aproveita, em!<ons-icon icon="fa-smile-wink" style="color: #1949d0"></ons-icon></h4> 
       </header>
       <ons-list>
         <ons-list-item onclick="addDietasToPage('desjejum', desjejum)" expandable>
@@ -248,7 +274,7 @@
       </div>
       <div overlayBackground>
         <header>
-          <h1 id="nomeDoTreino" style="padding: 3vw" class="centered font-impact" title> Treino X </h1>
+          <h1 id="nomeDoTreino" style="padding: 3vw" class="centered" title> Treino X </h1>
           <ons-select id="choose-sel-treinos" onchange="editSelects(event)">
           </ons-select>
         </header>

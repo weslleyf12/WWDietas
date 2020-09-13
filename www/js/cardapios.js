@@ -1,24 +1,32 @@
 const lanche = ['desjejum', 'lanche1', 'almoco', 'lanche2', 'jantar', 'ceia']
-
 document.addEventListener('init', function() {
+let i2 = 0
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {   
       let userEmail = firebase.auth().currentUser.email;
       for (let i = 0; i < lanche.length; i++) {
-        db.collection("user-emails").where("userEmail", "==", userEmail).where("lanche", "==", lanche[i]).get().then((querySnapshot) => { //Criando os arrays para cada lanche do dia das dietas
-          querySnapshot.forEach((doc) => {
-            if (lanche[i] == 'desjejum') {
-                desjejum.push(doc.data())
-              } if (lanche[i] == 'lanche1') {
-                lanche1.push(doc.data())
-              } if (lanche[i] == 'almoco') {
-                almoco.push(doc.data())
-              } if (lanche[i] == 'lanche2') {
-                lanche2.push(doc.data())
-              } if (lanche[i] == 'jantar') {
-                jantar.push(doc.data())
-              } if (lanche[i] == 'ceia') {
-                ceia.push(doc.data())
+        db.collection("user-emails").where("userEmail", "==", userEmail).where("lanche", "==", lanche[i]).get()
+          .then((querySnapshot) => { //Criando os arrays para cada lanche do dia das dietas
+            i2=0 
+            querySnapshot.forEach((doc) => {
+              if (lanche[i] == 'desjejum') {
+                desjejum[i2] = doc.data()
+                i2++
+              } else if (lanche[i] == 'lanche1') {
+                lanche1[i2] = doc.data()
+                i2++
+              } else if (lanche[i] == 'almoco') {
+                almoco[i2] = doc.data()
+                i2++
+              } else if (lanche[i] == 'lanche2') {
+                id++
+                lanche2[i2] = doc.data()
+              } else if (lanche[i] == 'jantar') {
+                jantar[i2] = doc.data()
+                i2++
+              } else if (lanche[i] == 'ceia') {
+                ceia[i2] = doc.data()
+                i2++
               }
           })
         })

@@ -16,6 +16,11 @@ document.addEventListener('init', function(event) {
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#login')) {
+      document.getElementById('senha-login').addEventListener('mouseup', function() {
+        showHidePass(1)//show
+      });
+   
+
       firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         document.getElementById('navigator').pushPage('page2.html')
@@ -46,7 +51,7 @@ document.addEventListener('swipeleft', function(event) {
     const newArray = arrumaArray()
     indice = indice++
     if (indice >= newArray.length) {
-      indice--
+      indice = indice - 1 //se o indice passar do valor total ele para de avancar
     }
     document.getElementById('choose-sel-treinos').selectedIndex = indice
     addThings(userEmail, indice, true)
@@ -64,10 +69,8 @@ document.addEventListener('swiperight', function(event) {
   if (event.target.matches('#tabela')) {
     let userEmail = firebase.auth().currentUser.email;
     const newArray = arrumaArray()
-    indice = indice--
-    if (indice <= newArray.length) {
-      indice++
-    }
+    indice = indice - 1 
+    if (indice < 0) {indice = 0}//se o indice ficar menor do que 0 ele para de descer
     document.getElementById('choose-sel-treinos').selectedIndex = indice
     addThings(userEmail, indice, true)
   }
@@ -141,9 +144,7 @@ const addThings = (email, i, boolean) => {
       exercicio2.push(doc.data().newExerc2)
       exercicio3.push(doc.data().newExerc3)
     })
-   if (boolean) {
-      addExercicio(exercicio1, exercicio2, exercicio3, true)
-    } else {addExercicio(exercicio1, exercicio2, exercicio3)}
+    addExercicio(exercicio1, exercicio2, exercicio3)
   });
   db.collection("user-emails").where("userEmail", "==", email).where("name", "==", newArray[i]).where("observacoes", "==", "sim").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
@@ -317,8 +318,7 @@ function firstTimer() {
   return firstTime = true
 }
 
-function addExercicio(exercicio, Sxr, tecAvan, boolean) {
-
+function addExercicio(exercicio, Sxr, tecAvan) {
   let tableData = document.getElementById("tabelaExercicios"); 
 
   let table = `
@@ -477,8 +477,8 @@ const showEditExerc = (value) => {
   }
 }
 
-function editSelectsArtigos(event) {
-  if (event.target.value == 'treinos') {
+function editSelectsArtigos(x) {
+  if (x == 0) {//treinos
     document.getElementById('artigos-treinos').style.display = 'block'
     document.getElementById('artigos-dietas').style.display = 'none'
   } else {
@@ -547,6 +547,10 @@ const signOut = () => {
   }).catch(function(error) {
     showToast(error.code + error.message)
   })
+  navigator.splashscreen.show();
+  window.setTimeout(function () {
+    navigator.splashscreen.hide();
+  }, 2000);
 }
 
 let hide = 'no' //esconder header para que nao apareca sempre que andar a barra
@@ -579,4 +583,19 @@ const page1ToLogin = () => {
       document.getElementById('navigator').pushPage('login.html');
     }
   })
+}
+
+function showHidePass(x) {
+  let obj = document.getElementById('senha-login')
+  let eye1 = document.getElementById('show-hide-pass0')
+  let eye2 = document.getElementById('show-hide-pass1')
+  if (x == 0) {
+    obj.type = 'float'
+    eye1.style.display = 'none'
+    eye2.style.display = 'block'
+  } else {
+    obj.type = 'password'
+    eye2.style.display = 'none'
+    eye1.style.display = 'block'
+  }
 }
