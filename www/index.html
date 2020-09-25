@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="js/bootstrap/bootstrap.min.js"></script>
   <script src="js/index.js"></script>
   <script src="js/cardapios.js"></script>
+  <script src="js/jquery/dist/jquery.min.js"></script>
+  <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="js/bootstrap/bootstrap.min.js"></script>
   <script src="components/loader.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
   <!--<link rel="stylesheet" href="bootstrap-4.1.3/bootstrap-table-only.css">-->
@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="components/loader.css">
-  
 
   <script>
     if (ons.platform.isIPhoneX()) {
@@ -56,10 +55,11 @@
     </div>
   </ons-modal>
 
-  <ons-popover direction="up" cancelable id="popover">
-    <div style="text-align: center; padding: 20px;">
+  <ons-popover class="popoverTag" direction="up" cancelable id="popover">
+    <div class="popoverDiv">
       <p id="popoverMessage" style="margin-bottom: 26px;"></p>
-      <button onclick="hidePopover()" btnPopover>Fechar</button>
+      <div id="popoverAditional"></div>
+      <button id="btnPopover" type="button" onclick="addUserName(); hidePopover()" class="btn btn-outline-secondary btn-sm">Mudar informações</button>
     </div>
   </ons-popover>
 
@@ -89,8 +89,7 @@
             <div class="input-text">
               <input class="input" id="senha-login" name="password" placeholder="Senha" type="password">
               <span class="focus-input" data-placeholder="&#xf191;"></span>
-              <ons-icon icon="fa-eye" id="show-hide-pass0" onclick="showHidePass(0)"></ons-icon>
-              <ons-icon icon="fa-eye-slash" id="show-hide-pass1" onclick="showHidePass(1)"></ons-icon>
+              <ons-icon icon="fa-eye" id="show-hide-pass" class="icon-show-hide displayNone" onclick="showHidePass()"></ons-icon>
             </div>
           </div>
           <div class="remember-checkbox">
@@ -114,16 +113,16 @@
       <ul homePageHeader class="grid headerBackground templateHeaderPage2 headerSemiOvalBackground">
         <div style="color: transparent;">AA</div>
         <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
-        <div style="color: transparent;">AA</div>
+        <ons-icon icon="fa-user-circle" style="justify-self: end; margin-right: 10px; z-index: 1000" size="25px" onclick="showAddUserName()"></ons-icon>
       </ul>
+      <ons-icon homePageHeader icon="fa-times" class="posicaoFechar displayNone" onclick="hideHeaderPage2('y')" size="20px"></ons-icon>
       <ul homePageHeader style="position: fixed; top: 0" class="headerPage2Fixed headerBackground displayNone headerSemiOvalBackground">
         <div>
           <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
-          <ons-icon icon="fa-times-circle" size="40px" class="posicaoIcon" onclick="hideHeaderPage2('y')"></ons-icon>
         </div>
       </ul>
 
-      <div class="carousel">
+      <div class="carousel bannerDiv" style="margin-top: 30px">
         <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel">
           <ons-carousel-item>
               <input class="banners" type="image" style="display: block" src=images/banner1.jpeg></input>
@@ -137,72 +136,88 @@
         </ons-carousel>
       </div>
 
-      <div class="bannerSpan">
+      <div class="bannerSpan bannerDiv">
         <span firstSpan class="w3-text-white backgroundTransp large w3-border badge bannerSpans green" onclick="stopBannerTransition(); first()">a</span>
         <span secndSpan class="w3-text-white backgroundTransp large w3-border badge bannerSpans" onclick="stopBannerTransition(); getByIndex(1)">a</span>
         <span thirdSpan class="w3-text-white backgroundTransp large w3-border badge bannerSpans" onclick="stopBannerTransition(); last()">a</span>
       </div>
       <br>
-      <p>
-        <div class="bordaArtigos artigosBackground" style="text-align: center">
-          <h1 class="centered">Artigos</h1>
+      <div class="bordaArtigos templateArtigos" style="">
+        <ons-icon icon="fa-file" size="25px" style="color: #f8f9fa;"></ons-icon>
+         <div style="color: #fff; text-align: start">
+          <h3>Aproveita!</h3>
+          <h3 style="font-size: 15px">Artigos com dicas e informações úteis para o seu progresso.</h3>  
+        </div>
+        <div></div>
+      </div>
+      <div class="dropdown dropdownPosition">
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Escolha
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <button class="dropdown-item" type="button" onclick="editSelectsArtigos(0)">Treinos</button>
+          <button class="dropdown-item" type="button" onclick="editSelectsArtigos(1)">Dietas</button>
+        </div>
+      </div>
 
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Escolha
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button" onclick="editSelectsArtigos(0)">Treinos</button>
-                <button class="dropdown-item" type="button" onclick="editSelectsArtigos(1)">Dietas</button>
-              </div>
-            </div>
-          </div>
+      <div id="artigos-treinos">
+        <div indent>
+          <h2 class='font-brush centered' indent>Hábitos saudáveis</h2>
+            <br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br><br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
+          <h2 class='font-brush centered'>O porque de...</h2>
+          a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
         </div>
-        <!--
-        <ons-select id="choose-sel-artigos" onchange="editSelectsArtigos(event)">
-          <option value="treinos">Treinos</option>
-          <option value="artigos">Dietas</option>
-        </ons-select>-->
-        <div id="artigos-treinos">
-          <div indent>
-            <h2 class='font-brush centered' indent>Hábitos saudáveis</h2>
-              <br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br><br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
-            <h2 class='font-brush centered'>O porque de...</h2>
-            a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
-          </div>
-        </div>
+      </div>
         <div id="artigos-dietas">
           <h4 indent> Ups... Não há! </h4>
         </div>
-      </p>
-
-      <div class="toolbar toolbar--material toolbarPage2">
-        <div class="divToolbarPage2">      
-          <span onclick="document.getElementById('navigator').pushPage('exercicios.html')" class="toolbar-button toolbar-button--material subDivToolbarPage2">
+      <ons-tabbar position="bottom" style="z-index: 999">
+        <ons-tab page="">
+          <input type="radio">
+          <button class="tabbar__button">
+            <div class="tabbar__icon">
+              <ons-icon icon="fa-home"></ons-icon>
+            </div>
+            <div class="tabbar__label">Principal</div>
+          </button>
+        </ons-tab>
+       <ons-tab onclick="exercicios();tabVisible()">
+        <input type="radio">
+        <button class="tabbar__button">
+          <div class="tabbar__icon">
             <ons-icon icon="fa-dumbbell"></ons-icon>
-            <h3 style="margin: 0 4px">Exercícios</h3>
-          </span>
-        </div>
-        <div class="divToolbarPage2">
-          <span class="toolbar-button toolbar-button--material subDivToolbarPage2">
-            <ons-icon onclick=" document.getElementById('navigator').pushPage('cardapios.html')" icon="fa-apple-alt"></ons-icon>
-            <h3 style="margin: 0 4px">Cardápios</h3>
-          </span>
-        </div>
-        <div class="divToolbarPage2">
-          <span onclick="signOut()" class="toolbar-button toolbar-button--material subDivToolbarPage2">
-            <ons-icon icon="fa-sign-out-alt"></ons-icon>
-            <h3 style="margin: 0 4px">Sair</h3>
-          </span>
-        </div>
-      </div>
+          </div>
+          <div class="tabbar__label">Exercícios</div>
+        </button>
+        </ons-tab>
+        <ons-tab onclick="cardapios();tabVisible()">
+          <input type="radio">
+          <button class="tabbar__button">
+            <div class="tabbar__icon">
+              <ons-icon icon="fa-apple-alt"></ons-icon>
+            </div>
+            <div class="tabbar__label">Cardápios</div>
+          </button>
+        </ons-tab>
+        <ons-tab>
+          <button onclick="showHide('#menuPage2')" class="tabbar__button">
+            <div class="tabbar__icon">
+              <ons-icon icon="fa-ellipsis-v"></ons-icon>
+            </div>
+            <div class="tabbar__label">Configurações</div>
+          </button>
+          <div id="menuPage2" class="menu-page2 displayNone">
+            <ons-icon onclick="showAddUserName()" icon="fa-address-card" size="24px"> Perfil</ons-icon><br>
+            <ons-icon onclick="signOut()" icon="fa-sign-out-alt" size="24px"> Sair</ons-icon>
+          </div>
+        </ons-tab>
+      </ons-tabbar>
     </ons-page>
   </template>
-
-   <template id="cardapios.html">
+  <template id="cardapios.html">
     <ons-page id="cardapios">
       <ons-toolbar class="headerBackground grid headerExerc">
-        <div class="xStartyCenter"><ons-back-button  onclick=" document.getElementById('navigator').popPage()">Principal</ons-back-button></div>
+        <ons-back-button onclick="tabVisible('y')">Início</ons-back-button>
         <h1 class="xyCentered">Cardápios</h1>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
@@ -261,7 +276,7 @@
   <template id="exercicios.html">
     <ons-page id="exercicios">
       <ons-toolbar class="headerBackground grid headerExerc">
-        <div class="xStartyCenter"><ons-back-button  onclick=" document.getElementById('navigator').popPage()">Principal</ons-back-button></div>
+        <ons-back-button onclick="tabVisible('y')">Início</ons-back-button>
         <h1 class="xyCentered">Exercícios</h1>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
@@ -408,7 +423,6 @@
       <div id="regPage" style="text-align: center; margin-bottom: 35%; display: none">
         <h3 style="margin-top: 8vh; font-weight:250px">Preencha as informações do cliente</h3> 
         <p>
-          <ons-input style="padding-bottom:15px;" id="nome-cadastro" placeholder="Nome" float></ons-input><br>
           <ons-input style="padding-bottom:15px;" id="email-cadastro" placeholder="E-mail" float></ons-input><br>
           <ons-input style="padding-bottom:15px;" id="senha-cadastro" type="password" placeholder="Senha" float></ons-input>
         </p>

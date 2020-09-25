@@ -62,25 +62,18 @@
 
 /* input */
 
-#show-hide-pass0 {
-  position: absolute;
-  left: calc(100% - 18px);
-  display: none;
-  color: #545454;
-}
-#show-hide-pass1 {
-  position: absolute;
-  left: calc(100% - 18px);
-  display: none;
-  color: #545454;
-}
-
 .input-text {
   display: grid;
   width: 100%;
   position: relative;
   border-bottom: 2px solid rgba(255,255,255,0.24);
   margin-bottom: 15px;
+}
+
+.icon-show-hide {
+  position: absolute;
+  right: 5px;
+  top: 5px;
 }
 
 .input {
