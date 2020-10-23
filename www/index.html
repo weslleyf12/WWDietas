@@ -27,7 +27,7 @@
   </script>
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
   <script>
     let firebaseConfig = {
       apiKey: "AIzaSyDA-BnH5OMGpRKZsg1CNku_7KKTWrqek70",
@@ -56,21 +56,105 @@
   </ons-modal>
 
   <ons-popover class="popoverTag" direction="up" cancelable id="popover">
-    <div class="popoverDiv">
+    <div id="popoverDiv" class="popoverDiv">
       <p id="popoverMessage" style="margin-bottom: 26px;"></p>
       <div id="popoverAditional"></div>
-      <button id="btnPopover" type="button" onclick="addUserName(); hidePopover()" class="btn btn-outline-secondary btn-sm">Mudar informações</button>
     </div>
   </ons-popover>
 
-   <template id="page1.html">
+  <template id="videos.html">
+    <ons-page id="videos">
+      <ons-toolbar class="headerBackground grid headerExerc">
+        <div style="color: transparent;">aa</div>
+        <h1 class="xyCentered">Interativo</h1>
+        <div style="color: transparent;">aa</div>
+      </ons-toolbar>
+
+      <ons-list>
+
+        <ons-list-header>Vídeos</ons-list-header>
+
+        <ons-list-item expandable>
+          Sobre o app
+          <div class="expandable-content">
+            <iframe class="video-size" src="https://www.youtube.com/embed/6P6GJer9MxQ">
+            </iframe>
+          </div>
+        </ons-list-item>
+
+        <ons-list-item expandable>
+          MMII - Membros Inferiores
+          <div class="expandable-content">Expandable content</div>
+        </ons-list-item>
+
+        <ons-list-item expandable>
+          MMSS - Membros Superiores
+          <div class="expandable-content">Expandable content</div>
+        </ons-list-item>
+      </ons-list>
+
+      <ons-list-header style="margin-top: 20px; background-color: #f1f1f1">Novidade</ons-list-header>
+      <ons-list-item style="border: 2px solid #dce0dd; border-radius: 20px">
+        Tire suas dúvidas diretamento pelo App, usando o chat.
+        <div class="btn-group dropright" style="margin-top: 20px">
+          <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Abrir chat
+          </button>
+          <div class="dropdown-menu">
+            <!-- Dropdown menu links -->
+          </div>
+        </div>
+      </ons-list-item>
+
+    </ons-page>
+  </template>
+
+  <template id="page1.html">
     <ons-page id="page1">
-      <div pg1 class="displayNone backgroundPage1">
-      <p style="padding-top: 75vh; display: grid; justify-content: center">
-        <ons-button btnPage1 style="background-color: #ff8c00; color: #fff; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #ff8c00; letter-spacing: 2px; margin-bottom: 10px;" ons-btn onclick="">Cadastro</ons-button>
-       <ons-button btnPage1 class="shadow softShadow" style="background-color: #f6f6f6; color: #000; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #636363; letter-spacing: 2px;" ons-btn onclick="page1ToLogin()">Entrar</ons-button>
+      <!--<div pg1 class="displayNone backgroundPage1">
+      <p style="padding-top: calc(100vh - 200px); display: grid; justify-content: center">
+        <ons-button btnPage1 style="background-color: #ff8c00; color: #f8f9fa; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #ff8c00; letter-spacing: 2px; margin-bottom: 10px;" ons-btn onclick="">Instrutor</ons-button>
+       <ons-button btnPage1 class="shadow softShadow font-brush" style="background-color: #ccc; color: #000; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #31313; letter-spacing: 2px; margin-bottom: 10px" ons-btn onclick="page1ToLogin()">aluno</ons-button>
       </p>
-      </div>
+      </div>-->
+       <ons-tabbar position="bottom" style="z-index: 999">
+        <ons-tab page="page2.html">
+          <input type="radio">
+          <button class="tabbar__button">
+            <div class="tabbar__icon">
+              <ons-icon icon="fa-home"></ons-icon>
+            </div>
+            <div class="tabbar__label">Principal</div>
+          </button>
+        </ons-tab>
+         <ons-tab page="exercicios.html">
+          <input type="radio">
+          <button class="tabbar__button">
+            <div class="tabbar__icon">
+              <ons-icon icon="fa-dumbbell"></ons-icon>
+            </div>
+            <div class="tabbar__label">Exercícios</div>
+          </button>
+          </ons-tab>
+          <ons-tab page="cardapios.html">
+            <input type="radio">
+            <button class="tabbar__button">
+              <div class="tabbar__icon">
+                <ons-icon icon="fa-apple-alt"></ons-icon>
+              </div>
+              <div class="tabbar__label">Cardápios</div>
+            </button>
+          </ons-tab>
+          <ons-tab page="videos.html">
+            <input type="radio">
+            <button class="tabbar__button">
+              <div class="tabbar__icon">
+                <ons-icon icon="fa-video"></ons-icon>
+              </div>
+              <div class="tabbar__label">Interativo</div>
+            </button>
+          </ons-tab>
+      </ons-tabbar>
     </ons-page>
   </template>
 
@@ -89,7 +173,7 @@
             <div class="input-text">
               <input class="input" id="senha-login" name="password" placeholder="Senha" type="password">
               <span class="focus-input" data-placeholder="&#xf191;"></span>
-              <ons-icon icon="fa-eye" id="show-hide-pass" class="icon-show-hide displayNone" onclick="showHidePass()"></ons-icon>
+              <ons-icon icon="fa-eye-slash" id="show-hide-pass" class="icon-show-hide displayNone" onclick="showHidePass()"></ons-icon>
             </div>
           </div>
           <div class="remember-checkbox">
@@ -110,10 +194,20 @@
 
   <template id="page2.html">
     <ons-page id="page2">
-      <ul homePageHeader class="grid headerBackground templateHeaderPage2 headerSemiOvalBackground">
-        <div style="color: transparent;">AA</div>
-        <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
-        <ons-icon icon="fa-user-circle" style="justify-self: end; margin-right: 10px; z-index: 1000" size="25px" onclick="showAddUserName()"></ons-icon>
+      <ul homePageHeader class="grid headerBackground headerSemiOvalBackground templateHeaderPage2">
+        <div class="subTemplateHeaderPage2">
+          <ons-icon onclick="showHide('#menuPage2')" style="z-index:1020" icon="fa-angle-down"></ons-icon>
+          <div style="z-index:1020">
+            <input type="text" id="changeUser" value="Adicione seu nome" readonly="readonly" class="nomargin noborder bolder changeUser"></input>
+            <div id="menuPage2" class="back-transp displayNone">
+              <ons-icon onclick="signOut()" style="position: absolute; left: 16px" icon="fa-sign-out-alt"> Sair</ons-icon>
+            </div>
+          </div>
+          <ons-icon icon="fa-user-circle" class="icon-show-user" size="25px" onclick="showAddUserName()"></ons-icon>
+        </div>
+        <div class="sub2TemplateHeaderPage2">
+          <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>   
+        </div>
       </ul>
       <ons-icon homePageHeader icon="fa-times" class="posicaoFechar displayNone" onclick="hideHeaderPage2('y')" size="20px"></ons-icon>
       <ul homePageHeader style="position: fixed; top: 0" class="headerPage2Fixed headerBackground displayNone headerSemiOvalBackground">
@@ -122,7 +216,25 @@
         </div>
       </ul>
 
-      <div class="carousel bannerDiv" style="margin-top: 30px">
+      <ons-carousel fullscreen swipeable auto-scroll overscrollable swipeable id="userChangeDataCarousel" onSwipe="closeUserChangeData()" class="displayNone" style="max-height: 270px">
+        <ons-carousel-item>                 
+          <div id="userChangeData" style="
+          text-align: center;
+          border: 1px solid #cecece;
+          background: rgb(255 255 255 / 25%);
+          border-radius: 15px;
+          min-width: 60vw;
+          max-width: 70vw;
+          margin-left: auto;
+          margin-right: auto;
+          box-sizing: border-box;">
+          <h3 id="helloMessage" style='margin: 10px'></h3>
+            <div id="userChangeDataSubdiv"></div>
+          </div>
+        </ons-carousel-item>
+    </ons-carousel>
+
+      <div class="carousel bannerDiv">
         <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel">
           <ons-carousel-item>
               <input class="banners" type="image" style="display: block" src=images/banner1.jpeg></input>
@@ -171,58 +283,17 @@
         <div id="artigos-dietas">
           <h4 indent> Ups... Não há! </h4>
         </div>
-      <ons-tabbar position="bottom" style="z-index: 999">
-        <ons-tab page="">
-          <input type="radio">
-          <button class="tabbar__button">
-            <div class="tabbar__icon">
-              <ons-icon icon="fa-home"></ons-icon>
-            </div>
-            <div class="tabbar__label">Principal</div>
-          </button>
-        </ons-tab>
-       <ons-tab onclick="exercicios();tabVisible()">
-        <input type="radio">
-        <button class="tabbar__button">
-          <div class="tabbar__icon">
-            <ons-icon icon="fa-dumbbell"></ons-icon>
-          </div>
-          <div class="tabbar__label">Exercícios</div>
-        </button>
-        </ons-tab>
-        <ons-tab onclick="cardapios();tabVisible()">
-          <input type="radio">
-          <button class="tabbar__button">
-            <div class="tabbar__icon">
-              <ons-icon icon="fa-apple-alt"></ons-icon>
-            </div>
-            <div class="tabbar__label">Cardápios</div>
-          </button>
-        </ons-tab>
-        <ons-tab>
-          <button onclick="showHide('#menuPage2')" class="tabbar__button">
-            <div class="tabbar__icon">
-              <ons-icon icon="fa-ellipsis-v"></ons-icon>
-            </div>
-            <div class="tabbar__label">Configurações</div>
-          </button>
-          <div id="menuPage2" class="menu-page2 displayNone">
-            <ons-icon onclick="showAddUserName()" icon="fa-address-card" size="24px"> Perfil</ons-icon><br>
-            <ons-icon onclick="signOut()" icon="fa-sign-out-alt" size="24px"> Sair</ons-icon>
-          </div>
-        </ons-tab>
-      </ons-tabbar>
     </ons-page>
   </template>
   <template id="cardapios.html">
     <ons-page id="cardapios">
       <ons-toolbar class="headerBackground grid headerExerc">
-        <ons-back-button onclick="tabVisible('y')">Início</ons-back-button>
+        <div style="color: transparent;">aa</div>
         <h1 class="xyCentered">Cardápios</h1>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
       <header>
-          <h2 class='font-brush centered' indent> Aproveita, em!<ons-icon icon="fa-smile-wink" style="color: #1949d0"></ons-icon></h4> 
+          <h2 class='font-brush centered' indent> Aproveita, em!<ons-icon icon="fa-smile-wink" style="color: #3a8a4f"></ons-icon></h4> 
       </header>
       <ons-list>
         <ons-list-item onclick="addDietasToPage('desjejum', desjejum)" expandable>
@@ -276,7 +347,7 @@
   <template id="exercicios.html">
     <ons-page id="exercicios">
       <ons-toolbar class="headerBackground grid headerExerc">
-        <ons-back-button onclick="tabVisible('y')">Início</ons-back-button>
+        <div style="color: transparent;">aa</div>
         <h1 class="xyCentered">Exercícios</h1>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
@@ -290,8 +361,8 @@
       <div overlayBackground>
         <header>
           <h1 id="nomeDoTreino" style="padding: 3vw" class="centered" title> Treino X </h1>
-          <ons-select id="choose-sel-treinos" onchange="editSelects(event)">
-          </ons-select>
+          <div id="choose-sel-treinos">
+          </div>
         </header>
         <ons-gesture-detector>
           <div id="tabela" style="width: 100%; height: 100%; position: absolute; opacity: 0">
@@ -327,7 +398,7 @@
   <template id="edit.html">
     <ons-page id="edit">
       <ons-toolbar class="headerBackground grid headerExerc">
-        <div class="xStartyCenter"><ons-back-button  onclick=" document.getElementById('navigator').popPage( {animation: 'fade'} )">Login</ons-back-button></div>
+        <div class="xStartyCenter"><ons-back-button  onclick="signOut()">Login</ons-back-button></div>
         <h2 class="xyCentered">Hic sunt dracones</h2>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
@@ -349,86 +420,84 @@
       </ons-list-item>
 
       <div id="editPage" style="text-align: center; margin-top: 5%;">
-        <div class="centered">
-          <ons-segment id="exercSegment" style="width: 180px">
-            <button onclick="showEditExerc(1)">Exerc.</button>
-            <button onclick="showEditExerc(2)">Obs.</button>
-            <button onclick="showEditExerc(3)">Dietas</button>
-          </ons-segment>
-        </div>
-        <div id="editExerc">
-          <h3 style="font-weight:250px">Informe os dados</h3> 
-          <p>
-            <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
-          </p>
-          <p>
-            <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
-          </p>
-          <p>
-            <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
-          </p>
-          <p>
-            <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
-          </p>
-          <p style="width: 100%; position: absolute; bottom: 0%">
-            <ons-button modifier="large" onclick="addExerc()">OK</ons-button>
-          </p>
-        </div>
-        <div id="obsExerc" style="display:none">
-          <h3 style="font-weight:250px">Informe os dados</h3>
-          <p>
-            <ons-input id="emailInput2" placeholder="E-mail" float></ons-input>
-          </p>
-          <p>
-            <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
-          </p>
-          <p>
-            <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
-          </p>
-          <p>
-            <ons-input id="observacoes" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
-          </p>
-          <p style="width: 100%; position: absolute; bottom: 0%">
-            <ons-button modifier="large" onclick="addObs()">OK</ons-button>
-          </p>
-        </div>
-        <div id="editCardapios" style="display:none">
-          <h3 style="font-weight:250px">Informe os dados</h3>
-          <p>
-            <ons-input id="emailInput3" placeholder="E-mail" float></ons-input>
-          </p>
-          <ons-select id="choose-sel-cardapios">
-            <option value="desjejum">Desjejum</option>
-            <option value="lanche1">Lanche</option>
-            <option value="almoco">Almoço</option>
-            <option value="lanche2">Lanche</option>
-            <option value="jantar">Jantar</option>
-            <option value="ceia">Ceia</option>
-          </ons-select>
-          <p>
-            <ons-input id="nome-do-alimento" placeholder="Nome do alimento" float></ons-input>
-          </p>       
-          <p>
-            <ons-input id="medidas-e-qtndds" placeholder="Medidas e quantidade" float></ons-input>
-          </p>
-          <p>
-            <ons-input id="idTabelaDietas" placeholder="Linha da tabela" float></ons-input>
-          </p>
-          <p style="width: 100%; position: absolute; bottom: 0%">
-            <ons-button modifier="large" onclick="addDietas()">OK</ons-button>
-          </p>
-        </div>
+        <p>
+          <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
+        </p>
+      <div class="centered">
+        <ons-segment id="exercSegment" style="width: 180px">
+          <button onclick="showEditExerc(1)">Exerc.</button>
+          <button onclick="showEditExerc(2)">Obs.</button>
+          <button onclick="showEditExerc(3)">Dietas</button>
+        </ons-segment>
       </div>
+      <div id="editExerc">
+        <h3 style="font-weight:250px">Informe os dados</h3> 
+        <p>
+          <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
+        </p>
+        <p>
+          <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
+        </p>
+        <p>
+          <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
+        </p>
+        <p style="width: 100%; position: fixed; bottom: 0%">
+          <ons-button modifier="large" onclick="addExerc(); editAddExerc()">OK</ons-button>
+        </p>
+      </div>
+      <div id="obsExerc" style="display:none">
+        <h3 style="font-weight:250px">Informe os dados</h3>
+        <p>
+          <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
+        </p>
+        <p>
+          <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
+        </p>
+        <p>
+          <ons-input id="observacoes" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
+        </p>
+        <p style="width: 100%; position: fixed; bottom: 0%">
+          <ons-button modifier="large" onclick="addObs(); editAddExerc()">OK</ons-button>
+        </p>
+      </div>
+      <div id="editCardapios" style="display:none">
+        <h3 style="font-weight:250px">Informe os dados</h3>
+        <ons-select id="choose-sel-cardapios" onchange="adicionaCardapiosTelaEdit(this.value)">
+          <option value="desjejum">Desjejum</option>
+          <option value="lanche1">Lanche</option>
+          <option value="almoco">Almoço</option>
+          <option value="lanche2">Lanche</option>
+          <option value="jantar">Jantar</option>
+          <option value="ceia">Ceia</option>
+        </ons-select>
+        <p>
+          <ons-input id="nome-do-alimento" placeholder="Nome do alimento" float></ons-input>
+        </p>       
+        <p>
+          <ons-input id="medidas-e-qtndds" placeholder="Medidas e quantidade" float></ons-input>
+        </p>
+        <p>
+          <ons-input id="idTabelaDietas" placeholder="Linha da tabela" float></ons-input>
+        </p>
+        <p style="width: 100%; position: fixed; bottom: 0%">
+          <ons-button modifier="large" onclick="variasCoisas()">OK</ons-button>
+        </p>
+      </div>
+      <div id='choose-sel-treinos-edit'></div>
+      <div id="editTable0"></div>
+      <div id="editTable1"></div>
 
       <div id="regPage" style="text-align: center; margin-bottom: 35%; display: none">
         <h3 style="margin-top: 8vh; font-weight:250px">Preencha as informações do cliente</h3> 
         <p>
           <ons-input style="padding-bottom:15px;" id="email-cadastro" placeholder="E-mail" float></ons-input><br>
-          <ons-input style="padding-bottom:15px;" id="senha-cadastro" type="password" placeholder="Senha" float></ons-input>
+          <ons-input style="padding-bottom:15px;" id="senha-cadastro" type="text" placeholder="Senha" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" id="adm-passw" type="text" placeholder="Sua senha" float></ons-input><br>
+          <ons-button onclick="document.getElementById('senha-cadastro').value = gerarSenha()">Gerar senha</ons-button>
         </p>
         <p style="width: 100%; position: fixed; bottom: 0%">
-            <ons-button modifier="large" onclick="cadastrar()">OK</ons-button>
-          </p>
+          <ons-button modifier="large" onclick="cadastrar(); editAddExerc()">OK</ons-button>
+        </p>
       </div>
     </ons-page>
   </template>

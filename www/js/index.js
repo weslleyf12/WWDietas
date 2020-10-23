@@ -2,24 +2,36 @@ window.fn = {}
 let bannersIntervalo
 let bannersTimeout 
 let carousel
+let primeiraVezRedirecionado = true
 
-document.addEventListener('init', function(event) {
+/*document.addEventListener('init', function(event) {
   if (event.target.matches('#page1')) {
     const bodyWidth = getSizeOf('body', 'width')
     if ( bodyWidth > 1024 ) {
       document.getElementById('navigator').pushPage('login.html')
     } else {document.querySelector('[pg1]').classList.remove('displayNone');document.querySelector('[pg1]').classList.add('displayBlock')}
   }
-}, false);
+}, false);*/
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#login')) {
+    primeiraVezRedirecionado = true
     document.getElementById('senha-login').addEventListener('mouseup', function() {
       $('#show-hide-pass').removeClass('displayNone').addClass('displayBlock')
     })
       firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        document.getElementById('navigator').pushPage('page2.html')
+        if (user.email == 'a@a.com') {
+          if (primeiraVezRedirecionado == true) {
+            document.getElementById('navigator').pushPage('edit.html');
+            primeiraVezRedirecionado = false
+          }
+        } else {
+          if (primeiraVezRedirecionado == true) {
+            document.getElementById('navigator').pushPage('page1.html');
+            primeiraVezRedirecionado = false
+          }
+        }
       }
     })
   }
@@ -27,9 +39,15 @@ document.addEventListener('init', function(event) {
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page2')) {
+    criarArraysCardapios()
     //IF PRIMEIRO LOGIN
     let user = firebase.auth().currentUser
-    if (user.displayName == null) {showAddUserName()}
+    if (user.displayName == null) {showAddUserName()} 
+      else if (user.displayName.length > 15) {
+      const names = user.displayName.split(' ')
+      names[names.length-1] == names[0] ? changeUser.value = names[0] : changeUser.value = `${names[0]} ${names[names.length-1]}`
+    } else {changeUser.value = user.displayName}
+
     $(".dropdown").on("click", ".dropdown-toggle", function(e) { //page2 dropdown button was with some errors
       e.preventDefault();
       $(this).parent().addClass("show");
@@ -39,7 +57,7 @@ document.addEventListener('init', function(event) {
     document.querySelectorAll('.page__content')[1].addEventListener('scroll', changesPages2)
     carousel = document.getElementById('carousel');
     bannersIntervalo = window.setInterval(changeBanner, 6000)
-    document.querySelector('ons-carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()}
+    document.querySelector('#carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()}
   )}
 }, false);
 
@@ -59,10 +77,15 @@ function hideModal() {
 }
 
 function promptPasswdReset(mensagem) {
+  const auth = firebase.auth();
   ons.notification.prompt(mensagem)
     .then(function(input) {
       let message = input ? input : 'None';
-      sendPasswordReset(message)
+      auth.sendPasswordResetEmail(message).then(function() {
+        showToast('Email enviado')
+      }).catch(function(error) {
+        trataErros(error.code, error.message)
+      });
     });
 }
 
@@ -134,7 +157,7 @@ let changeBanner = function() {
   clearSpan()
   if (carousel) {
     let atual = carousel.getActiveIndex()
-    const total = document.querySelector('ons-carousel').itemCount
+    const total = document.querySelector('#carousel').itemCount
     atual == total-1 ? carousel.setActiveIndex(0) : carousel.next()
   }
 }
@@ -202,56 +225,70 @@ const entrar = () => {
     return;
   }
 
-  if (emailLogin === 'admin' && senhaLogin === 'h2md2515') {
-    document.getElementById('navigator').pushPage('edit.html');
-    return
-  }
-
   showModal()
   firebase.auth().setPersistence(document.getElementById('ckb1').checked ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION)
   .then(function() {
     firebase.auth().signInWithEmailAndPassword(emailLogin, senhaLogin).catch(function(error) {
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      
-      if (errorCode === 'auth/wrong-password') {
-        hideModal()
-        showToast('E-mail ou senha inválidos.');
-      } else if (errorCode === 'auth/invalid-email') {
-        hideModal()
-        showToast('Insira um email válido.')
-      } else if (errorCode === 'auth/too-many-requests') {
-        hideModal()
-        showToast('Aguarde um momento para tentar novamente!')
-      } else if(errorCode === 'auth/user-not-found') {
-        hideModal()
-        showToast('Usuário inexistente.')
-      } else {
-        hideModal()
-        showToast(errorMessage);
-      }
+      trataErros(error.code, error.message)
     });
 
     firebase.auth().onAuthStateChanged(function(user) {
-      //ao fazer login, o modal é fechado e o usuário é encaminhado à segunda página.
+      //ao fazer login, o modal é fechado
       if (user) {
-        hideModal()
-        setInterval(changeBanner, 11000)
+        if (user.email == 'a@a.com') {
+          if (primeiraVezRedirecionado == true) {
+            document.getElementById('navigator').pushPage('edit.html');
+            primeiraVezRedirecionado = false
+          }
+          hideModal()
+        } else {
+          if (primeiraVezRedirecionado == true) {
+            document.getElementById('navigator').pushPage('page1.html');
+            setInterval(changeBanner, 11000)}
+            hideModal()
+        }
       }
     });
   })
 }
 
+let showAddUserNameCounter = 0
 const showAddUserName = () => {
-  showPopover(document.getElementById('page2.html'))
-  escreverMensagem('Olá, Estamos felizes em te ver por aqui! Como você quer ser chamado?')
-  document.getElementById('popoverAditional').innerHTML = '<ons-input style="padding-bottom:15px;" id="nome-cadastro" placeholder="Seu nome" float></ons-input><br>'
+  let user = firebase.auth().currentUser
+  if (showAddUserNameCounter%2 == 0) {
+    document.querySelector("#userChangeDataCarousel").classList.remove('displayNone')
+  } else {document.querySelector("#userChangeDataCarousel").classList.add('displayNone')}
+  showAddUserNameCounter++
+  let transparencia
+  let mensagem = 'Verifique seu email'
+  let fnc
+
+  user.emailVerified ? transparencia = 'transp' : fnc = 'verificaEmail'
+  
+  if (!user.displayName) {
+    document.getElementById('helloMessage').innerHTML = 'Olá. Estamos felizes em te ver por aqui! Como você quer ser chamado?'
+  } else {
+    const names = user.displayName.split(' ')
+    let name
+    names[names.length-1] == names[0] ? name = names[0] : name = `${names[0]} ${names[names.length-1]}`
+    document.getElementById('helloMessage').innerHTML = `Olá, ${name}! Estamos felizes em te ver por aqui! Como você quer ser chamado?`
+  }
+  
+  document.getElementById('userChangeDataSubdiv').innerHTML =
+  `
+    <ons-input id="nome-cadastro" placeholder="Seu nome" float></ons-input><br>
+    <div><input type="text" style="margin: 5px 0" class="noborder bolder changeUser" readonly="readonly" value='${user.email}'></input> <input type="text" readonly="readonly" style="color: red; margin: 0 0 10px 0" class="${transparencia} noborder bolder changeUser" onclick="${fnc}()" value='${mensagem}'></input></div>
+    <button id="btnPopoverChangeName" type="button" style="transform: translateX(-50%); margin: 0 50% 10px 50%" onclick="addUserName(); hidePopover(); document.querySelector('#userChangeDataCarousel').classList.add('displayNone')" class="btn btn-outline-secondary btn-sm">Mudar nome</button>
+  `
 }
+document.addEventListener('overscroll', function(event) {
+  document.querySelector('#userChangeDataCarousel').classList.add('displayNone')
+  showAddUserNameCounter++
+})
 
 const addUserName = () => {
   let user = firebase.auth().currentUser;
   let nomeCadastro = document.getElementById('nome-cadastro').value
-  console.log(nomeCadastro)
   if(nomeCadastro != null && nomeCadastro != '' && nomeCadastro != undefined) {
     user.updateProfile({
       displayName: nomeCadastro,
@@ -260,12 +297,15 @@ const addUserName = () => {
     }).catch(function(error) {
       showToast(error)
     });
+    const names = nomeCadastro.split(' ')
+    names[names.length-1] == names[0] ? changeUser.value = names[0] : changeUser.value = `${names[0]} ${names[names.length-1]}`
   }
 }
 
 const signOut = () => {
   firebase.auth().signOut().then(function() {
     document.getElementById('navigator').resetToPage('login.html')
+    primeiraVezRedirecionado = true
   }).catch(function(error) {
     showToast(error.code + error.message)
   })
@@ -297,16 +337,6 @@ const hideHeaderPage2 = (bt = 'no') => {
   if (bt == 'no') {} else {hide = 'y'}
 }
 
-const page1ToLogin = () => {
-  firebase.auth().onAuthStateChanged(function(user) {
-    if(user) {
-      document.getElementById('navigator').pushPage('page2.html')  
-    } else {
-      document.getElementById('navigator').pushPage('login.html');
-    }
-  })
-}
-
 const showHide = (id) => {
   if ($(id).hasClass('displayNone')) {
     $(id).addClass('displayBlock').removeClass('displayNone');
@@ -324,17 +354,21 @@ function showHidePass() {
   let eye = document.getElementById('show-hide-pass')
   
   if (showOrHide%2 == 0) {
-    obj.type = 'float'
-    eye.setAttribute('icon', 'fa-eye');
-  } else {
     obj.type = 'password'
     eye.setAttribute('icon', 'fa-eye-slash')
+  } else {
+    obj.type = 'float'
+    eye.setAttribute('icon', 'fa-eye');
+
   }
 }
 
 function cadastrar() {
+  primeiraVezRedirecionado = false
+  let user = firebase.auth().currentUser;
   let senhaCadastro = document.getElementById('senha-cadastro').value;
   let emailCadastro = document.getElementById('email-cadastro').value;
+  let admPassw = document.getElementById('adm-passw').value;
   if (emailCadastro.length < 4) {
     showToast('Por favor, insira um email.');
     return;
@@ -344,30 +378,77 @@ function cadastrar() {
     return;
   }
   showModal()
-  firebase.auth().createUserWithEmailAndPassword(emailCadastro, senhaCadastro)
-  .then(function(){
-    hideModal()
-  })
-
-  .catch(function(error) {
-    let errorCode = error.code;
-    let errorMessage = error.message;
-    if (errorCode === 'auth/weak-password') {
+  firebase.auth().signInWithEmailAndPassword(user.email, admPassw)
+  .then(function() {
+    firebase.auth().createUserWithEmailAndPassword(emailCadastro, senhaCadastro)
+    .then(function(){
+      firebase.auth().signInWithEmailAndPassword(user.email, admPassw)
+      verificaEmail()
       hideModal()
-      showToast('Senha muito fraca');
+    })
+    .catch(function(error) {
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      if (errorCode === 'auth/weak-password') {
+        hideModal()
+        showToast('Senha muito fraca');
+      } else if (errorCode === 'auth/invalid-email') {
+        hideModal()
+        showToast('Insira um email válido.')
+      } else if (errorCode === 'auth/email-already-in-use') {
+        hideModal()
+        showToast('Esse email já está em uso.')
+      } else {
+        hideModal()
+        showToast(errorMessage);
+      }
+    });
+  })
+  .catch(function(error) {
+    trataErros(error.code, error.message)
+  })
+}
+
+/*function tabVisible(arg) {
+  arg == 'y' ? document.querySelector('ons-tabbar').setTabbarVisibility('visible') : document.querySelector('ons-tabbar').setTabbarVisibility()
+}*/
+
+const caracteres = ['A','B','C','D','E','F','G','H','I','J','K','L','@','W','$','&','#','!','W','V','X','Z','O']
+function gerarSenha(){
+  let passw = Math.floor(1000* Math.random() + 1);
+  passw = passw + caracteres[Math.floor(caracteres.length * Math.random() + 1)] 
+  passw = passw + caracteres[Math.floor(caracteres.length * Math.random() + 1)]
+  passw = passw + caracteres[Math.floor(caracteres.length * Math.random() + 1)]
+  return passw
+}
+
+function verificaEmail() {
+  var user = firebase.auth().currentUser;
+  user.sendEmailVerification().then(function() {
+    showToast('Email de verificação enviado!')
+  }).catch(function(error) {
+    if (error.code == 'auth/too-many-requests') {
+      showToast('Email já enviado')  
+    }
+    showToast('Ocorreu um erro inesperado. '+error.code)
+  });
+}
+
+function trataErros(errorCode, errorMessage) {
+if (errorCode === 'auth/wrong-password') {
+      hideModal()
+      showToast('E-mail ou senha inválidos.');
     } else if (errorCode === 'auth/invalid-email') {
       hideModal()
       showToast('Insira um email válido.')
-    } else if (errorCode === 'auth/email-already-in-use') {
+    } else if (errorCode === 'auth/too-many-requests') {
       hideModal()
-      showToast('Esse email já está em uso.')
+      showToast('Aguarde um momento para tentar novamente!')
+    } else if(errorCode === 'auth/user-not-found') {
+      hideModal()
+      showToast('Usuário inexistente.')
     } else {
       hideModal()
       showToast(errorMessage);
     }
-  });
-}
-
-function tabVisible(arg) {
-  arg == 'y' ? document.querySelector('ons-tabbar').setTabbarVisibility('visible') : document.querySelector('ons-tabbar').setTabbarVisibility()
 }

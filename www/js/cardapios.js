@@ -1,6 +1,33 @@
 const lanche = ['desjejum', 'lanche1', 'almoco', 'lanche2', 'jantar', 'ceia']
-document.addEventListener('init', function() {
-let i2 = 0
+
+function variasCoisas() {
+  
+  addDietas()
+  editAddExerc()
+  
+  let cardapioNome = $('#choose-sel-cardapios').val()
+  let cardapioAtual = getArrayCardapio(cardapioNome)
+  let emailCliente = $('#emailInput').val()
+
+
+  let promise = new Promise((resolve, reject) => {
+    
+    cardapioAtual.length = 0
+    db.collection(emailCliente).where("lanche", "==", cardapioNome).get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+         cardapioAtual[cardapioAtual.length] = doc.data()
+        })
+        resolve(cardapioAtual)
+      })
+  });
+
+  promise
+    .then(adicionaCardapiosTelaEdit(cardapioNome))
+}
+
+function criarArraysCardapios(userEmail = firebase.auth().currentUser.email) {
+  let i2 = 0
   firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
     desjejum.length = 0 //limpando os arrays para quando entrar em outra conta não ficar as mesmas dietas
@@ -9,7 +36,6 @@ let i2 = 0
     lanche2.length = 0
     jantar.length = 0
     ceia.length = 0
-      let userEmail = firebase.auth().currentUser.email;
       for (let i = 0; i < lanche.length; i++) {
         db.collection(userEmail).where("lanche", "==", lanche[i]).get()
           .then((querySnapshot) => { //Criando os arrays para cada lanche do dia das dietas
@@ -39,17 +65,17 @@ let i2 = 0
       }
     }
   })
-})
+}
 
 /* Inserindo dietas no backend */
 function addDietas() {
   showToast('Alterações encaminhadas')
 
-  let emailInputed = document.getElementById('emailInput3').value
-  let nomeDoAlimento = document.getElementById('nome-do-alimento').value
-  let medidas = document.getElementById('medidas-e-qtndds').value
-  let lanche = document.getElementById('choose-sel-cardapios').value
-  let idTabela = document.getElementById('idTabelaDietas').value //diz-se a qual linha se encontrará a informação
+  let emailInputed = $('#emailInput').val()
+  let nomeDoAlimento = $('#nome-do-alimento').val()
+  let medidas = $('#medidas-e-qtndds').val()
+  let lanche = $('#choose-sel-cardapios').val()
+  let idTabela = $('#idTabelaDietas').val() //diz-se a qual linha se encontrará a informação
 
   db.collection(emailInputed).doc('['+lanche+']'+idTabela).set ({ // cria uma colecao com o email do usuario, ou altera essa colecao
     userEmail: emailInputed,
@@ -68,13 +94,59 @@ const lanche2 = new Array()
 const jantar = new Array()
 const ceia = new Array()
 
+function getArrayCardapio(stringCardapio) {
+for (let i in lanche) {
+  if (stringCardapio == lanche[i]) {
+      if (i == 0) { return desjejum }
+      if (i == 1) { return lanche1 }
+      if (i == 2) { return almoco }
+      if (i == 3) { return lanche2 }
+      if (i == 4) { return jantar }
+      if (i == 5) { return ceia }
+    }
+  }
+}
+
+function adicionaCardapiosTelaEdit(stringCardapio) {
+  let table = `
+   <table editTable class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Nº</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Medidas</th>
+      </tr>
+    </thead>
+  `;
+  let end =
+    `</tbody>
+  </table>
+  <br>
+  <br>`; //pula duas linhas para o botão não ficar na frente
+
+  let cardapio = getArrayCardapio(stringCardapio)
+  for (let i = 0; i < cardapio.length; i++) {
+  table = table + 
+    `<tbody>
+      <tr>
+        <th scope="row">${i}</th>
+        <td>${cardapio[i].nomeDoAlimento}</td>
+        <td>${cardapio[i].medidas}</td>
+      </tr>
+    `
+  }
+
+  table = table+end
+  document.getElementById('editTable1').innerHTML = table
+}
+
 function addDietasToPage(arrayName, value) {
-  document.getElementById(arrayName).innerHTML = '' //limpando antes de add
+  document.getElementById(arrayName).innerHTML = '' //limpando antes de add -- adiciona NADA à tela
   let table = `
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col" style="vertical-align: middle; text-align: center">ID</th>
+        <th scope="col" style="vertical-align: middle; text-align: center">Nº</th>
         <th scope="col" style="vertical-align: middle; text-align: center">Nome do Alimento</th>
         <th scope="col" style="vertical-align: middle; text-align: center">Medidas Caseiras e quantidade (em grama ou ml)</th>
       </tr>
@@ -83,26 +155,26 @@ function addDietasToPage(arrayName, value) {
   `;
   let tableEnd =
     `</tbody>
-    </table>`;
+  </table>`;
 
-    let resolveTabela = new Promise(function(resultado) {
-        for (let a = 0; a < lanche.length; a++) {
-            if (arrayName == lanche[a]) {
-                for (let i = 0; i < value.length; i++) {
-                    table = table +
-                    `<tr>
-                        <th scope="row">${i}</th>
-                        <td>${value[i].nomeDoAlimento}</td>
-                        <td>${value[i].medidas}</td>
-                    </tr>`;
-                }
-            }
+  let resolveTabela = new Promise(function(resultado) {
+    for (let a = 0; a < lanche.length; a++) {
+      if (arrayName == lanche[a]) {
+        for (let i = 0; i < value.length; i++) {
+          table = table +
+          `<tr>
+              <th scope="row">${i}</th>
+              <td>${value[i].nomeDoAlimento}</td>
+              <td>${value[i].medidas}</td>
+          </tr>`;
         }
-        resultado(table)
-    })
-    resolveTabela
-        .then(newTable => table = newTable + tableEnd)
-        .then(newTable => document.getElementById(arrayName).innerHTML = newTable)
+      }
+    }
+    resultado(table)
+  })
+  resolveTabela
+    .then(newTable => table = newTable + tableEnd)
+    .then(newTable => document.getElementById(arrayName).innerHTML = newTable)
 }
 
 //EXERCICIOS 
@@ -111,7 +183,7 @@ function addObs() {
 
   let intervaloInputed = document.getElementById('interExerc').value
   let obsExercicio = document.getElementById('observacoes').value
-  let emailInputed = document.getElementById('emailInput2').value
+  let emailInputed = document.getElementById('emailInput').value
   let treinoInputed = document.getElementById('treinoInput2').value
 
   let obsSeparadas = obsExercicio.split(',')
@@ -207,27 +279,37 @@ const showEditExerc = (value) => {
     document.getElementById('editExerc').style.display = 'block'
     document.getElementById('obsExerc').style.display = 'none'
     document.getElementById('editCardapios').style.display = 'none'
+    document.querySelector('#editTable0').classList.remove('displayNone')
+    document.querySelector('#editTable1').classList.add('displayNone')
+    document.querySelector('#choose-sel-treinos-edit').classList.remove('displayNone')
   }
   if (value == 2) {
     document.getElementById('editExerc').style.display = 'none'
     document.getElementById('obsExerc').style.display = 'block'
     document.getElementById('editCardapios').style.display = 'none'
+    document.querySelector('#editTable0').classList.remove('displayNone')
+    document.querySelector('#editTable1').classList.add('displayNone')
+    document.querySelector('#choose-sel-treinos-edit').classList.remove('displayNone')
   }
   if (value == 3) {
     document.getElementById('editExerc').style.display = 'none'
     document.getElementById('obsExerc').style.display = 'none'
     document.getElementById('editCardapios').style.display = 'block'
+    document.querySelector('#editTable0').classList.add('displayNone')
+    document.querySelector('#editTable1').classList.remove('displayNone')
+    document.querySelector('#choose-sel-treinos-edit').classList.add('displayNone')
+    adicionaCardapiosTelaEdit($('#choose-sel-cardapios').val())
   }
 }
 
-function addExercicio(exercicio, Sxr, tecAvan) {
-  let tableData = document.getElementById("tabelaExercicios"); 
+function addExercicio(exercicio, Sxr, tecAvan, tabela, email, indice, boolean) {
 
+  let tableData = document.getElementById(`${tabela}`); 
   let table = `
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col" style="vertical-align: middle; text-align: center">ID</th>
+        <th scope="col" style="vertical-align: middle; text-align: center">Nº</th>
         <th scope="col" style="vertical-align: middle; text-align: center">Exercícios</th>
         <th scope="col" style="vertical-align: middle; text-align: center">SxR</th>
         <th scope="col" style="vertical-align: middle; text-align: center">Técnicas Avançadas</th>
@@ -246,19 +328,49 @@ function addExercicio(exercicio, Sxr, tecAvan) {
     </tr>`
   }
 
-  table = table +
-  `</tbody>
-    </table>`
-  ;
-
-  tableData.innerHTML = table;
-}
-
-document.addEventListener('init', function(event) {
-  if (event.target.matches('#edit')) {
-    showEditExerc(1) //Para iniciar com a página de editar exercicios. Se retirar essa linha, é preciso antes clicar em Exerc. para funcionar o botão 'Ok'
+  if (boolean) { // pag edit
+    let newArray = arrumaArray()
+    let obs1; let obs2; let obs3; let obs4; let int
+    db.collection(email).where("observacoes", "==", "sim").get().then((querySnapshot) => {
+      int = querySnapshot.docs[0].data().intervalo
+      // se não houver observação para tal treino, então terá um valor padrão
+      for (let i = 0; i <= exercicio.length-1; i++) {
+        obs1 = querySnapshot.docs[indice].data().obs1; obs2 = querySnapshot.docs[indice].data().obs2; obs3 = querySnapshot.docs[indice].data().obs3; obs4 = querySnapshot.docs[indice].data().obs4
+      }
+      table = table +
+          `<tr>
+            <th scope="row">Obs. pré</th>
+              <td colspan="3">${obs1}</td>
+            </tr>
+            <tr>
+              <th scope="row">Obs. pós</th>
+              <td colspan="3">${obs2}</td>
+            </tr>
+            <tr>
+              <th scope="row">Obs. aeróbico</th>
+              <td colspan="3">${obs3}</td>
+            </tr>
+            <tr>
+              <th scope="row">Obs. geral</th>
+              <td colspan="3">${obs4}</td>
+            </tr>
+            <tr>
+              <th scope="row">Int. </th>
+              <td colspan="3">${int}</td>
+            </tr>
+          <tr>
+        </tbody>
+      </table>`
+      tableData.innerHTML = table
+    })
+  } else {
+    table = table +
+    `</tbody>
+      </table>`
+    ;
+    tableData.innerHTML = table
   }
-}, false);
+}
 
 document.addEventListener('swipeleft', function(event) {
   increaseIndice()
@@ -270,7 +382,7 @@ document.addEventListener('swipeleft', function(event) {
       indice = indice - 1 //se o indice passar do valor total ele para de avancar
     }
     document.getElementById('choose-sel-treinos').selectedIndex = indice
-    addThings(userEmail, indice, true)
+    addThings(userEmail, indice, "tabelaExercicios", false, true)
   } 
 });
 
@@ -288,7 +400,7 @@ document.addEventListener('swiperight', function(event) {
     indice = indice - 1 
     if (indice < 0) {indice = 0}//se o indice ficar menor do que 0 ele para de descer
     document.getElementById('choose-sel-treinos').selectedIndex = indice
-    addThings(userEmail, indice, true)
+    addThings(userEmail, indice, "tabelaExercicios", false, true)
   }
 });
 
@@ -310,13 +422,22 @@ document.addEventListener('init', function(event) {
       querySnapshot.forEach((doc) => {
         return array.push(doc.data().name)
       })
-      addThings(userEmail, 0, false)
+      addThings(userEmail, 0, "tabelaExercicios", false, false) //true = edit page, false = não está sobrescrevendo
       addChooseSel(userEmail)
     });
   }
 }, false);
 
-function editSelects(event) {
+document.addEventListener('init', function(event) {
+  if (event.target.matches('#edit')) {
+    document.getElementById('emailInput').addEventListener("change",function() {
+      criarArraysCardapios($('#emailInput').val())
+      editAddExerc() //true = edit page, false = não está sobrescrevendo
+    }, false);
+  }
+}, false);
+
+function editSelects(event, email = firebase.auth().currentUser.email, boolean = false) {
   let newArray = arrumaArray()
   const treino = event.target.value // array treinos -> A,B,C
   let indiceDoTreino
@@ -326,13 +447,13 @@ function editSelects(event) {
       indice = i // indice com valor global para o drag right e left
     }
   }
-  let userEmail = firebase.auth().currentUser.email;
-  
-  addThings(userEmail, indiceDoTreino, true)
+  addThings(email, indiceDoTreino, "editTable0", boolean, true)
 }
 
-const addChooseSel = (email) => {
-  const inicioTag = `<ons-select id='choose-sel-treinos' onchange='editSelects(event)'>`
+const addChooseSel = (email, id = 'choose-sel-treinos', boolean = true) => { //boolean true indicates that are not the edit table, but the user
+  let arg
+  boolean == true ? arg = 'event' : arg = `event, '${document.getElementById('emailInput').value}',${true}`
+  const inicioTag = `<ons-select id='sub-${id}' onchange="editSelects(${arg.substring(0,arg.length)})">`
   let valores = ``
   const fimTag = `</ons-select>`
 
@@ -342,7 +463,7 @@ const addChooseSel = (email) => {
   }
 
   const html = inicioTag+valores+fimTag
-  const chooseTreinos = document.getElementById('choose-sel-treinos')
+  const chooseTreinos = document.getElementById(id)
   chooseTreinos.innerHTML = html
 }
 
@@ -358,7 +479,8 @@ function firstTimer() {
   return firstTime = true
 }
 
-const addThings = (email, i, boolean) => {
+const addThings = (email, i, tabela, edit, boolean) => {
+  let emailExerc
   zerar()
   firstTimer()
   let newArray = arrumaArray()
@@ -367,23 +489,33 @@ const addThings = (email, i, boolean) => {
   let exercicio3 = new Array()
   db.collection(email).where("name", "==", newArray[i]).where("observacoes", "==", "nao").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      document.getElementById('nomeDoTreino').textContent = 'Treino ' +newArray[i]
+      edit === false ? document.getElementById('nomeDoTreino').textContent = 'Treino ' +newArray[i] : console.log()
       exercicio1.push(doc.data().newExerc1)
       exercicio2.push(doc.data().newExerc2)
       exercicio3.push(doc.data().newExerc3)
     })
-    addExercicio(exercicio1, exercicio2, exercicio3)
+    edit === false ? emailExerc = email : emailExerc = document.getElementById('emailInput').value
+    addExercicio(exercicio1, exercicio2, exercicio3, tabela, emailExerc, i, edit != false)
   });
-  db.collection(email).where("name", "==", newArray[i]).where("observacoes", "==", "sim").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      document.getElementById('intervaloExerc').textContent = 'Intervalo entre treinos e exercícios: ' + doc.data().intervalo
-      if (boolean) {
-        addObs2(doc.data().obs1, doc.data().obs2, doc.data().obs3, doc.data().obs4, true)
+
+  db.collection(email).where("observacoes", "==", "sim").get().then((querySnapshot) => {
+    if (edit === false) {
+      document.getElementById('intervaloExerc').textContent = 'Intervalo entre treinos e exercícios: ' + querySnapshot.docs[0].data().intervalo
+      if (querySnapshot.docs[0].data().name != newArray[i]) { // se não houver observação para tal treino, então terá um valor padrão
+        if (boolean) {
+          addObs2('Indefinido', 'Indefinido', 'Indefinido', 'Indefinido', true)
+        } else {
+          addObs2('Indefinido', 'Indefinido', 'Indefinido', 'Indefinido')
+        }
       } else {
-        addObs2(doc.data().obs1, doc.data().obs2, doc.data().obs3, doc.data().obs4)
+          if (boolean) {
+            addObs2(querySnapshot.docs[0].data().obs1, querySnapshot.docs[0].data().obs2, querySnapshot.docs[0].data().obs3, querySnapshot.docs[0].data().obs4, true)
+          } else {
+            addObs2(querySnapshot.docs[0].data().obs1, querySnapshot.docs[0].data().obs2, querySnapshot.docs[0].data().obs3, querySnapshot.docs[0].data().obs4)
+        }
       }
-    })  
-  });
+    }
+  })
 }
 
 function showTip() {
@@ -394,4 +526,16 @@ function showTip() {
 function closeTip() {
  document.querySelector('[overlayBackground]').style.opacity = '1'
   document.querySelector('[overlay]').style.display = 'none'
+}
+
+async function editAddExerc() {
+  userEmail = document.getElementById('emailInput').value
+  await db.collection(userEmail).where("observacoes", "==", "nao").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      return array.push(doc.data().name)
+    })    
+  })
+
+  addThings(userEmail, 0, 'editTable0', true, false)
+  addChooseSel(userEmail, 'choose-sel-treinos-edit', false)
 }

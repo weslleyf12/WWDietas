@@ -1,7 +1,8 @@
 input[type=password]::-ms-reveal {
   display: none !important;
 }
-.large{width: 15px;height: 15px;}.centered {text-align: center}.hidden {display: none;}.nopadding {padding: 0;}.nomargin {margin: 0;}.bold{font-weight: 600;}.displayNone{display: none;}.displayBlock{display:block;}
+
+.large{width: 15px;height: 15px;}.centered{text-align: center}.hidden{display: none;}.nopadding{padding: 0;}.nomargin{margin: 0;}.noborder{border:none;}.bolder{font-weight: 900}.bold{font-weight: 600;}.displayNone{display: none;}.displayBlock{display:block;}.position-fixed{position: fixed}
 .item {
   margin: 0.6vw 1.2vw;
   flex: 1;
@@ -41,8 +42,9 @@ input[type=password]::-ms-reveal {
   padding: 0;
 }
 
+.font-american {font-family: American Typewriter, serif}
 .font-brush {font-family: Brush Script MT,cursive !important;}
-h1 {font-family: Impact,Haettenschweiler,Franklin Gothic Bold,Charcoal,Helvetica Inserat,Bitstream Vera Sans Bold,Arial Black,sans serif !important;letter-spacing: 3px;}
+h1 {font-family: American Typewriter, serif !important/*font-family: Impact,Haettenschweiler,Franklin Gothic Bold,Charcoal,Helvetica Inserat,Bitstream Vera Sans Bold,Arial Black,sans serif !important;letter-spacing: 3px;*/}
 h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roman,serif !important;}
 
 
@@ -81,38 +83,35 @@ h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roma
 /* page 2 */
 .templateArtigos {text-align: center; display: grid;grid-template-columns: 0.5fr 2fr 0.5fr; align-items: center; background-color: #2f2f33}
 .dropdownPosition {z-index: 1000; margin-left: calc(50vw - 50px); margin-top: 5px}
-.templateHeaderPage2 {justify-items: center; grid-template-columns: 1fr 1fr 1fr; padding: 10px;}
+.icon-show-user {justify-self: end; margin-right: 10px; z-index: 1000}
+.subTemplateHeaderPage2 {margin:5px; grid-template-columns: auto 1fr 1fr; display: grid; align-items: start}
+.sub2TemplateHeaderPage2 {display: grid; justify-items: center; grid-template-columns: 1fr; padding: 4px;}
+.templateHeaderPage2{grid-template-rows: 20px 1fr}
 .headerPage2Fixed {position: fixed; z-index: 1001}
 .tamanhoFitOpt {height: 12vh; justify-content: center;}
 .posicaoFechar {position: fixed; top:calc(10vh); left: calc((12vh/100)*235); z-index: 1001}
 .tabbar { position: fixed !important; }
-.menu-page2 {background-color: transparent;position: fixed; bottom: 50px; right: 0px;}
+.back-transp {background-color: transparent !important;}
+.transp {color: transparent !important;}
 .bannerDiv {z-index: 1000;}
+.changeUser{color: #212529;font-size: 14px; font-weight: bolder; background: transparent;}
 
 @media (min-width: 1025px) /*maior do que o Ipad Pro */ {
   /*page2*/
   .banners {width: 40vw; border-radius: 5px; margin: 0 30vw 20px 30vw; padding: 0; z-index:0;}
   .menu-page2 {width: 25vw; text-align: center;}
+  .video-size {width: 745px; height: 420px}
 }
 @media (max-width: 767px) /*smarthphone/tablet*/ {
   /*page2*/
   .banners {width: 80vw; border-radius: 5px; margin: 0 10vw 20px 10vw; padding: 0; z-index:0;}
-  /*page1*/
-  [btnPage1] {
-    width: 60vw
-  }
+  .video-size {width: 80vw; height: 42vw}
 }
 @media (min-width: 768px) /*iPad e iPad Pro*/{
   /*page2*/
   .banners {width: 60vw; border-radius: 5px; margin: 0 20vw 20px 20vw; padding: 0; z-index:0;}
   .menu-page2 {width: 25vw; text-align: center;}
-  /*page1*/
-  [btnPage1] {
-    margin-top: 5px; /*só se aplica ao botão de baixo*/
-    width: 35vw;
-    padding: 5px;
-    font-size: 1.4em;
-  }
+  .video-size {width: 60vw; height: 31vw}
 }
 [indent] {text-indent: 5px}
 
@@ -130,7 +129,7 @@ h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roma
 
 [overlay] {z-index: 2;}
 .headerExerc {grid-template-columns: 32px 1fr 32px; grid-template-rows: auto 0px 0px 0px}
-.xyCentered {justify-self: center; align-self: center}
+.xyCentered {justify-self: center; align-self: center; margin: 0 !important;}
 .xStartyCenter {justify-self: start; align-self: center}
 .infoExerc {height: 4vh; float: right; margin: 10vw 3vw; z-index: 2}
 .tutorialExerc {position: absolute; top: 30%; background: #fff; border: 2px solid #001; text-align: center}
@@ -153,7 +152,7 @@ h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roma
   font-weight: 900;
 } 
 .popoverDiv {
-  text-align: center; padding: 20px;
+  text-align: center; padding: 20px 20px 10px 20px;
 }
 .popover { top: 50% !important;
         left: 50% !important;
@@ -178,4 +177,7 @@ h2, h3, h4 {font-family: Didot,Didot LT STD,Hoefler Text,Garamond,Times New Roma
 
 :-ms-input-placeholder {  
    color: #fff;  
+}
+td[colspan='3'] {
+  text-align: start;
 }
