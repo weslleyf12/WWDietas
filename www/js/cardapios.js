@@ -1,29 +1,27 @@
 const lanche = ['desjejum', 'lanche1', 'almoco', 'lanche2', 'jantar', 'ceia']
 
-function variasCoisas() {
-  
-  addDietas()
-  editAddExerc()
-  
+async function variasCoisas() {
   let cardapioNome = $('#choose-sel-cardapios').val()
-  let cardapioAtual = getArrayCardapio(cardapioNome)
   let emailCliente = $('#emailInput').val()
 
+  await addDietas()
+    .then(criarArraysCardapios())
+    .then(adicionaCardapiosTelaEdit(cardapioNome, 1500))
+  editAddExerc()
+}
 
-  let promise = new Promise((resolve, reject) => {
-    
-    cardapioAtual.length = 0
-    db.collection(emailCliente).where("lanche", "==", cardapioNome).get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-         cardapioAtual[cardapioAtual.length] = doc.data()
-        })
-        resolve(cardapioAtual)
+async function attCardapioEspecifico(cardapioNome) {
+  let cardapioAtual = getArrayCardapio(cardapioNome)
+  await (function() {
+  cardapioAtual.length = 0
+  db.collection(emailCliente).where("lanche", "==", cardapioNome).get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+       cardapioAtual[cardapioAtual.length] = doc.data()
       })
-  });
-
-  promise
-    .then(adicionaCardapiosTelaEdit(cardapioNome))
+    })
+  })
+  return cardapioAtual
 }
 
 function criarArraysCardapios(userEmail = firebase.auth().currentUser.email) {
@@ -51,8 +49,8 @@ function criarArraysCardapios(userEmail = firebase.auth().currentUser.email) {
                 almoco[i2] = doc.data()
                 i2++
               } else if (lanche[i] == 'lanche2') {
-                id++
                 lanche2[i2] = doc.data()
+                i2++
               } else if (lanche[i] == 'jantar') {
                 jantar[i2] = doc.data()
                 i2++
@@ -68,22 +66,24 @@ function criarArraysCardapios(userEmail = firebase.auth().currentUser.email) {
 }
 
 /* Inserindo dietas no backend */
-function addDietas() {
-  showToast('Alterações encaminhadas')
-
+async function addDietas() {
   let emailInputed = $('#emailInput').val()
   let nomeDoAlimento = $('#nome-do-alimento').val()
   let medidas = $('#medidas-e-qtndds').val()
   let lanche = $('#choose-sel-cardapios').val()
   let idTabela = $('#idTabelaDietas').val() //diz-se a qual linha se encontrará a informação
 
-  db.collection(emailInputed).doc('['+lanche+']'+idTabela).set ({ // cria uma colecao com o email do usuario, ou altera essa colecao
+  await db.collection(emailInputed).doc('['+lanche+']'+idTabela).set ({ // cria uma colecao com o email do usuario, ou altera essa colecao
     userEmail: emailInputed,
     lanche,
     nomeDoAlimento,
     medidas,
     idTabela
   })
+    .then(showToast('Alterações encaminhadas'))
+    .catch((err) => {console.log(err)})
+
+  return
 }
 
 /* Inserindo Dietas na página */
@@ -107,7 +107,7 @@ for (let i in lanche) {
   }
 }
 
-function adicionaCardapiosTelaEdit(stringCardapio) {
+async function adicionaCardapiosTelaEdit(stringCardapio, tempo = 0) {
   let table = `
    <table editTable class="table table-sm">
     <thead>
@@ -123,21 +123,24 @@ function adicionaCardapiosTelaEdit(stringCardapio) {
   </table>
   <br>
   <br>`; //pula duas linhas para o botão não ficar na frente
+  await attCardapioEspecifico(stringCardapio)
+    .then((cardapio) => {
+      setTimeout(function(){
+        for (let i = 0; i < cardapio.length; i++) {
+        table = table + 
+          `<tbody>
+            <tr>
+              <th scope="row">${cardapio[i].idTabela}</th>
+              <td>${cardapio[i].nomeDoAlimento}</td>
+              <td>${cardapio[i].medidas}</td>
+            </tr>
+          `
+        }
 
-  let cardapio = getArrayCardapio(stringCardapio)
-  for (let i = 0; i < cardapio.length; i++) {
-  table = table + 
-    `<tbody>
-      <tr>
-        <th scope="row">${i}</th>
-        <td>${cardapio[i].nomeDoAlimento}</td>
-        <td>${cardapio[i].medidas}</td>
-      </tr>
-    `
-  }
-
-  table = table+end
-  document.getElementById('editTable1').innerHTML = table
+        table = table+end
+        document.getElementById('editTable1').innerHTML = table
+      }, tempo);
+    })
 }
 
 function addDietasToPage(arrayName, value) {
@@ -275,34 +278,54 @@ function addExerc() {
 }
 
 const showEditExerc = (value) => {
+
+  function op1() {
+    document.querySelector('#choose-sel-treinos-edit').classList.remove('displayNone')
+    document.querySelector('#choose-sel-treinos-edit').style.display = 'inline-block'
+    document.querySelector('#choose-sel-cardapios').classList.add('displayNone')
+    document.querySelector('#choose-sel-cardapios').style.display = 'none'
+  }
+
+  function op2() {
+    document.querySelector('#choose-sel-cardapios').classList.remove('displayNone')
+    document.querySelector('#choose-sel-cardapios').style.display = 'inline-block'
+    document.querySelector('#choose-sel-treinos-edit').classList.add('displayNone')
+    document.querySelector('#choose-sel-treinos-edit').style.display = 'none'
+  }
+
   if (value == 1) {
     document.getElementById('editExerc').style.display = 'block'
     document.getElementById('obsExerc').style.display = 'none'
     document.getElementById('editCardapios').style.display = 'none'
     document.querySelector('#editTable0').classList.remove('displayNone')
     document.querySelector('#editTable1').classList.add('displayNone')
-    document.querySelector('#choose-sel-treinos-edit').classList.remove('displayNone')
+
+    op1()
   }
+
   if (value == 2) {
     document.getElementById('editExerc').style.display = 'none'
     document.getElementById('obsExerc').style.display = 'block'
     document.getElementById('editCardapios').style.display = 'none'
     document.querySelector('#editTable0').classList.remove('displayNone')
     document.querySelector('#editTable1').classList.add('displayNone')
-    document.querySelector('#choose-sel-treinos-edit').classList.remove('displayNone')
+
+    op1()
   }
+
   if (value == 3) {
     document.getElementById('editExerc').style.display = 'none'
     document.getElementById('obsExerc').style.display = 'none'
     document.getElementById('editCardapios').style.display = 'block'
     document.querySelector('#editTable0').classList.add('displayNone')
     document.querySelector('#editTable1').classList.remove('displayNone')
-    document.querySelector('#choose-sel-treinos-edit').classList.add('displayNone')
     adicionaCardapiosTelaEdit($('#choose-sel-cardapios').val())
+
+    op2()
   }
 }
 
-function addExercicio(exercicio, Sxr, tecAvan, tabela, email, indice, boolean) {
+function addExercicio(exercicio, Sxr, tecAvan, tabela, email, indice, instancias, boolean) {
 
   let tableData = document.getElementById(`${tabela}`); 
   let table = `
@@ -321,7 +344,7 @@ function addExercicio(exercicio, Sxr, tecAvan, tabela, email, indice, boolean) {
   for (let i = 0; i <= exercicio.length-1; i++) {
     table = table +
     `<tr>
-      <th scope="row">${i}</th>
+      <th scope="row">${boolean ? instancias[i] : i}</th>
       <td>${exercicio[i]}</td>
       <td>${Sxr[i]}</td>
       <td>${tecAvan[i]}</td>
@@ -487,15 +510,17 @@ const addThings = (email, i, tabela, edit, boolean) => {
   let exercicio1 = new Array()
   let exercicio2 = new Array()
   let exercicio3 = new Array()
+  let instancias = new Array()
   db.collection(email).where("name", "==", newArray[i]).where("observacoes", "==", "nao").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
       edit === false ? document.getElementById('nomeDoTreino').textContent = 'Treino ' +newArray[i] : console.log()
       exercicio1.push(doc.data().newExerc1)
       exercicio2.push(doc.data().newExerc2)
       exercicio3.push(doc.data().newExerc3)
+      instancias.push(doc.data().instancia)
     })
     edit === false ? emailExerc = email : emailExerc = document.getElementById('emailInput').value
-    addExercicio(exercicio1, exercicio2, exercicio3, tabela, emailExerc, i, edit != false)
+    addExercicio(exercicio1, exercicio2, exercicio3, tabela, emailExerc, i, instancias, edit != false)
   });
 
   db.collection(email).where("observacoes", "==", "sim").get().then((querySnapshot) => {
@@ -524,18 +549,66 @@ function showTip() {
 }
 
 function closeTip() {
- document.querySelector('[overlayBackground]').style.opacity = '1'
+  
+  document.querySelector('[overlayBackground]').style.opacity = '1'
   document.querySelector('[overlay]').style.display = 'none'
 }
 
+function showHideChooseSels() {
+  if (document.querySelector('#exercSegment')._lastActiveIndex != 2) {
+    document.querySelector('#choose-sel-treinos-edit').classList.remove('displayNone')
+    document.querySelector('#choose-sel-treinos-edit').style.display = 'inline-block'
+    document.querySelector('#choose-sel-cardapios').classList.add('displayNone')
+    document.querySelector('#choose-sel-cardapios').style.display = 'none'
+  } else {
+    document.querySelector('#choose-sel-cardapios').classList.remove('displayNone')
+    document.querySelector('#choose-sel-cardapios').style.display = 'inline-block'
+    document.querySelector('#choose-sel-treinos-edit').classList.add('displayNone')
+    document.querySelector('#choose-sel-treinos-edit').style.display = 'none'
+  }
+}
+
 async function editAddExerc() {
+  let a
   userEmail = document.getElementById('emailInput').value
   await db.collection(userEmail).where("observacoes", "==", "nao").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-      return array.push(doc.data().name)
-    })    
+      return a = array.push(doc.data().name)
+    })  
   })
+  .then(() => {
+    if (a == undefined) {throw new Error('E-mail inválido')
+    } else {
+      showHideChooseSels()
+      document.getElementById('editTable0').innerHTML = ''
+      document.getElementById('editTable1').innerHTML = ''
+      addThings(userEmail, 0, 'editTable0', true, false)
+      addChooseSel(userEmail, 'choose-sel-treinos-edit', false)}
+  })
+  .catch((q) => {
+    document.getElementById('editTable0').innerHTML = q
+    document.getElementById('editTable1').innerHTML = q
+    document.getElementById('choose-sel-treinos-edit').style.display = 'none'
+    document.getElementById('choose-sel-cardapios').style.display = 'none'
+  })
+}
 
-  addThings(userEmail, 0, 'editTable0', true, false)
-  addChooseSel(userEmail, 'choose-sel-treinos-edit', false)
+function excluirDados(numero) {
+  let cardapioNome = $('#choose-sel-cardapios').val()
+  let treinoNome = $('#sub-choose-sel-treinos-edit').val()
+  let emailCliente = $('#emailInput').val()
+  let documento
+  
+  if (document.querySelector('#exercSegment')._lastActiveIndex != 2) {
+    documento = treinoNome
+  } else {documento = cardapioNome}
+
+  const v = emailCliente+'['+documento+']'+'['+numero+']'
+  console.log(v)
+  db.collection(emailCliente).doc(v).delete().then(function() {
+    showToast("Documento deletado com sucesso!");
+    editAddExerc()
+  }).catch(function(error) {
+    showToast("Erro ao remover documento", error);
+  });
 }

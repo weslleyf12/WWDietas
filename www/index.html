@@ -423,69 +423,70 @@
         <p>
           <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
         </p>
-      <div class="centered">
-        <ons-segment id="exercSegment" style="width: 180px">
-          <button onclick="showEditExerc(1)">Exerc.</button>
-          <button onclick="showEditExerc(2)">Obs.</button>
-          <button onclick="showEditExerc(3)">Dietas</button>
-        </ons-segment>
+        <div class="centered">
+          <ons-segment id="exercSegment" style="width: 180px">
+            <button value="1" onclick="showEditExerc(1)">Exerc.</button>
+            <button onclick="showEditExerc(2)">Obs.</button>
+            <button onclick="showEditExerc(3)">Dietas</button>
+          </ons-segment>
+        </div>
+        <div id="editExerc">
+          <h3 style="font-weight:250px">Informe os dados</h3> 
+          <p>
+            <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
+          </p>
+          <p>
+            <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
+          </p>
+          <p style="width: 100%; position: fixed; bottom: 0%">
+            <ons-button modifier="large" onclick="addExerc(); editAddExerc()">OK</ons-button>
+          </p>
+        </div>
+        <div id="obsExerc" style="display:none">
+          <h3 style="font-weight:250px">Informe os dados</h3>
+          <p>
+            <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
+          </p>
+          <p>
+            <ons-input id="observacoes" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
+          </p>
+          <p style="width: 100%; position: fixed; bottom: 0%">
+            <ons-button modifier="large" onclick="addObs(); editAddExerc()">OK</ons-button>
+          </p>
+        </div>
+        <div id="editCardapios" style="display:none">
+          <h3 style="font-weight:250px">Informe os dados</h3>
+          <ons-select id="choose-sel-cardapios" onchange="adicionaCardapiosTelaEdit(this.value)">
+            <option value="desjejum">Desjejum</option>
+            <option value="lanche1">Lanche</option>
+            <option value="almoco">Almoço</option>
+            <option value="lanche2">Lanche</option>
+            <option value="jantar">Jantar</option>
+            <option value="ceia">Ceia</option>
+          </ons-select>
+          <p style="margin-top: 5px">
+            <ons-input id="nome-do-alimento" placeholder="Nome do alimento" float></ons-input>
+          </p>       
+          <p>
+            <ons-input id="medidas-e-qtndds" placeholder="Medidas e quantidade" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="idTabelaDietas" placeholder="Linha da tabela" float></ons-input>
+          </p>
+          <p style="width: 100%; position: fixed; bottom: 0%">
+            <ons-button modifier="large" onclick="variasCoisas()">OK</ons-button>
+          </p>
+        </div>
+        <div id='choose-sel-treinos-edit'></div>
+        <div id="editTable0"></div>
+        <div id="editTable1"></div>
       </div>
-      <div id="editExerc">
-        <h3 style="font-weight:250px">Informe os dados</h3> 
-        <p>
-          <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
-        </p>
-        <p>
-          <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
-        </p>
-        <p>
-          <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
-        </p>
-        <p style="width: 100%; position: fixed; bottom: 0%">
-          <ons-button modifier="large" onclick="addExerc(); editAddExerc()">OK</ons-button>
-        </p>
-      </div>
-      <div id="obsExerc" style="display:none">
-        <h3 style="font-weight:250px">Informe os dados</h3>
-        <p>
-          <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
-        </p>
-        <p>
-          <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
-        </p>
-        <p>
-          <ons-input id="observacoes" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
-        </p>
-        <p style="width: 100%; position: fixed; bottom: 0%">
-          <ons-button modifier="large" onclick="addObs(); editAddExerc()">OK</ons-button>
-        </p>
-      </div>
-      <div id="editCardapios" style="display:none">
-        <h3 style="font-weight:250px">Informe os dados</h3>
-        <ons-select id="choose-sel-cardapios" onchange="adicionaCardapiosTelaEdit(this.value)">
-          <option value="desjejum">Desjejum</option>
-          <option value="lanche1">Lanche</option>
-          <option value="almoco">Almoço</option>
-          <option value="lanche2">Lanche</option>
-          <option value="jantar">Jantar</option>
-          <option value="ceia">Ceia</option>
-        </ons-select>
-        <p>
-          <ons-input id="nome-do-alimento" placeholder="Nome do alimento" float></ons-input>
-        </p>       
-        <p>
-          <ons-input id="medidas-e-qtndds" placeholder="Medidas e quantidade" float></ons-input>
-        </p>
-        <p>
-          <ons-input id="idTabelaDietas" placeholder="Linha da tabela" float></ons-input>
-        </p>
-        <p style="width: 100%; position: fixed; bottom: 0%">
-          <ons-button modifier="large" onclick="variasCoisas()">OK</ons-button>
-        </p>
-      </div>
-      <div id='choose-sel-treinos-edit'></div>
-      <div id="editTable0"></div>
-      <div id="editTable1"></div>
 
       <div id="regPage" style="text-align: center; margin-bottom: 35%; display: none">
         <h3 style="margin-top: 8vh; font-weight:250px">Preencha as informações do cliente</h3> 
