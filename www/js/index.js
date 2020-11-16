@@ -39,6 +39,8 @@ document.addEventListener('init', function(event) {
 
 document.addEventListener('init', function(event) {
   if (event.target.matches('#page2')) {
+    criaUsername()
+    dragItems('#userChangeDataCarousel', dragEnd_Username)
     criarArraysCardapios()
     //IF PRIMEIRO LOGIN
     let user = firebase.auth().currentUser
@@ -57,8 +59,10 @@ document.addEventListener('init', function(event) {
     document.querySelectorAll('.page__content')[1].addEventListener('scroll', changesPages2)
     carousel = document.getElementById('carousel');
     bannersIntervalo = window.setInterval(changeBanner, 6000)
-    document.querySelector('#carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()}
-  )}
+    document.querySelector('#carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()})
+  }
+
+
 }, false);
 
 window.fn.open = function() {
@@ -198,7 +202,7 @@ const getFontSize = (elementId) => { //nao usado
 }
 
 const getSizeOf = (elementId, method) => {
-  let element = document.getElementById(elementId);if (method == 'height') {let height = window.getComputedStyle(element).height; return parseFloat(height) } else { let width = window.getComputedStyle(element).width; return parseFloat(width)} 
+  const element = document.querySelector(elementId);if (method == 'height') {const height = window.getComputedStyle(element).height; return parseFloat(height) } else { const width = window.getComputedStyle(element).width; return parseFloat(width)} 
 }
 
 function editSelectsArtigos(x) {
@@ -252,13 +256,12 @@ const entrar = () => {
   })
 }
 
-let showAddUserNameCounter = 0
-const showAddUserName = () => {
+
+//INICIO BLOCO DE CÓDIGO
+
+const criaUsername = () => {
   let user = firebase.auth().currentUser
-  if (showAddUserNameCounter%2 == 0) {
-    document.querySelector("#userChangeDataCarousel").classList.remove('displayNone')
-  } else {document.querySelector("#userChangeDataCarousel").classList.add('displayNone')}
-  showAddUserNameCounter++
+
   let transparencia
   let mensagem = 'Verifique seu email'
   let fnc
@@ -281,10 +284,52 @@ const showAddUserName = () => {
     <button id="btnPopoverChangeName" type="button" style="transform: translateX(-50%); margin: 0 50% 10px 50%" onclick="addUserName(); hidePopover(); document.querySelector('#userChangeDataCarousel').classList.add('displayNone')" class="btn btn-outline-secondary btn-sm">Mudar nome</button>
   `
 }
-document.addEventListener('overscroll', function(event) {
-  document.querySelector('#userChangeDataCarousel').classList.add('displayNone')
-  showAddUserNameCounter++
-})
+
+const showAddUserName = () => {
+  $("#userChangeDataCarousel").toggleClass('displayNone draggable')
+  $(".carousel").toggleClass('down-or-up')
+}
+
+fn.vleft = 0;
+//dragUsername
+//#userChangeDataCarousel
+function dragItems(itemId, fnctEnd, target = false) { //if target true, itemId must be a major div, like ul instead of li
+  const items = document.querySelectorAll(itemId);
+
+  if (target) {for (let i = 0; i < items.length; i++) {dragItem(items[i], fnctEnd, target)}} else {dragItem(items[0], fnctEnd)}
+}
+
+function dragItem(item, fnctEnd, target = false) {
+    item.ondragstart =  function(e) {
+    if(target) {
+      let $target; if(e.target.nodeName == 'TR') {$target = e.target} else {$target = e.target.parentNode}
+
+      $target.style.position = 'absolute'
+      let $targetHTML = $($target).children()[0]
+      if (document.getElementById('delete-tr')) {} else {$($target).after(`<tr id='delete-tr'><th style='color:transparent'>${$($targetHTML).html()}</th><td colspan='3' style='background: red; border-radius: 10px; text-align: center'><ons-icon icon='trash-alt'</ons-icon></td></tr>`)}
+      fn.vleft = parseInt(item.style.left || 0,10);
+    } else {
+      fn.vleft = parseInt(item.style.left || 0,10)
+    }
+  };
+
+  item.ondrag = function(e) {
+    if(target) {
+      let $target; if(e.target.nodeName == 'TR') {$target = e.target} else {$target = e.target.parentNode}
+      $target.style.left = parseInt(fn.vleft + e.gesture.deltaX) + 'px' 
+    } else { item.style.left = parseInt(fn.vleft + e.gesture.deltaX)  +'px'}
+  }
+
+  item.addEventListener('dragend', fnctEnd);
+}
+
+function dragEnd_Username(e) {
+  let bodyWidth = getSizeOf('body', 'width') //bodyWidth - tamanho da div dividido por dois porque há dois lados
+  if (e.gesture.distance >= ((bodyWidth - 216 ) / 2) || e.gesture.distance <= - ((bodyWidth - 216 ) / 2)) {
+    document.querySelector("#userChangeDataCarousel").style.left = 0 +'px'
+    showAddUserName()
+  } else {document.querySelector("#userChangeDataCarousel").style.left = 0 +'px'}
+}
 
 const addUserName = () => {
   let user = firebase.auth().currentUser;
@@ -301,6 +346,8 @@ const addUserName = () => {
     names[names.length-1] == names[0] ? changeUser.value = names[0] : changeUser.value = `${names[0]} ${names[names.length-1]}`
   }
 }
+
+//FIM BLOCO DE CÓDIGO
 
 const signOut = () => {
   firebase.auth().signOut().then(function() {
@@ -338,13 +385,7 @@ const hideHeaderPage2 = (bt = 'no') => {
 }
 
 const showHide = (id) => {
-  if ($(id).hasClass('displayNone')) {
-    $(id).addClass('displayBlock').removeClass('displayNone');
-  } else if ($(id).hasClass('displayBlock')){
-    $(id).addClass('displayNone').removeClass('displayBlock');
-  } else {
-    $(id).addClass('displayNone')
-  }
+  $(id).toggleClass('displayNone')
 }
 
 let showOrHide = 2
@@ -452,3 +493,19 @@ if (errorCode === 'auth/wrong-password') {
       showToast(errorMessage);
     }
 }
+
+ function closeMe(elementToClose)
+ {
+     elementToClose.innerHTML = '';
+     elementToClose.style.display = 'none';
+ }
+
+ function minimizeMe(elementToMin, maxElement)
+ {
+     elementToMin.style.display = 'none';
+ }
+
+function exercSegment_op1() {$('#editExerc').show(); $('#obsExerc').hide(); $('#editCardapios').hide(); $('#choose-sel-treinos-edit').show(); $('#choose-sel-cardapios').hide(); $('#editTable0').show(); $('#editTable1').hide();}
+function exercSegment_op2() {$('#obsExerc').show(); $('#editExerc').hide(); $('#editCardapios').hide(); $('#choose-sel-treinos-edit').show(); $('#choose-sel-cardapios').hide(); $('#editTable0').show(); $('#editTable1').hide();}
+function exercSegment_op3() {$('#editCardapios').show(); $('#editExerc').hide(); $('#obsExerc').hide(); $('#choose-sel-treinos-edit').hide(); $('#choose-sel-cardapios').show(); $('#editTable0').hide(); $('#editTable1').show(); deleteSwitch_check(); adicionaCardapiosTelaEdit('desjejum')}
+function check_deleteSegment() {if (document.getElementById('deleteSwitch').checked == true)document.getElementById('deleteSwitch').click()}

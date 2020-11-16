@@ -4,13 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="js/jquery/dist/jquery.min.js"></script>
   <script src="js/index.js"></script>
   <script src="js/cardapios.js"></script>
-  <script src="js/jquery/dist/jquery.min.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
   <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="js/bootstrap/bootstrap.min.js"></script>
   <script src="components/loader.js"></script>
-  <script src="lib/onsenui/js/onsenui.min.js"></script>
+
   <!--<link rel="stylesheet" href="bootstrap-4.1.3/bootstrap-table-only.css">-->
   <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
@@ -45,6 +46,7 @@
 </script>
 </head>
 <body id="body">
+
   <ons-navigator swipeable id="navigator" page="login.html"></ons-navigator>
 
   <ons-modal direction="up">
@@ -94,7 +96,7 @@
       </ons-list>
 
       <ons-list-header style="margin-top: 20px; background-color: #f1f1f1">Novidade</ons-list-header>
-      <ons-list-item style="border: 2px solid #dce0dd; border-radius: 20px">
+      <ons-list-item class="bordaCinza">
         Tire suas dúvidas diretamento pelo App, usando o chat.
         <div class="btn-group dropright" style="margin-top: 20px">
           <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -215,38 +217,30 @@
           <input type="image" class="tamanhoFitOpt" src=images\FIThaltere.png></input>
         </div>
       </ul>
+      <!--<div id="range" draggable="true" style="position: absolute; left: 0; width: 20px; height: 100vh; z-index: 1100; background-color: grey"></div>-->
 
-      <ons-carousel fullscreen swipeable auto-scroll overscrollable swipeable id="userChangeDataCarousel" onSwipe="closeUserChangeData()" class="displayNone" style="max-height: 270px">
-        <ons-carousel-item>                 
-          <div id="userChangeData" style="
-          text-align: center;
-          border: 1px solid #cecece;
-          background: rgb(255 255 255 / 25%);
-          border-radius: 15px;
-          min-width: 60vw;
-          max-width: 70vw;
-          margin-left: auto;
-          margin-right: auto;
-          box-sizing: border-box;">
-          <h3 id="helloMessage" style='margin: 10px'></h3>
+      <ons-gesture-detector>
+        <div id="userChangeDataCarousel" class="displayNone transformUserChangeData userChangeDataCarousel">
+          <div class="bordaUserChangeData">
+            <h3 id="helloMessage" style='margin: 10px'></h3>
             <div id="userChangeDataSubdiv"></div>
           </div>
-        </ons-carousel-item>
-    </ons-carousel>
-
-      <div class="carousel bannerDiv">
-        <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel">
-          <ons-carousel-item>
-              <input class="banners" type="image" style="display: block" src=images/banner1.jpeg></input>
-          </ons-carousel-item>
-          <ons-carousel-item>
-              <input class="banners" type="image" style="display:block" src=images/banner2.jpeg></input>
-          </ons-carousel-item>
-          <ons-carousel-item>
-              <input class="banners" type="image" style="display:block" src=images/banner3.1.jpg></input>
-          </ons-carousel-item>
-        </ons-carousel>
-      </div>
+        </div>
+      </ons-gesture-detector>
+      
+        <div class="carousel bannerDiv">
+          <ons-carousel fullscreen swipeable auto-scroll overscrollable id="carousel">
+            <ons-carousel-item>
+                <input class="banners" type="image" style="display: block" src=images/banner1.jpeg></input>
+            </ons-carousel-item>
+            <ons-carousel-item>
+                <input class="banners" type="image" style="display:block" src=images/banner2.jpeg></input>
+            </ons-carousel-item>
+            <ons-carousel-item>
+                <input class="banners" type="image" style="display:block" src=images/banner3.1.jpg></input>
+            </ons-carousel-item>
+          </ons-carousel>
+        </div>
 
       <div class="bannerSpan bannerDiv">
         <span firstSpan class="w3-text-white backgroundTransp large w3-border badge bannerSpans green" onclick="stopBannerTransition(); first()">a</span>
@@ -275,10 +269,6 @@
       <div id="artigos-treinos">
         <div indent>
           <h2 class='font-brush centered' indent>Hábitos saudáveis</h2>
-            <br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br><br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
-          <h2 class='font-brush centered'>O porque de...</h2>
-          a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>
-        </div>
       </div>
         <div id="artigos-dietas">
           <h4 indent> Ups... Não há! </h4>
@@ -424,12 +414,13 @@
           <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
         </p>
         <div class="centered">
-          <ons-segment id="exercSegment" style="width: 180px">
-            <button value="1" onclick="showEditExerc(1)">Exerc.</button>
-            <button onclick="showEditExerc(2)">Obs.</button>
-            <button onclick="showEditExerc(3)">Dietas</button>
+          <ons-segment id="exercSegment" onclick="check_deleteSegment()" style="width: 180px">
+            <button onclick="exercSegment_op1()">Exerc.</button>
+            <button onclick="exercSegment_op2()">Obs.</button>
+            <button onclick="exercSegment_op3()">Dietas</button>
           </ons-segment>
         </div>
+
         <div id="editExerc">
           <h3 style="font-weight:250px">Informe os dados</h3> 
           <p>
@@ -439,13 +430,13 @@
             <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
           </p>
           <p>
-            <ons-input id="instExerc" placeholder="Número do exercício" int></ons-input>
+            <ons-input id="instExerc" type="number" placeholder="Número do exercício" int></ons-input>
           </p>
           <p style="width: 100%; position: fixed; bottom: 0%">
-            <ons-button modifier="large" onclick="addExerc(); editAddExerc()">OK</ons-button>
+            <ons-button modifier="large" onclick="addExerc()">OK</ons-button>
           </p>
         </div>
-        <div id="obsExerc" style="display:none">
+        <div id="obsExerc" class="displayNone">
           <h3 style="font-weight:250px">Informe os dados</h3>
           <p>
             <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
@@ -460,7 +451,7 @@
             <ons-button modifier="large" onclick="addObs(); editAddExerc()">OK</ons-button>
           </p>
         </div>
-        <div id="editCardapios" style="display:none">
+        <div id="editCardapios" class="displayNone">
           <h3 style="font-weight:250px">Informe os dados</h3>
           <ons-select id="choose-sel-cardapios" onchange="adicionaCardapiosTelaEdit(this.value)">
             <option value="desjejum">Desjejum</option>
@@ -477,15 +468,47 @@
             <ons-input id="medidas-e-qtndds" placeholder="Medidas e quantidade" float></ons-input>
           </p>
           <p>
-            <ons-input id="idTabelaDietas" placeholder="Linha da tabela" float></ons-input>
+            <ons-input id="idTabelaDietas" type="number" placeholder="Linha da tabela" float></ons-input>
           </p>
           <p style="width: 100%; position: fixed; bottom: 0%">
-            <ons-button modifier="large" onclick="variasCoisas()">OK</ons-button>
+            <ons-button modifier="large" onclick="addDietas(); criarArraysCardapios($('#emailInput').val())">OK</ons-button>
           </p>
         </div>
-        <div id='choose-sel-treinos-edit'></div>
+        <ons-icon icon="fa-sync-alt" style="float: right; margin-right: 10px" onclick="opcaoEdit() != 2 ? editAddExerc() : adicionaCardapiosTelaEdit($('#choose-sel-cardapios').val())"></ons-icon>
+        <div id='choose-sel-treinos-edit' class="displayNone"></div>
         <div id="editTable0"></div>
-        <div id="editTable1"></div>
+        <div id="editTable1" class="displayNone"></div>
+
+        <ons-list-header>
+          <div>
+            Excluir dados 
+            <ons-switch id="deleteSwitch" onchange="deleteSwitch_check()"></ons-switch>
+          </div>
+          <div>
+            <ons-checkbox id="askAgainEditDelete" checked onclick="askAgainEditDelete(this)">Confirmar exclusão</ons-checkbox>
+          </div>
+        </ons-list-header>
+
+        <div id="excluirDados" class="excluirEdit bordaCinza displayNone">
+          <div style="display: inline">
+            <label class="radio-button radio-button--material">
+              <input id="radio-delete-treino" type="radio" class="radio-button__input radio-button--material__input" name="r" checked="checked" value="treino" onclick="showHideDeleteData(this.value)">
+              <div class="radio-button__checkmark radio-button--material__checkmark"></div>
+              Treino
+            </label>
+            <label class="radio-button radio-button--material">
+              <input id="radio-delete-dieta" type="radio" class="radio-button__input radio-button--material__input" name="r" value="dietas" onclick="showHideDeleteData(this.value)">
+              <div class="radio-button__checkmark radio-button--material__checkmark"></div>
+              Dieta
+            </label>
+          </div>
+          <ons-input id="excluirTreino" placeholder="Treino" float style="width: 80px"></ons-input>
+          <ons-input class="displayNone" id="excluirDieta" placeholder="Dieta" float style="width: 80px"></ons-input>
+          <ons-button modifier="quiet" onclick="excluirDados()">Excluir</ons-button>
+        </div>
+        <br>
+        <br>
+        <br>
       </div>
 
       <div id="regPage" style="text-align: center; margin-bottom: 35%; display: none">
@@ -497,7 +520,7 @@
           <ons-button onclick="document.getElementById('senha-cadastro').value = gerarSenha()">Gerar senha</ons-button>
         </p>
         <p style="width: 100%; position: fixed; bottom: 0%">
-          <ons-button modifier="large" onclick="cadastrar(); editAddExerc()">OK</ons-button>
+          <ons-button modifier="large" onclick="cadastrar(); //editAddExerc()">OK</ons-button>
         </p>
       </div>
     </ons-page>
