@@ -369,30 +369,37 @@ function editAddExerc() {
   })
 }
 
-document.addEventListener('swipeleft', function(event) {
-  increaseIndice()
-  if (event.target.matches('#tabela')) {
-    let userEmail = firebase.auth().currentUser.email;
-    indice = indice++
-    if (indice >= arrayTreinos.length) {
-      indice = indice - 1 //se o indice passar do valor total ele para de avancar
-    }
-    document.getElementById('choose-sel-treinos').selectedIndex = indice
-    addThings(userEmail, indice, "tabelaExercicios", false, true)
-  } 
-});
+document.addEventListener('init', async function(event) {
+  if (event.target.matches('#exercicios')) {
+    document.getElementById('tabelaExercicios').addEventListener('drag', function(event) {
+      if (event.gesture.direction == 'left' && indice == 0) {} // se arrastar pra esquerda quando não houver mais treinos
+      else if (event.gesture.direction == 'right' && indice == document.querySelectorAll('option[select-id]').length - 1) {} //ou arrastar pra direita quando acabar os treinos
+      else {
+        document.querySelector("#tabelaExercicios").style.left = parseInt(event.gesture.deltaX || 0,10) + 'px' 
+      }
+    });
 
-document.addEventListener('swiperight', function(event) {
-  decreaseIndice()
-  if (event.target.matches('#tabela')) {
-    let userEmail = firebase.auth().currentUser.email;
-    indice = indice - 1 
-    if (indice < 0) {indice = 0}//se o indice ficar menor do que 0 ele para de descer
-    document.getElementById('choose-sel-treinos').selectedIndex = indice
-    addThings(userEmail, indice, "tabelaExercicios", false, true)
+    document.addEventListener('dragend', function(event) {
+      if (event.gesture.distance > getSizeOf('#tabelaExercicios', 'width') / 2 && event.gesture.direction == 'left') {
+        increaseIndice()
+        let userEmail = firebase.auth().currentUser.email;
+        indice = indice++
+        if (indice >= arrayTreinos.length) {
+          indice = indice - 1 //se o indice passar do valor total ele para de avancar
+        }
+        document.getElementById('choose-sel-treinos').selectedIndex = indice
+        addThings(userEmail, indice, "tabelaExercicios", false, true)
+      } else if  (event.gesture.distance > getSizeOf('#tabelaExercicios', 'width') / 2 && event.gesture.direction == 'right') {
+        decreaseIndice()
+        const userEmail = firebase.auth().currentUser.email;
+        indice = indice - 1 
+        if (indice < 0) {indice = 0}//se o indice ficar menor do que 0 ele para de descer
+        document.getElementById('choose-sel-treinos').selectedIndex = indice
+        addThings(userEmail, indice, "tabelaExercicios", false, true)
+      } else { document.querySelector("#tabelaExercicios").style.left = 0 + 'px'}
+    })
   }
-});
-
+})
 function decreaseIndice() { //diz respeito ao valor atual do treino, ex: A,B,C
   return indice = indice - 1
 }

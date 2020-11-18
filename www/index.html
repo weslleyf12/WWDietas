@@ -72,7 +72,7 @@
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
 
-      <ons-list>
+      <ons-list style="margin-top: 20px">
 
         <ons-list-header>Vídeos</ons-list-header>
 
@@ -83,6 +83,7 @@
             </iframe>
           </div>
         </ons-list-item>
+
 
         <ons-list-item expandable>
           MMII - Membros Inferiores
@@ -97,13 +98,21 @@
 
       <ons-list-header style="margin-top: 20px; background-color: #f1f1f1">Novidade</ons-list-header>
       <ons-list-item class="bordaCinza">
-        Tire suas dúvidas diretamento pelo App, usando o chat.
-        <div class="btn-group dropright" style="margin-top: 20px">
-          <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Abrir chat
+        Tire suas dúvidas entrando em contato com seus profissionais.
+        <div style="text-align: left; margin: 14px 0px 5px 0px">
+          <ons-icon style="margin-right:10px" size="25px" icon="fa-whatsapp"></ons-icon>
+          <ons-icon style="margin-right:10px" size="25px" icon="fa-instagram"></ons-icon>
+          <ons-icon style="margin-right:10px" size="25px" icon="fa-envelope"></ons-icon>
+        </div>
+      </ons-list-item>
+      <ons-list-item>
+        <div class="dropright">
+          Em caso de bugs, mal funcionamento ou sugestões, entre em contato conosco.
+          <button style="margin-top: 10px" type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Contate-nos
           </button>
           <div class="dropdown-menu">
-            <!-- Dropdown menu links -->
+            Nada ainda
           </div>
         </div>
       </ons-list-item>
@@ -359,7 +368,7 @@
             Arraste aqui
           </div>
         </ons-gesture-detector>
-        <div id="tabelaExercicios">
+        <div id="tabelaExercicios" style="position: relative;">
         </div>
         <footer><h4 id="intervaloExerc" class="nomargin bold" style="margin: 0vh 8vw 0vh 8vw" announcement>Intervalo entre treino e exercícios:</h4></footer>
 
