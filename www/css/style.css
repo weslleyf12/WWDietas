@@ -23,7 +23,9 @@ input[type=password]::-ms-reveal {
   align-items: center;
 }
 
-.inline-block{display: inline-block;}.large{width: 15px;height: 15px;}.centered{text-align: center}.hidden{display: none;}.nopadding{padding: 0;}.nomargin{margin: 0;}.noborder{border:none;}.bolder{font-weight: 900}.bold{font-weight: 600;}.displayNone{display: none;}.displayBlock{display:block;}.position-fixed{position: fixed}
+.artigosDate {background:transparent; width: 100%; margin-left: 0px}
+
+.txtAlignStart{text-align: start}.inline-block{display: inline-block;}.large{width: 15px;height: 15px;}.centered{text-align: center}.hidden{display: none;}.nopadding{padding: 0;}.nomargin{margin: 0;}.noborder{border:none;}.bolder{font-weight: 900}.bold{font-weight: 600;}.displayNone{display: none;}.displayBlock{display:block;}.position-fixed{position: fixed}
 .item {
   margin: 0.6vw 1.2vw;
   flex: 1;

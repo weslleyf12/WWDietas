@@ -9,7 +9,6 @@
   <script src="js/cardapios.js"></script>
   <script src="lib/onsenui/js/onsenui.min.js"></script>
   <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="js/bootstrap/bootstrap.min.js"></script>
   <script src="components/loader.js"></script>
 
   <!--<link rel="stylesheet" href="bootstrap-4.1.3/bootstrap-table-only.css">-->
@@ -18,7 +17,6 @@
   <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/login.css">
-  <link rel="stylesheet" href="components/loader.css">
 
   <script>
     if (ons.platform.isIPhoneX()) {
@@ -71,63 +69,43 @@
         <h1 class="xyCentered">Interativo</h1>
         <div style="color: transparent;">aa</div>
       </ons-toolbar>
-
-      <ons-list style="margin-top: 20px">
-
-        <ons-list-header>Vídeos</ons-list-header>
-
-        <ons-list-item expandable>
-          Sobre o app
-          <div class="expandable-content">
-            <iframe class="video-size" src="https://www.youtube.com/embed/6P6GJer9MxQ">
-            </iframe>
-          </div>
-        </ons-list-item>
-
-
-        <ons-list-item expandable>
-          MMII - Membros Inferiores
-          <div class="expandable-content">Expandable content</div>
-        </ons-list-item>
-
-        <ons-list-item expandable>
-          MMSS - Membros Superiores
-          <div class="expandable-content">Expandable content</div>
-        </ons-list-item>
-      </ons-list>
-
-      <ons-list-header style="margin-top: 20px; background-color: #f1f1f1">Novidade</ons-list-header>
-      <ons-list-item class="bordaCinza">
+      <div class="m-2">
         Tire suas dúvidas entrando em contato com seus profissionais.
-        <div style="text-align: left; margin: 14px 0px 5px 0px">
-          <ons-icon style="margin-right:10px" size="25px" icon="fa-whatsapp"></ons-icon>
-          <ons-icon style="margin-right:10px" size="25px" icon="fa-instagram"></ons-icon>
-          <ons-icon style="margin-right:10px" size="25px" icon="fa-envelope"></ons-icon>
-        </div>
-      </ons-list-item>
-      <ons-list-item>
-        <div class="dropright">
-          Em caso de bugs, mal funcionamento ou sugestões, entre em contato conosco.
-          <button style="margin-top: 10px" type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Contate-nos
-          </button>
-          <div class="dropdown-menu">
-            Nada ainda
+        <ons-list-item> <!-- INSTRITOR ACADEMIA TREINOS -->
+          <div class="left">
+            <img class="list-item__thumbnail" src="images/user-circle-solid.svg">
           </div>
+          <button id="btnInstrutor0" class="txtAlignStart center border-0" onclick="medias_instrutor0()">
+            <span class="list-item__title">Personal Trainer</span><span class="list-item__subtitle">Nome instrutor</span>
+          </button>
+        </ons-list-item>
+        <div id="socialMedias0" class="displayNone" style="text-align: center; margin: 14px 0px 5px 0px">
+          <ons-icon onclick="contatos.fb()" style="margin-right:10px; color: #1f42e4" size="25px" icon="fa-facebook-f"></ons-icon>
+          <ons-icon onclick="contatos.wpp()" style="margin-right:10px; color: #008200" href="" size="25px" icon="fa-whatsapp"></ons-icon>
+          <ons-icon onclick="contatos.insta()" style="margin-right:10px; color: #b5508a" size="25px" icon="fa-instagram"></ons-icon>
+          <a><ons-icon style="margin-right:10px; color: #1f42e4" size="25px" icon="fa-envelope"></ons-icon></a>
         </div>
-      </ons-list-item>
-
+        <ons-list-item> <!-- INSTRITOR CARDAPIOS -->
+          <div class="left">
+            <img class="list-item__thumbnail" src="images/user-circle-solid.svg">
+          </div>
+          <button id="btnInstrutor1" class="txtAlignStart center border-0" onclick="medias_instrutor1()">
+            <span class="list-item__title">Nutricionista</span><span class="list-item__subtitle">Nome instrutor</span>
+          </button>
+        </ons-list-item>
+        <div id="socialMedias1" class="displayNone" style="text-align: center; margin: 14px 0px 5px 0px">
+          <ons-icon onclick="contatos.fb()" style="margin-right:10px; color: #1f42e4" size="25px" icon="fa-facebook-f"></ons-icon>
+          <ons-icon onclick="contatos.wpp()" style="margin-right:10px; color: #008200" href="" size="25px" icon="fa-whatsapp"></ons-icon>
+          <ons-icon onclick="contatos.insta()" style="margin-right:10px; color: #b5508a" size="25px" icon="fa-instagram"></ons-icon>
+          <a><ons-icon style="margin-right:10px; color: #1f42e4" size="25px" icon="fa-envelope"></ons-icon></a>
+        </div>
+      </div>
+      <div class="alert alert-danger displayNone" role="alert"></div>
     </ons-page>
   </template>
 
   <template id="page1.html">
     <ons-page id="page1">
-      <!--<div pg1 class="displayNone backgroundPage1">
-      <p style="padding-top: calc(100vh - 200px); display: grid; justify-content: center">
-        <ons-button btnPage1 style="background-color: #ff8c00; color: #f8f9fa; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #ff8c00; letter-spacing: 2px; margin-bottom: 10px;" ons-btn onclick="">Instrutor</ons-button>
-       <ons-button btnPage1 class="shadow softShadow font-brush" style="background-color: #ccc; color: #000; border-radius: 60px; font-weight: bolder; text-align: center; border: 2px solid #31313; letter-spacing: 2px; margin-bottom: 10px" ons-btn onclick="page1ToLogin()">aluno</ons-button>
-      </p>
-      </div>-->
        <ons-tabbar position="bottom" style="z-index: 999">
         <ons-tab page="page2.html">
           <input type="radio">
@@ -174,8 +152,8 @@
       <div class="loginBackground"></div> <!-- DIV SEPARADA PARA NÃO LEVAR A OPACIDADE A TODA A PÁGINA -->
       <div class="containerLogin dropShadow">
         <div class="dropShadow loginForm">
-          <input class="login-img" type="image" src=images/logo1.png></input><br>
-          <span class="login-form-title">LOGIN</span>
+          <input class="login-img" type="image" src=images/logo1.png></input>
+          <!--<span class="login-form-title">LOGIN</span>-->
           <div>
             <div class="input-text">
               <input class="input" id="email-login" type="text" name="username" placeholder="Usuário">
@@ -274,14 +252,18 @@
           <button class="dropdown-item" type="button" onclick="editSelectsArtigos(1)">Dietas</button>
         </div>
       </div>
-
-      <div id="artigos-treinos">
-        <div indent>
-          <h2 class='font-brush centered' indent>Hábitos saudáveis</h2>
-      </div>
-        <div id="artigos-dietas">
-          <h4 indent> Ups... Não há! </h4>
+      <div progressDiv>
+        <h7 style="text-align: center;">Carregando recursos...</h7>
+        <div class="progress">
+          <div style="background-color: #007bff; padding: 30px" progress class="mb-2" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
+      </div>
+      <div class="mt-2">
+        <ons-list>
+          <div id="artigos-treinos"></div>
+          <div id="artigos-dietas" class="displayNone"></div>
+        </ons-list>
+      </div>
     </ons-page>
   </template>
   <template id="cardapios.html">
@@ -420,7 +402,7 @@
 
       <div id="editPage" style="text-align: center; margin-top: 5%;">
         <p>
-          <ons-input id="emailInput" placeholder="E-mail" float></ons-input>
+          <ons-input id="emailInput" maxlength="40" placeholder="E-mail" float></ons-input>
         </p>
         <div class="centered">
           <ons-segment id="exercSegment" onclick="check_deleteSegment()" style="width: 180px">
@@ -433,13 +415,13 @@
         <div id="editExerc">
           <h3 style="font-weight:250px">Informe os dados</h3> 
           <p>
-            <ons-input id="treinoInput" placeholder="Nome do treino" float></ons-input>
+            <ons-input id="treinoInput" maxlength="15" placeholder="Nome do treino" float></ons-input>
           </p>
           <p>
-            <ons-input id="exercInput" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
+            <ons-input id="exercInput" maxlength="40" placeholder="Exerc., SxR, Téc. Avanç." float></ons-input>
           </p>
           <p>
-            <ons-input id="instExerc" type="number" placeholder="Número do exercício" int></ons-input>
+            <ons-input id="instExerc" maxlength="5" type="number" placeholder="Número do exercício" int></ons-input>
           </p>
           <p style="width: 100%; position: fixed; bottom: 0%">
             <ons-button modifier="large" onclick="addExerc()">OK</ons-button>
@@ -448,13 +430,13 @@
         <div id="obsExerc" class="displayNone">
           <h3 style="font-weight:250px">Informe os dados</h3>
           <p>
-            <ons-input id="treinoInput2" placeholder="Nome do treino" float></ons-input>
+            <ons-input id="treinoInput2" maxlength="20" placeholder="Nome do treino" float></ons-input>
           </p>
           <p>
-            <ons-input id="interExerc" placeholder="Intervalo" int></ons-input>
+            <ons-input id="interExerc" maxlength="20" placeholder="Intervalo" int></ons-input>
           </p>
           <p>
-            <ons-input id="observacoes" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
+            <ons-input id="observacoes" maxlength="20" placeholder="Obs. pré, aeróbico, pós, geral" float></ons-input>
           </p>
           <p style="width: 100%; position: fixed; bottom: 0%">
             <ons-button modifier="large" onclick="addObs(); editAddExerc()">OK</ons-button>
@@ -471,13 +453,13 @@
             <option value="ceia">Ceia</option>
           </ons-select>
           <p style="margin-top: 5px">
-            <ons-input id="nome-do-alimento" placeholder="Nome do alimento" float></ons-input>
+            <ons-input id="nome-do-alimento" maxlength="15" placeholder="Nome do alimento" float></ons-input>
           </p>       
           <p>
-            <ons-input id="medidas-e-qtndds" placeholder="Medidas e quantidade" float></ons-input>
+            <ons-input id="medidas-e-qtndds" maxlength="80" placeholder="Medidas e quantidade" float></ons-input>
           </p>
           <p>
-            <ons-input id="idTabelaDietas" type="number" placeholder="Linha da tabela" float></ons-input>
+            <ons-input id="idTabelaDietas" maxlength="5" type="number" placeholder="Linha da tabela" float></ons-input>
           </p>
           <p style="width: 100%; position: fixed; bottom: 0%">
             <ons-button modifier="large" onclick="addDietas(); criarArraysCardapios($('#emailInput').val())">OK</ons-button>
@@ -523,9 +505,9 @@
       <div id="regPage" style="text-align: center; margin-bottom: 35%; display: none">
         <h3 style="margin-top: 8vh; font-weight:250px">Preencha as informações do cliente</h3> 
         <p>
-          <ons-input style="padding-bottom:15px;" id="email-cadastro" placeholder="E-mail" float></ons-input><br>
-          <ons-input style="padding-bottom:15px;" id="senha-cadastro" type="text" placeholder="Senha" float></ons-input><br>
-          <ons-input style="padding-bottom:15px;" id="adm-passw" type="text" placeholder="Sua senha" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" maxlength="40" id="email-cadastro" placeholder="E-mail" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" minlength="4" maxlength="20" id="senha-cadastro" type="text" placeholder="Senha" float></ons-input><br>
+          <ons-input style="padding-bottom:15px;" minlength="6" maxlength="20" id="adm-passw" type="text" placeholder="Sua senha" float></ons-input><br>
           <ons-button onclick="document.getElementById('senha-cadastro').value = gerarSenha()">Gerar senha</ons-button>
         </p>
         <p style="width: 100%; position: fixed; bottom: 0%">

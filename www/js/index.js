@@ -4,15 +4,6 @@ let bannersTimeout
 let carousel
 let primeiraVezRedirecionado = true
 
-/*document.addEventListener('init', function(event) {
-  if (event.target.matches('#page1')) {
-    const bodyWidth = getSizeOf('body', 'width')
-    if ( bodyWidth > 1024 ) {
-      document.getElementById('navigator').pushPage('login.html')
-    } else {document.querySelector('[pg1]').classList.remove('displayNone');document.querySelector('[pg1]').classList.add('displayBlock')}
-  }
-}, false);*/
-
 document.addEventListener('init', function(event) {
   if (event.target.matches('#login')) {
     primeiraVezRedirecionado = true
@@ -42,24 +33,13 @@ document.addEventListener('init', function(event) {
     criaUsername()
     dragItems('#userChangeDataCarousel', dragEnd_Username)
     criarArraysCardapios()
-    //IF PRIMEIRO LOGIN
-    let user = firebase.auth().currentUser
-    if (user.displayName == null) {showAddUserName()} 
-      else if (user.displayName.length > 15) {
-      const names = user.displayName.split(' ')
-      names[names.length-1] == names[0] ? changeUser.value = names[0] : changeUser.value = `${names[0]} ${names[names.length-1]}`
-    } else {changeUser.value = user.displayName}
-
-    $(".dropdown").on("click", ".dropdown-toggle", function(e) { //page2 dropdown button was with some errors
-      e.preventDefault();
-      $(this).parent().addClass("show");
-      $(this).attr("aria-expanded", "true");
-      $(this).next().addClass("show"); 
-    });
+    check_PrimeiroLogin()
+    fixDropdown()
+    loadResources()
     document.querySelectorAll('.page__content')[1].addEventListener('scroll', changesPages2)
     carousel = document.getElementById('carousel');
+    carousel.addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()})
     bannersIntervalo = window.setInterval(changeBanner, 6000)
-    document.querySelector('#carousel').addEventListener('postchange', function() {clearSpan(); addWhiteCurrent(); stopBannerTransition()})
   }
 
 
@@ -207,11 +187,12 @@ const getSizeOf = (elementId, method) => {
 
 function editSelectsArtigos(x) {
   if (x == 0) {//treinos
-    document.getElementById('artigos-treinos').style.display = 'block'
-    document.getElementById('artigos-dietas').style.display = 'none'
+    $('#artigos-treinos').removeClass('displayNone')
+    $('#artigos-dietas').addClass('displayNone')
   } else {
-    document.getElementById('artigos-treinos').style.display = 'none'
-    document.getElementById('artigos-dietas').style.display = 'block'
+    console.log(2)
+    $('#artigos-treinos').addClass('displayNone')
+    $('#artigos-dietas').removeClass('displayNone')
   }
 }
 let method
@@ -509,3 +490,180 @@ function exercSegment_op1() {$('#editExerc').show(); $('#obsExerc').hide(); $('#
 function exercSegment_op2() {$('#obsExerc').show(); $('#editExerc').hide(); $('#editCardapios').hide(); $('#choose-sel-treinos-edit').show(); $('#choose-sel-cardapios').hide(); $('#editTable0').show(); $('#editTable1').hide();}
 function exercSegment_op3() {$('#editCardapios').show(); $('#editExerc').hide(); $('#obsExerc').hide(); $('#choose-sel-treinos-edit').hide(); $('#choose-sel-cardapios').show(); $('#editTable0').hide(); $('#editTable1').show(); deleteSwitch_check(); adicionaCardapiosTelaEdit('desjejum')}
 function check_deleteSegment() {if (document.getElementById('deleteSwitch').checked == true)document.getElementById('deleteSwitch').click()}
+
+// ADICIONANDO RECURSOS DO INSTRUTOR AO ALUNO
+
+function addArtigos(id, date, title, textOrLink, paragrafos = 0) {
+  
+  let newArticle =
+  `
+  <ons-list-item  expandable>
+  <ons-list-header class="artigosDate">${date}</ons-list-header>
+  <p class="m-0">${title}</p>
+  <div class="expandable-content">
+  `
+  let meio = ''
+
+  if (paragrafos > 0) { //se tiver parágrafos, então ele adiciona todos, um por um
+    new Promise((resolve) => {
+      for (let i = 0; i < paragrafos; i++) {
+        meio = meio + `<p>${textOrLink[i]}</p>`
+      }
+      resolve()
+    }).then($('#'+id).append(newArticle+meio+'</div></ons-list-item>'))
+  } else { //se não tiver, ele não adiciona parágrafos, e adiciona um link
+    meio = `
+     <a href="${textOrLink}" class="m-0">Clique aqui para ver</a>
+    <div>`
+    $('#'+id).append(newArticle+meio+'</div></div></ons-list-item>')
+  }
+}
+
+async function loadResources() {
+  $('[progress]').css('padding', '1%')
+
+  const userEmail = firebase.auth().currentUser.email
+  let paragrafos
+  let emailInstrutor0
+  let emailInstrutor1
+  let qttd_artigos_treinos
+  let qttd_artigos_dietas
+
+  await db.doc(`alunos/${userEmail}`).get().then(e => {emailInstrutor0 = e.data().instrutores[0]; emailInstrutor1 = e.data().instrutores[1]; $('[progress]').attr('aria-valuenow', 20).addClass('w-20')})
+  try {await db.doc(`admin/${emailInstrutor0}`).get().then(e => {qttd_artigos_treinos = e.data().artigos_treinos})} catch{}
+  try {await db.doc(`admin/${emailInstrutor1}`).get().then(e => {qttd_artigos_dietas = e.data().artigos_dietas})} catch{}
+  
+  //await db.collection(`admin/${emailInstrutor}`).get().then(e => if (e.data().emailAlunos.includes(userEmail))
+  // ADICIONANDO ARTIGOS TREINOS 
+  const adicionando_artigos_treinos = new Promise((resolve) => { 
+    for (let i = 0; i < qttd_artigos_treinos; i++) {
+      db.doc(`admin/${emailInstrutor0}/artigos/${i}`).get().then(e => {
+        if (e.data().text === true) {
+            addArtigos('artigos-treinos', e.data().date, e.data().title, e.data().data, e.data().paragrafos)
+            resolve()
+        } else {
+          addArtigos('artigos-treinos', e.data().date, e.data().title, e.data().link)
+          resolve()
+        }
+      })
+      $('[progress]').css('padding', '20%')
+    }
+  })
+
+  const adicionando_artigos_dietas = new Promise((resolve) => { 
+    for (let i = 0; i < qttd_artigos_dietas; i++) {
+      db.doc(`admin/${emailInstrutor1}/artigos/${i}`).get().then(e => {
+        if (e.data().text === true) {
+            addArtigos('artigos-dietas', e.data().date, e.data().title, e.data().data, e.data().paragrafos)
+            resolve()
+        } else {
+          addArtigos('artigos-dietas', e.data().date, e.data().title, e.data().link)
+          resolve()
+        }
+      })
+      $('[progress]').css('padding', '30%')
+    }
+  })
+
+  let nome
+  const adicionando_redes_sociais_instrutor0 = new Promise((resolve) => {
+    db.doc(`admin/${emailInstrutor0}`).get().then(doc => {
+      try {instrutor_treinos.wpp = doc.data().contatos[0]} catch {hideMedias.wpp0()}
+      try {instrutor_treinos.insta = doc.data().contatos[1]} catch {hideMedias.insta0()}
+      try {instrutor_treinos.fb = doc.data().contatos[2]} catch {hideMedias.fb0()}
+      try {contatos.email(doc.data().contatos[3], 0)} catch {hideMedias.email0()}
+      try {nome = doc.data().nome; $('#btnInstrutor0 > span').next().html(nome)} catch {nome = 'Seu personal trainer '}
+      Object.entries(instrutor_treinos).length === 0 ? showAlert(0, nome) : {}
+      resolve($('[progress]').css('padding', '40%'))
+    })
+  })
+
+  const adicionando_redes_sociais_instrutor1 = new Promise((resolve) => {
+    db.doc(`admin/${emailInstrutor1}`).get().then(doc => {
+      try {instrutor_dietas.wpp = doc.data().contatos[0]} catch {hideMedias.wpp1()}
+      try {instrutor_dietas.insta = doc.data().contatos[1]} catch {hideMedias.insta1()}
+      try {instrutor_dietas.fb = doc.data().contatos[2]} catch {hideMedias.fb1()}
+      try {contatos.email(doc.data().contatos[3], 0)} catch {hideMedias.email1()}
+      try {nome = doc.data().nome; $('#btnInstrutor1 > span').next().html(nome)} catch {nome = 'Seu nutricionista'}
+      Object.entries(instrutor_dietas).length === 0 ? showAlert(1, nome) : {}
+      resolve($('[progress]').css('padding', '50%'))
+      animationsPage2()
+    })
+  })
+
+  adicionando_artigos_treinos.then(adicionando_artigos_dietas).then(adicionando_redes_sociais_instrutor0).then(adicionando_redes_sociais_instrutor1)
+  .then(window.setTimeout(function() {$('[progressDiv]').fadeOut()}, 3000))
+}
+
+let qntdd_calls_showAlert = 0
+const showAlert = (n, nome) => {
+  n === 0 ? hideMedias.instrutor0() : hideMedias.instrutor1()
+  qntdd_calls_showAlert++
+  if (qntdd_calls_showAlert >= 2) {$('div.alert-danger').removeClass('displayNone').html('Seus instrutores não possuem redes sociais vinculadas.')} else {
+  $('div.alert-danger').removeClass('displayNone').html(nome  + 'não possui redes sociais vinculadas.')
+  }
+}
+
+let profissional
+
+let contatos = new Object()
+contatos.wpp = function() {window.open(`https://api.whatsapp.com/send?phone=${profissional.wpp}`, '_system', 'location=no')}
+contatos.insta = function() {window.open(`${profissional.insta}`, '_system', 'location=no')}
+contatos.fb = function() {window.open(`${profissional.fb}`, '_system', 'location=no')}
+contatos.email = function(email, i) {$('#socialMedias'+i+' > a').attr('href', `mailto:${email}?subject=FitOptimus`)}
+
+let instrutor_dietas = new Object()
+let instrutor_treinos = new Object()
+
+const hideMedias = {
+  wpp0: () => {$("#socialMedias0 > [onclick='contatos.wpp()']").hide()},
+  wpp1: () => {$("#socialMedias1 > [onclick='contatos.wpp()']").hide()},
+  insta0: () => {$("#socialMedias0 > [onclick='contatos.insta()']").hide()},
+  insta1: () => { $("#socialMedias1 > [onclick='contatos.insta()']").hide()},
+  fb0: () => {$("#socialMedias0 > [onclick='contatos.fb()']").hide()},
+  fb1: () => {$("#socialMedias1 > [onclick='contatos.fb()']").hide()},
+  email0: () => {$('#socialMedias0 > a').hide()},
+  email1: () => {$('#socialMedias1 > a').hide()},
+  instrutor0: () => {$('#btnInstrutor0').attr('disabled', 'disabled')},
+  instrutor1: () => {$('#btnInstrutor1').attr('disabled', 'disabled')}
+}
+
+function medias_instrutor0() {
+  $('#socialMedias0').toggleClass('displayNone')
+  profissional = instrutor_treinos
+}
+
+function medias_instrutor1() {
+  $('#socialMedias1').toggleClass('displayNone')
+  profissional = instrutor_dietas
+}
+
+//funcoes initPage2
+
+function check_PrimeiroLogin() {
+  let user = firebase.auth().currentUser
+    if (user.displayName == null) {
+      showAddUserName()
+    } else if (user.displayName.length > 15) {
+      const names = user.displayName.split(' ')
+      names[names.length-1] == names[0] ? changeUser.value = names[0] : changeUser.value = `${names[0]} ${names[names.length-1]}`
+    } else {
+      changeUser.value = user.displayName
+    }
+}
+
+function fixDropdown() {
+  $("#dropdownMenu2").on("click", ".dropdown-toggle", function(e) { //page2 dropdown button was with some errors
+    e.preventDefault();
+    $(this).parent().addClass("show");
+    $(this).attr("aria-expanded", "true");
+    $(this).next().addClass("show"); 
+  });
+}
+
+function animationsPage2() {
+  $('ul[homePageHeader]').animate({height: '+=15vh'}, 1600).animate({height: '-=15vh'}, 400)
+  window.setTimeout(function() {
+    $('input.tamanhoFitOpt').fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(400)
+  }, 2000)
+}

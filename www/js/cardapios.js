@@ -306,7 +306,6 @@ const addThings = async (email, i, tabela, edit, boolean) => {
   let exercicio2 = new Array()
   let exercicio3 = new Array()
   let linhas = new Array()
-  console.log(i)
   await db.collection(`alunos/${email}/treinos/${arrayTreinos[i]}/linha`).get().then(e => e.forEach(doc => {
     edit === false ? document.getElementById('nomeDoTreino').textContent = 'Treino ' +arrayTreinos[i] : {}
     exercicio1.push(doc.data().newExerc1)

@@ -33,18 +33,18 @@
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-template-rows: 1fr 5px 0.8fr 1fr 1fr 0.5fr 24px 0px;
+  grid-template-rows: 2fr 1.4fr 0.85fr 0.70fr 0.40fr 0;
   background: linear-gradient(135deg, #088A68 0%, #57ca85 100%);
   border-radius: 20px;
   padding: 25px;
-  min-height: 40vw;
-  max-height: 90vh;
+  min-height: 420px
+  max-height: 460px;
   max-width: 90vw; 
 }
 
 .login-img {
   height: 90px;
-  margin-bottom: 8px;
+  align-self: start;
 }
 
 .login-form-title {
